@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Settings - Assessment Practice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .admin-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .admin-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .admin-header h1 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .admin-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .login-section {
+            display: block;
+        }
+
+        .settings-section {
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group .hint {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-test {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-test:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #3b82f6;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status-active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-inactive {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .key-display {
+            background: #f9fafb;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #333;
+            margin-top: 8px;
+            word-break: break-all;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>🔐 Admin Settings</h1>
+            <p>Manage your OpenAI API configuration</p>
+        </div>
+
+        <!-- Login Section -->
+        <div class="login-section" id="loginSection">
+            <div class="alert alert-info" id="loginInfo">
+                Enter your admin password to access settings.
+            </div>
+
+            <div class="form-group">
+                <label for="adminPassword">Admin Password</label>
+                <input 
+                    type="password" 
+                    id="adminPassword" 
+                    placeholder="Enter admin password"
+                    autocomplete="current-password"
+                >
+                <div class="hint">Default: admin123 (change via ADMIN_PASSWORD env var)</div>
+            </div>
+
+            <button class="btn btn-primary" onclick="login()">Login</button>
+
+            <div class="back-link">
+                <a href="/">← Back to Assessment</a>
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div class="settings-section" id="settingsSection">
+            <div class="alert alert-success" id="successAlert"></div>
+            <div class="alert alert-error" id="errorAlert"></div>
+
+            <div class="form-group">
+                <label>
+                    Current Status
+                    <span class="status-badge" id="statusBadge">Loading...</span>
+                </label>
+                <div class="key-display" id="currentKey">Loading...</div>
+            </div>
+
+            <div class="form-group">
+                <label for="openaiKey">OpenAI API Key</label>
+                <input 
+                    type="password" 
+                    id="openaiKey" 
+                    placeholder="sk-..."
+                    autocomplete="off"
+                >
+                <div class="hint">Get your API key from <a href="https://platform.openai.com/account/api-keys" target="_blank">platform.openai.com/account/api-keys</a></div>
+            </div>
+
+            <div class="form-group">
+                <label for="openaiModel">OpenAI Model</label>
+                <select id="openaiModel">
+                    <option value="gpt-4">GPT-4 (Recommended)</option>
+                    <option value="gpt-4-turbo-preview">GPT-4 Turbo</option>
+                    <option value="gpt-3.5-turbo">GPT-3.5 Turbo (Lower cost)</option>
+                </select>
+                <div class="hint">Select the model to use for AI assistance</div>
+            </div>
+
+            <button class="btn btn-test" onclick="testKey()">🧪 Test API Key</button>
+            <button class="btn btn-primary" onclick="saveSettings()">💾 Save Settings</button>
+            <button class="btn btn-secondary" onclick="logout()">Logout</button>
+
+            <div class="back-link">
+                <a href="/">← Back to Assessment</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let adminPassword = '';
+
+        // Check if already logged in
+        if (sessionStorage.getItem('adminPassword')) {
+            adminPassword = sessionStorage.getItem('adminPassword');
+            showSettings();
+        } else {
+            document.getElementById('loginInfo').style.display = 'block';
+        }
+
+        function login() {
+            const password = document.getElementById('adminPassword').value;
+            if (!password) {
+                showError('Please enter admin password');
+                return;
+            }
+
+            adminPassword = password;
+            sessionStorage.setItem('adminPassword', password);
+            
+            // Try to load settings to verify password
+            loadSettings();
+        }
+
+        function logout() {
+            adminPassword = '';
+            sessionStorage.removeItem('adminPassword');
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('settingsSection').style.display = 'none';
+            document.getElementById('adminPassword').value = '';
+        }
+
+        function showSettings() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('settingsSection').style.display = 'block';
+            loadSettings();
+        }
+
+        async function loadSettings() {
+            try {
+                const response = await fetch('/api/admin/settings', {
+                    headers: {
+                        'X-Admin-Password': adminPassword
+                    }
+                });
+
+                if (response.status === 401) {
+                    showError('Invalid admin password');
+                    logout();
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error('Failed to load settings');
+                }
+
+                const data = await response.json();
+                
+                // Show settings section
+                showSettings();
+
+                // Update UI
+                const statusBadge = document.getElementById('statusBadge');
+                if (data.openai_key_set) {
+                    statusBadge.textContent = 'Active';
+                    statusBadge.className = 'status-badge status-active';
+                    document.getElementById('currentKey').textContent = `Key: ${data.openai_key_masked} (${data.key_source})`;
+                } else {
+                    statusBadge.textContent = 'Not Set';
+                    statusBadge.className = 'status-badge status-inactive';
+                    document.getElementById('currentKey').textContent = 'No API key configured';
+                }
+
+                document.getElementById('openaiModel').value = data.openai_model || 'gpt-4';
+
+            } catch (error) {
+                showError(error.message);
+            }
+        }
+
+        async function saveSettings() {
+            const key = document.getElementById('openaiKey').value.trim();
+            const model = document.getElementById('openaiModel').value;
+
+            if (!key) {
+                showError('Please enter an API key');
+                return;
+            }
+
+            if (!key.startsWith('sk-')) {
+                showError('Invalid API key format. Must start with sk-');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/admin/settings', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Admin-Password': adminPassword
+                    },
+                    body: JSON.stringify({
+                        openai_key: key,
+                        openai_model: model
+                    })
+                });
+
+                if (response.status === 401) {
+                    showError('Invalid admin password');
+                    logout();
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to save settings');
+                }
+
+                showSuccess(data.message || 'Settings saved successfully!');
+                document.getElementById('openaiKey').value = '';
+                
+                // Reload to show updated status
+                setTimeout(() => loadSettings(), 1000);
+
+            } catch (error) {
+                showError(error.message);
+            }
+        }
+
+        async function testKey() {
+            const key = document.getElementById('openaiKey').value.trim();
+
+            if (!key) {
+                showError('Please enter an API key to test');
+                return;
+            }
+
+            const container = document.querySelector('.admin-container');
+            container.classList.add('loading');
+
+            try {
+                const response = await fetch('/api/admin/test-key', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Admin-Password': adminPassword
+                    },
+                    body: JSON.stringify({
+                        api_key: key
+                    })
+                });
+
+                if (response.status === 401) {
+                    showError('Invalid admin password');
+                    logout();
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (data.valid) {
+                    showSuccess('✓ API key is valid and working!');
+                } else {
+                    showError(`✗ API key test failed: ${data.error}`);
+                }
+
+            } catch (error) {
+                showError(`Test failed: ${error.message}`);
+            } finally {
+                container.classList.remove('loading');
+            }
+        }
+
+        function showSuccess(message) {
+            const alert = document.getElementById('successAlert');
+            alert.textContent = message;
+            alert.style.display = 'block';
+            document.getElementById('errorAlert').style.display = 'none';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+
+        function showError(message) {
+            const alert = document.getElementById('errorAlert');
+            alert.textContent = message;
+            alert.style.display = 'block';
+            document.getElementById('successAlert').style.display = 'none';
+        }
+
+        // Handle Enter key in password field
+        document.getElementById('adminPassword').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
+    </script>
+</body>
+</html>

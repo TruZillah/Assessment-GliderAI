@@ -153,28 +153,35 @@ This project includes an optional AI assistant that uses the OpenAI API. The app
 How to get an OpenAI API key (for beginners)
 
 1. Create an OpenAI account
-   - Open your browser and go to https://platform.openai.com/signup and follow the sign-up flow (email verification may be required).
+
+   - Open your browser and go to the sign-up page: [platform.openai.com/signup](https://platform.openai.com/signup). Follow the sign-up and email verification steps.
 
 2. Visit the API keys page
-   - After signing in, open https://platform.openai.com/account/api-keys. This is where you can create and manage secret API keys.
+
+   - After signing in, open the API keys page: [platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys). This is where you create and manage secret API keys.
 
 3. Create a new secret key
+
    - Click **Create new secret key** (or similar). Copy the key immediately and store it somewhere safe — you won't be able to view the full key again from the dashboard.
 
 4. Billing and model access
+
    - New accounts may need to add a payment method to use paid models (for example, gpt-4). OpenAI sometimes provides free trial credits for new users; check the dashboard for any available credits.
    - If you don't have access to gpt-4 via the API, use `gpt-3.5-turbo` as the `OPENAI_MODEL` value (it is lower-cost and widely available).
 
 5. Important security notes
+
    - Treat API keys like passwords. Do not share them, paste them in public forums, or commit them to git. The repo already excludes `.env` in `.gitignore`.
    - If a key is leaked, revoke it immediately from the OpenAI dashboard and create a new one.
 
-Note: the ChatGPT web UI (chat.openai.com) does not provide an API key you can use here — you must create an API key on platform.openai.com.
+Note: the ChatGPT web UI (chat.openai.com) does not provide an API key you can use here — you must create an API key on the OpenAI platform.
 
 Where to put the key
+
 - Create a file named `.env` in the project root (the same folder as `app.py`). The repository already ignores `.env` in `.gitignore` so your key won't be accidentally committed.
 
 Example `.env` content
+
 ```text
 OPENAI_API_KEY=sk-<your-secret-key-here>
 # Optional: switch model (default: gpt-4)
@@ -182,42 +189,296 @@ OPENAI_MODEL=gpt-4
 ```
 
 Windows (cmd.exe) quick options
+
 - Create the file using Notepad (recommended to avoid shell quoting issues):
+
 ```cmd
 notepad .env
 # paste the OPENAI_API_KEY line and save
 ```
+
 - Or set it temporarily in the current shell (effective until you close the terminal):
+
 ```cmd
 set OPENAI_API_KEY=sk-<your-secret-key-here>
 python app.py
 ```
 
 PowerShell (optional)
+
 ```powershell
 $env:OPENAI_API_KEY = 'sk-<your-secret-key-here>'
 python app.py
 ```
 
 Important notes
+
 - To pick up changes in `.env` you must restart the Flask server — the app reads `.env` on startup. The repository includes a small loader and validator in `app.py` that checks for a key starting with `sk-` and will load `OPENAI_API_KEY` if valid.
 - Keep your API key secret. Do not paste it into public places or share it in commits. The repo already contains `.gitignore` with `.env` listed.
 - If you don't set a key the UI will show the AI controls disabled and the app will continue to work for running problems and tests without the assistant.
 
 Verify it's loaded
+
 - In cmd:
+
 ```cmd
 echo %OPENAI_API_KEY%
 ```
+
 - In PowerShell:
+
 ```powershell
 echo $env:OPENAI_API_KEY
 ```
 
+### 🎛️ Admin Settings Panel (New!)
+
+The app now includes a web-based admin panel for easy configuration without editing files.
+
+Access the admin panel
+
+1. Start the Flask server as usual
+2. Open your browser and navigate to: `http://127.0.0.1:5000/admin.html`
+3. Login with your admin password (default: `admin123`)
+
+Features
+
+- ✅ Add/update OpenAI API key through the web interface
+- ✅ Test API key validity before saving
+- ✅ Switch between different OpenAI models (GPT-4, GPT-3.5-Turbo, etc.)
+- ✅ View current configuration status
+- ✅ Automatic persistence to `.env` file
+- 🔒 Password-protected access
+
+Security notes
+
+- **Change the default admin password!** Set `ADMIN_PASSWORD` environment variable or in `.env`:
+  ```text
+  ADMIN_PASSWORD=your-secure-password-here
+  ```
+- The admin panel is password-protected but does not use HTTPS by default. For production, always use HTTPS (see deployment section below).
+- Admin password is stored in environment variables, not in the database.
+
+Alternative: Command line testing
+
 Run all tests without the web interface:
+
 ```bash
 python run_tests.py
 ```
+
+---
+
+## 🚀 Production Deployment
+
+### Quick Start with Docker (Recommended)
+
+The easiest way to deploy for production is using Docker Compose:
+
+1. **Copy environment template**
+   ```bash
+   cp .env.example .env
+   # Edit .env and add your OPENAI_API_KEY and ADMIN_PASSWORD
+   ```
+
+2. **Build and run with Docker Compose**
+   ```bash
+   docker-compose up -d
+   ```
+
+3. **Access the application**
+   - App: `http://localhost:8000`
+   - Admin Panel: `http://localhost:8000/admin.html`
+   - With Nginx (if enabled): `http://localhost`
+
+4. **View logs**
+   ```bash
+   docker-compose logs -f app
+   ```
+
+5. **Stop the application**
+   ```bash
+   docker-compose down
+   ```
+
+### Docker (without Compose)
+
+1. **Build the Docker image**
+   ```bash
+   docker build -t assessment-gliderai .
+   ```
+
+2. **Run the container**
+   ```bash
+   docker run -d \
+     --name assessment-app \
+     -p 8000:8000 \
+     -e OPENAI_API_KEY=sk-your-key-here \
+     -e ADMIN_PASSWORD=your-secure-password \
+     -v $(pwd)/.env:/app/.env \
+     assessment-gliderai
+   ```
+
+3. **Check container status**
+   ```bash
+   docker ps
+   docker logs assessment-app
+   ```
+
+### Linux/WSL with systemd
+
+For Linux servers or WSL, use systemd for process management:
+
+1. **Install dependencies**
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
+
+2. **Create log directory**
+   ```bash
+   sudo mkdir -p /var/log/assessment
+   sudo chown $USER:$USER /var/log/assessment
+   ```
+
+3. **Copy and edit the service file**
+   ```bash
+   sudo cp assessment.service /etc/systemd/system/
+   sudo nano /etc/systemd/system/assessment.service
+   # Update paths and environment variables
+   ```
+
+4. **Enable and start the service**
+   ```bash
+   sudo systemctl daemon-reload
+   sudo systemctl enable assessment
+   sudo systemctl start assessment
+   sudo systemctl status assessment
+   ```
+
+5. **View logs**
+   ```bash
+   sudo journalctl -u assessment -f
+   ```
+
+### Windows with Waitress
+
+For Windows production deployments:
+
+1. **Install Waitress**
+   ```cmd
+   pip install -r requirements.txt
+   ```
+
+2. **Create a start script** (`start-production.bat`)
+   ```batch
+   @echo off
+   set OPENAI_API_KEY=sk-your-key-here
+   set ADMIN_PASSWORD=your-secure-password
+   set FLASK_ENV=production
+   waitress-serve --listen=*:8000 app:app
+   ```
+
+3. **Run the server**
+   ```cmd
+   start-production.bat
+   ```
+
+4. **Optional: Install as Windows Service using NSSM**
+   ```cmd
+   # Download NSSM from https://nssm.cc/download
+   nssm install AssessmentApp "C:\Python\python.exe" "-m waitress --listen=*:8000 app:app"
+   nssm set AssessmentApp AppDirectory "C:\path\to\Assessment-GliderAI"
+   nssm set AssessmentApp AppEnvironmentExtra OPENAI_API_KEY=sk-xxx ADMIN_PASSWORD=xxx
+   nssm start AssessmentApp
+   ```
+
+### Nginx Reverse Proxy (Optional but Recommended)
+
+For production with SSL/TLS:
+
+1. **Install Nginx**
+   ```bash
+   sudo apt install nginx  # Ubuntu/Debian
+   sudo yum install nginx  # RHEL/CentOS
+   ```
+
+2. **Copy nginx configuration**
+   ```bash
+   sudo cp nginx.conf /etc/nginx/sites-available/assessment
+   sudo ln -s /etc/nginx/sites-available/assessment /etc/nginx/sites-enabled/
+   sudo nginx -t
+   sudo systemctl reload nginx
+   ```
+
+3. **Setup SSL with Let's Encrypt**
+   ```bash
+   sudo apt install certbot python3-certbot-nginx
+   sudo certbot --nginx -d your-domain.com
+   ```
+
+### Environment Variables for Production
+
+Required environment variables:
+
+| Variable | Description | Default | Required |
+|----------|-------------|---------|----------|
+| `OPENAI_API_KEY` | Your OpenAI API key | - | No (but needed for AI features) |
+| `OPENAI_MODEL` | OpenAI model to use | `gpt-4` | No |
+| `ADMIN_PASSWORD` | Admin panel password | `admin123` | **Yes (change in production!)** |
+| `FLASK_ENV` | Flask environment | `development` | No |
+
+### Production Checklist
+
+Before deploying to production:
+
+- [ ] Change `ADMIN_PASSWORD` from default
+- [ ] Set `OPENAI_API_KEY` via environment variables or admin panel
+- [ ] Use a production WSGI server (Waitress, Gunicorn, or Docker)
+- [ ] Enable HTTPS/SSL via Nginx or cloud load balancer
+- [ ] Set `FLASK_ENV=production`
+- [ ] Configure proper logging and log rotation
+- [ ] Set up monitoring and health checks
+- [ ] Backup `.env` file securely (contains API keys)
+- [ ] Configure firewall to allow only necessary ports
+- [ ] Set up automated backups if storing user data
+
+### Cloud Deployment
+
+**AWS (Elastic Beanstalk)**
+```bash
+# Initialize EB
+eb init -p docker assessment-gliderai
+
+# Create environment
+eb create production-env
+
+# Set environment variables
+eb setenv OPENAI_API_KEY=sk-xxx ADMIN_PASSWORD=xxx
+
+# Deploy
+eb deploy
+```
+
+**Heroku**
+```bash
+# Create app
+heroku create assessment-gliderai
+
+# Set environment variables
+heroku config:set OPENAI_API_KEY=sk-xxx
+heroku config:set ADMIN_PASSWORD=xxx
+
+# Deploy
+git push heroku main
+```
+
+**DigitalOcean App Platform**
+- Upload repo to GitHub
+- Connect to DigitalOcean App Platform
+- Set environment variables in the dashboard
+- Deploy automatically from git
 
 ---
 

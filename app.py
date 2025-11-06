@@ -1589,5 +1589,159 @@ def ask_status():
     msg = 'enabled' if enabled else 'missing OPENAI_API_KEY in environment/.env'
     return jsonify({'enabled': enabled, 'message': msg})
 
+
+# Admin settings endpoints
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'admin123')  # Change this in production!
+
+def check_admin_auth():
+    """Simple admin authentication check."""
+    auth_header = request.headers.get('X-Admin-Password', '')
+    return auth_header == ADMIN_PASSWORD
+
+@app.route('/api/admin/settings', methods=['GET'])
+def get_admin_settings():
+    """Get current admin settings (masked key)."""
+    if not check_admin_auth():
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    # Reload to get latest from .env
+    key, msg = reload_env_if_valid()
+    
+    # Mask the key for display
+    masked_key = ''
+    if key:
+        if len(key) > 8:
+            masked_key = key[:8] + '...' + key[-4:]
+        else:
+            masked_key = '***'
+    
+    current_model = os.environ.get('OPENAI_MODEL', 'gpt-4')
+    
+    return jsonify({
+        'openai_key_masked': masked_key,
+        'openai_key_set': bool(key),
+        'openai_model': current_model,
+        'key_source': msg
+    })
+
+@app.route('/api/admin/settings', methods=['POST'])
+def update_admin_settings():
+    """Update admin settings and persist to .env file."""
+    if not check_admin_auth():
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    data = request.get_json()
+    new_key = data.get('openai_key', '').strip()
+    new_model = data.get('openai_model', 'gpt-4').strip()
+    
+    # Validate key format
+    if new_key and not (new_key.startswith('sk-') and len(new_key) > 20):
+        return jsonify({'error': 'Invalid API key format. Must start with sk- and be at least 20 characters.'}), 400
+    
+    # Read existing .env content
+    env_path = '.env'
+    env_lines = []
+    key_found = False
+    model_found = False
+    
+    try:
+        with open(env_path, 'r') as f:
+            env_lines = f.readlines()
+    except FileNotFoundError:
+        pass
+    
+    # Update or add the key and model
+    new_env_lines = []
+    for line in env_lines:
+        stripped = line.strip()
+        if stripped.startswith('OPENAI_API_KEY='):
+            if new_key:
+                new_env_lines.append(f'OPENAI_API_KEY={new_key}\n')
+                key_found = True
+        elif stripped.startswith('OPENAI_MODEL='):
+            if new_model:
+                new_env_lines.append(f'OPENAI_MODEL={new_model}\n')
+                model_found = True
+        else:
+            new_env_lines.append(line)
+    
+    # Add if not found
+    if new_key and not key_found:
+        new_env_lines.append(f'OPENAI_API_KEY={new_key}\n')
+    if new_model and not model_found:
+        new_env_lines.append(f'OPENAI_MODEL={new_model}\n')
+    
+    # Write back to .env
+    try:
+        with open(env_path, 'w') as f:
+            f.writelines(new_env_lines)
+    except Exception as e:
+        return jsonify({'error': f'Failed to write .env: {e}'}), 500
+    
+    # Reload environment variables
+    global OPENAI_API_KEY, OPENAI_MODEL
+    if new_key:
+        os.environ['OPENAI_API_KEY'] = new_key
+        OPENAI_API_KEY = new_key
+    if new_model:
+        os.environ['OPENAI_MODEL'] = new_model
+        OPENAI_MODEL = new_model
+    
+    return jsonify({
+        'success': True,
+        'message': 'Settings updated and saved to .env',
+        'openai_key_set': bool(new_key),
+        'openai_model': new_model
+    })
+
+@app.route('/api/admin/test-key', methods=['POST'])
+def test_openai_key():
+    """Test if the OpenAI API key is valid by making a simple API call."""
+    if not check_admin_auth():
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    data = request.get_json()
+    test_key = data.get('api_key', '').strip()
+    
+    if not test_key:
+        test_key = OPENAI_API_KEY
+    
+    if not test_key:
+        return jsonify({'valid': False, 'error': 'No API key provided'}), 400
+    
+    # Test the key with a minimal API call
+    try:
+        req_data = {
+            'model': os.environ.get('OPENAI_MODEL', 'gpt-4'),
+            'messages': [{'role': 'user', 'content': 'Hello'}],
+            'max_tokens': 5
+        }
+        
+        req = urlrequest.Request(
+            'https://api.openai.com/v1/chat/completions',
+            data=json.dumps(req_data).encode('utf-8'),
+            headers={
+                'Authorization': f'Bearer {test_key}',
+                'Content-Type': 'application/json'
+            }
+        )
+        
+        context = ssl.create_default_context()
+        with urlrequest.urlopen(req, timeout=10, context=context) as response:
+            result = json.loads(response.read().decode('utf-8'))
+            return jsonify({'valid': True, 'message': 'API key is valid and working'})
+    
+    except HTTPError as e:
+        error_body = e.read().decode('utf-8')
+        try:
+            error_data = json.loads(error_body)
+            error_msg = error_data.get('error', {}).get('message', str(e))
+        except:
+            error_msg = str(e)
+        return jsonify({'valid': False, 'error': f'API key test failed: {error_msg}'}), 200
+    
+    except Exception as e:
+        return jsonify({'valid': False, 'error': f'Test failed: {str(e)}'}), 200
+
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5000)

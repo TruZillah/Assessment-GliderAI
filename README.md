@@ -72,6 +72,38 @@ Perfect for interview prep, algorithm practice, and developing systematic proble
 ![Learning Tools](docs/screenshots/tools.png)
 *Lecture section, cheat sheets, notepad, and glossary in action*
 
+### 📋 Problem Selection & Interface
+![Problem Interface](docs/screenshots/Screenshot%202025-11-05%20092913.png)
+*Clean problem selection interface with sidebar navigation*
+
+### 💡 Hints & Guidance System
+![Hints System](docs/screenshots/Screenshot%202025-11-05%20093648.png)
+*Step-by-step hints with complexity analysis and examples*
+
+### 🧪 Test Results & Debugging
+![Test Results](docs/screenshots/Screenshot%202025-11-06%20004724.png)
+*Detailed test case results with pass/fail indicators*
+
+### 🔍 Code Debugging Features
+![Debugger](docs/screenshots/Screenshot%202025-11-06%20004819.png)
+*Interactive debugger with breakpoints and variable inspection*
+
+### 📚 Language Cheat Sheets
+![Cheat Sheets](docs/screenshots/Screenshot%202025-11-06%20004843.png)
+*Quick reference guides for multiple programming languages*
+
+### 🎓 UMPIRE Framework Lecture
+![Lecture](docs/screenshots/Screenshot%202025-11-06%20004912.png)
+*Comprehensive problem-solving methodology and best practices*
+
+### 📝 Problem-Solving Notepad
+![Notepad](docs/screenshots/Screenshot%202025-11-06%20005027.png)
+*Structured notepad for applying the UMPIRE method*
+
+### 🔤 Algorithm Glossary
+![Glossary](docs/screenshots/Screenshot%202025-11-06%20005126.png)
+*Searchable glossary of common algorithms and data structures*
+
 </div>
 
 ---

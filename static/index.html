@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Python Assessment Practice</title>
     <style>
         * {
@@ -51,7 +54,7 @@
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
             color: white;
             padding: 32px 40px;
-            text-align: center;
+            text-align: left;
             position: relative;
             border-bottom: 2px solid rgba(255,255,255,0.1);
         }
@@ -120,7 +123,7 @@
         .help-btn {
             position: absolute;
             top: 32px;
-            right: 300px;
+            right: 340px;
             padding: 10px 18px;
             background: rgba(255,255,255,0.15);
             -webkit-backdrop-filter: blur(10px);
@@ -249,7 +252,9 @@
         }
         
         .timer-badge {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
             color: #334155;
             padding: 6px 14px;
@@ -259,6 +264,278 @@
             font-family: 'Courier New', monospace;
             font-weight: 600;
             border: 1px solid #cbd5e1;
+        }
+        
+        .timer-badge.paused {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-color: #fbbf24;
+        }
+        
+        .timer-controls {
+            display: inline-flex;
+            gap: 4px;
+        }
+        
+        .timer-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 1.1em;
+            transition: all 0.2s ease;
+        }
+        
+        .timer-btn:hover {
+            background: rgba(0,0,0,0.1);
+            transform: scale(1.1);
+        }
+        
+        /* Time Stats Panel */
+        .time-stats-section {
+            margin: 20px 0 28px 0;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        
+        .time-stats-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 14px 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .time-stats-body {
+            padding: 18px 20px;
+            background: #ffffff;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 16px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .stat-label {
+            color: #64748b;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        
+        .stat-value {
+            color: #1e293b;
+            font-size: 1.5em;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .session-history {
+            margin-top: 20px;
+        }
+        
+        .session-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .session-item:last-child {
+            border-bottom: none;
+        }
+        
+        .session-problem {
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .session-time {
+            font-family: 'Courier New', monospace;
+            color: #64748b;
+        }
+        
+        .clear-stats-btn {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+        
+        .clear-stats-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+        
+        /* Notepad Section */
+        .notepad-section {
+            background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            border: 2px solid #fde047;
+            box-shadow: 0 4px 16px rgba(250, 204, 21, 0.15);
+        }
+        
+        .notepad-section h3 {
+            margin-bottom: 14px;
+            color: #713f12;
+            font-weight: 700;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .notepad-textarea {
+            width: 100%;
+            min-height: 350px;
+            padding: 16px;
+            border: 2px solid #fde047;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            background: #fffef5;
+            color: #422006;
+            resize: vertical;
+            line-height: 1.6;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .notepad-textarea:focus {
+            outline: none;
+            border-color: #facc15;
+            box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.2);
+        }
+        
+        .notepad-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        
+        .notepad-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+        
+        .notepad-clear {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+        
+        .notepad-clear:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+        
+        .notepad-template {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+        }
+        
+        .notepad-template:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        /* Cheat Sheet Section */
+        .cheatsheet-section {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            border: 2px solid #60a5fa;
+            box-shadow: 0 4px 16px rgba(96, 165, 250, 0.2);
+        }
+        
+        .cheatsheet-section h3 {
+            margin-bottom: 14px;
+            color: #1e40af;
+            font-weight: 700;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cheatsheet-content {
+            background: #ffffff;
+            border: 2px solid #60a5fa;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #1e293b;
+            line-height: 1.8;
+            max-height: 400px;
+            overflow-y: auto;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+        }
+        
+        .cheatsheet-content h4 {
+            color: #1e40af;
+            margin-top: 16px;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            font-weight: 700;
+            border-bottom: 2px solid #60a5fa;
+            padding-bottom: 4px;
+        }
+        
+        .cheatsheet-content h4:first-child {
+            margin-top: 0;
+        }
+        
+        .cheatsheet-content code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #7c3aed;
+            font-weight: 600;
+        }
+        
+        .cheatsheet-content pre {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 8px 0;
+            overflow-x: auto;
+            color: #334155;
+        }
+        
+        .cheatsheet-content ul {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+        
+        .cheatsheet-content li {
+            margin: 4px 0;
         }
         
         .test-cases {
@@ -821,7 +1098,13 @@
                     <div class="problem-header">
                         <h2 id="problem-title">
                             <span id="problem-title-text">Select a problem</span>
-                            <span class="timer-badge" id="timer">⏱️ 00:00</span>
+                            <span class="timer-badge" id="timer-badge">
+                                <span id="timer">⏱️ 00:00</span>
+                                <div class="timer-controls">
+                                    <button id="timer-pause" class="timer-btn" title="Pause timer">⏸</button>
+                                    <button id="timer-reset" class="timer-btn" title="Reset timer">↻</button>
+                                </div>
+                            </span>
                         </h2>
                         <p class="problem-description" id="problem-description"></p>
                     </div>
@@ -829,6 +1112,32 @@
                     <div id="test-cases-section" class="test-cases hidden">
                         <h4>Sample Test Cases:</h4>
                         <div id="test-cases"></div>
+                    </div>
+
+                    <!-- Notepad Section -->
+                    <div class="notepad-section hidden" id="notepad-section">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                            <h3>📝 Problem-Solving Notepad</h3>
+                            <button class="btn-link" id="toggle-notepad">Hide notepad</button>
+                        </div>
+                        <div id="notepad-body">
+                            <textarea id="notepad-textarea" class="notepad-textarea" placeholder="Use this notepad to work through the problem..."></textarea>
+                            <div class="notepad-actions">
+                                <button class="notepad-btn notepad-template" id="load-template">📋 Load Template</button>
+                                <button class="notepad-btn notepad-clear" id="clear-notepad">🗑️ Clear Notes</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cheat Sheet Section -->
+                    <div class="cheatsheet-section hidden" id="cheatsheet-section">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                            <h3 id="cheatsheet-title">📚 Cheat Sheet</h3>
+                            <button class="btn-link" id="toggle-cheatsheet">Hide cheat sheet</button>
+                        </div>
+                        <div id="cheatsheet-body">
+                            <div id="cheatsheet-content" class="cheatsheet-content"></div>
+                        </div>
                     </div>
 
                     <div class="hints-section hidden" id="hints-section">
@@ -919,6 +1228,38 @@
                         </div>
                     </div>
 
+                    <div class="time-stats-section" id="time-stats-section">
+                        <div class="time-stats-header">
+                            <h3 class="hints-title">⏱️ Time Tracking</h3>
+                            <button class="btn-link" id="toggle-time-stats">Show stats</button>
+                        </div>
+                        <div class="time-stats-body hidden" id="time-stats-body">
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-label">Current Session</div>
+                                    <div class="stat-value" id="stat-current">--:--</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-label">Total Time</div>
+                                    <div class="stat-value" id="stat-total">--:--</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-label">Problems Solved</div>
+                                    <div class="stat-value" id="stat-solved">0</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-label">Avg Time/Problem</div>
+                                    <div class="stat-value" id="stat-avg">--:--</div>
+                                </div>
+                            </div>
+                            <div class="session-history">
+                                <h4 style="margin-bottom: 12px; color: #1e293b;">Recent Sessions</h4>
+                                <div id="session-history-list"></div>
+                                <button class="clear-stats-btn" id="clear-stats-btn" style="margin-top: 16px;">Clear All History</button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="button-group">
                         <button class="btn btn-primary" id="submit-btn" title="Run tests for the selected problem (Ctrl+Enter)">▶ Run Tests <span class="keyboard-hint">(Ctrl+Enter)</span></button>
                         <button class="btn btn-secondary" id="reset-btn" title="Reset the editor to the original problem stub">↺ Reset Code</button>
@@ -941,7 +1282,7 @@
     </div>
     
     <!-- Onboarding Tour Overlay -->
-    <div id="tour-overlay" class="tour-overlay hidden">
+    <div id="tour-overlay" class="tour-overlay hidden" style="display: none;">
         <div class="tour-card">
             <div class="tour-text" id="tour-text"></div>
             <div class="tour-actions">
@@ -961,12 +1302,1085 @@
         let hintVisibilityState = {}; // Remember hint visibility per problem
         let timerInterval = null;
         let timerSeconds = 0;
+        let timerPaused = false;
+        let problemStartTime = null;
+        let timeHistory = JSON.parse(localStorage.getItem('timeHistory') || '[]');
         let glossaryCache = null; // Cache of all terms
         let glossaryVisibleState = false; // single toggle
         let debugTrace = [];
         let debugIndex = 0;
         let editorBps = new Set();
         let currentLanguage = localStorage.getItem('selectedLanguage') || 'python';
+        
+        // Notepad variables
+        let notepadVisible = true; // Start visible by default
+        
+        // Problem-solving template
+        const PROBLEM_SOLVING_TEMPLATE = `╔═══════════════════════════════════════════════════════════╗
+║              PROBLEM-SOLVING FRAMEWORK                    ║
+╚═══════════════════════════════════════════════════════════╝
+
+1️⃣  UNDERSTAND THE PROBLEM
+────────────────────────────────────────────────────────────
+What is the problem asking?
+
+
+What are the inputs?
+
+
+What are the outputs?
+
+
+What are the constraints?
+
+
+2️⃣  EXAMPLES & EDGE CASES
+────────────────────────────────────────────────────────────
+Example 1:
+
+
+Example 2:
+
+
+Edge cases to consider:
+- Empty input?
+- Single element?
+- Negative numbers?
+- Duplicates?
+- Very large input?
+
+
+3️⃣  APPROACH & ALGORITHM
+────────────────────────────────────────────────────────────
+Initial thoughts:
+
+
+Possible approaches:
+1. 
+
+2. 
+
+3. 
+
+
+Chosen approach:
+
+
+Why this approach?
+
+
+4️⃣  DATA STRUCTURES
+────────────────────────────────────────────────────────────
+What data structures will I use?
+
+
+Why these data structures?
+
+
+5️⃣  STEP-BY-STEP ALGORITHM
+────────────────────────────────────────────────────────────
+1. 
+
+2. 
+
+3. 
+
+4. 
+
+5. 
+
+
+6️⃣  COMPLEXITY ANALYSIS
+────────────────────────────────────────────────────────────
+Time Complexity: O(?)
+Explanation:
+
+
+Space Complexity: O(?)
+Explanation:
+
+
+7️⃣  IMPLEMENTATION NOTES
+────────────────────────────────────────────────────────────
+Key points to remember while coding:
+
+
+Potential pitfalls to avoid:
+
+
+8️⃣  TESTING & VERIFICATION
+────────────────────────────────────────────────────────────
+Test cases to verify:
+
+
+What to check after implementation:
+`;
+        
+        // Cheat sheets for each language
+        const CHEAT_SHEETS = {
+            python: `<h4>🐍 Python Quick Reference for Beginners</h4>
+
+<strong>📌 Basic Syntax & Variables:</strong>
+<pre># Variables (no type declaration needed!)
+name = "Alice"         # String
+age = 25               # Integer
+height = 5.8           # Float
+is_student = True      # Boolean (note capital T/F)
+
+# Multiple assignment
+x, y, z = 1, 2, 3
+
+# Print output
+print("Hello World")
+print(f"My name is {name}")  # f-string (formatted)
+print(name, age)             # Multiple values</pre>
+
+<strong>🔄 Conditional Statements:</strong>
+<pre># If-elif-else (note the colons and indentation!)
+if age &gt;= 18:
+    print("Adult")
+elif age &gt;= 13:
+    print("Teenager")
+else:
+    print("Child")
+
+# Comparison operators: ==, !=, &lt;, &gt;, &lt;=, &gt;=
+# Logical operators: and, or, not
+if age &gt; 18 and is_student:
+    print("Adult student")
+
+# Ternary operator (one-line if)
+status = "Adult" if age &gt;= 18 else "Minor"</pre>
+
+<strong>🔁 Loops Explained:</strong>
+<pre># FOR LOOP - Use when you know how many times to loop
+# Loop through a range of numbers
+for i in range(5):        # 0, 1, 2, 3, 4
+    print(i)
+
+for i in range(2, 10):    # 2, 3, 4, 5, 6, 7, 8, 9
+    print(i)
+
+for i in range(0, 10, 2): # 0, 2, 4, 6, 8 (step by 2)
+    print(i)
+
+# Loop through a list
+fruits = ["apple", "banana", "cherry"]
+for fruit in fruits:
+    print(fruit)
+
+# Loop with index and value
+for i, fruit in enumerate(fruits):
+    print(f"{i}: {fruit}")  # 0: apple, 1: banana, ...
+
+# WHILE LOOP - Use when you don't know how many iterations
+count = 0
+while count &lt; 5:
+    print(count)
+    count += 1            # count = count + 1
+
+# Loop control
+for i in range(10):
+    if i == 3:
+        continue          # Skip rest of this iteration
+    if i == 7:
+        break             # Exit loop entirely
+    print(i)</pre>
+
+<strong>📦 Lists (Arrays) - Most Common Data Structure:</strong>
+<pre># Creating lists
+arr = [1, 2, 3, 4, 5]
+mixed = [1, "hello", True, 3.14]  # Can mix types
+empty = []
+
+# Accessing elements (0-indexed!)
+first = arr[0]         # 1
+last = arr[-1]         # 5 (negative index from end)
+
+# Modifying
+arr[0] = 10            # Change element
+arr.append(6)          # Add to end → [10,2,3,4,5,6]
+arr.insert(0, 0)       # Insert at position 0
+arr.pop()              # Remove & return last element
+arr.remove(3)          # Remove first occurrence of value 3
+
+# List operations
+len(arr)               # Get length
+arr.sort()             # Sort in place
+sorted(arr)            # Return new sorted list
+arr.reverse()          # Reverse in place
+3 in arr               # Check if 3 exists → True/False
+
+# Slicing [start:end:step]
+arr[1:4]               # Elements 1,2,3 (end not included)
+arr[:3]                # First 3 elements
+arr[2:]                # From index 2 to end
+arr[::2]               # Every other element
+
+# List comprehension (create lists in one line)
+squares = [x**2 for x in range(5)]  # [0,1,4,9,16]
+evens = [x for x in arr if x % 2 == 0]  # Filter evens</pre>
+
+<strong>📖 Dictionaries (Hash Maps) - Key-Value Pairs:</strong>
+<pre># Creating dictionaries
+person = {"name": "Alice", "age": 25, "city": "NYC"}
+empty_dict = {}
+
+# Accessing values
+name = person["name"]           # "Alice"
+age = person.get("age", 0)      # Safer - returns 0 if not found
+
+# Modifying
+person["age"] = 26              # Update existing
+person["job"] = "Engineer"      # Add new key
+
+# Checking & removing
+if "name" in person:            # Check if key exists
+    print(person["name"])
+del person["city"]              # Remove key-value pair
+
+# Looping through dictionary
+for key in person:
+    print(key, person[key])
+
+for key, value in person.items():
+    print(f"{key}: {value}")
+
+# Dictionary operations
+person.keys()                   # Get all keys
+person.values()                 # Get all values
+person.items()                  # Get key-value pairs</pre>
+
+<strong>🎯 Sets - Unique Values Only:</strong>
+<pre># Creating sets (no duplicates!)
+s = {1, 2, 3, 3, 3}    # Results in {1, 2, 3}
+empty_set = set()      # NOT {} (that's a dict!)
+
+# Operations
+s.add(4)               # Add element
+s.remove(2)            # Remove (error if not exists)
+s.discard(2)           # Remove (no error if not exists)
+1 in s                 # Check membership - O(1) fast!
+
+# Set operations
+a = {1, 2, 3}
+b = {3, 4, 5}
+a | b                  # Union: {1,2,3,4,5}
+a & b                  # Intersection: {3}
+a - b                  # Difference: {1,2}</pre>
+
+<strong>✂️ Strings - Text Manipulation:</strong>
+<pre># Creating strings
+s = "Hello World"
+s = 'Also works'
+multi = """Multiple
+lines"""
+
+# Common operations
+s.upper()              # "HELLO WORLD"
+s.lower()              # "hello world"
+s.strip()              # Remove whitespace from ends
+s.replace("World", "Python")  # "Hello Python"
+s.split(" ")           # ["Hello", "World"] - split into list
+"-".join(["a","b"])    # "a-b" - join list to string
+
+# String checks
+s.startswith("Hello")  # True
+s.endswith("d")        # True
+s.isalpha()            # All letters?
+s.isdigit()            # All numbers?
+"ll" in s              # Check substring
+
+# String indexing (like lists)
+s[0]                   # "H"
+s[-1]                  # "d"
+s[0:5]                 # "Hello"
+
+# Converting
+str(123)               # "123" - number to string
+int("123")             # 123 - string to number</pre>
+
+<strong>🔢 Math & Numbers:</strong>
+<pre># Basic operators
++  -  *  /             # Add, subtract, multiply, divide
+//                     # Integer division: 7 // 2 = 3
+%                      # Modulo (remainder): 7 % 2 = 1
+**                     # Power: 2**3 = 8
+
+# Built-in math
+abs(-5)                # 5 (absolute value)
+min(1, 2, 3)           # 1
+max(1, 2, 3)           # 3
+sum([1, 2, 3])         # 6
+round(3.7)             # 4
+pow(2, 3)              # 8 (same as 2**3)
+
+# Useful functions
+len([1,2,3])           # 3 (length of list/string)
+range(5)               # 0,1,2,3,4
+sorted([3,1,2])        # [1,2,3]
+reversed([1,2,3])      # [3,2,1]</pre>
+
+<strong>🛠️ Functions - Reusable Code Blocks:</strong>
+<pre># Defining functions
+def greet(name):
+    return f"Hello, {name}"
+
+result = greet("Alice")  # "Hello, Alice"
+
+# Multiple parameters
+def add(a, b):
+    return a + b
+
+# Default parameters
+def greet(name="Guest"):
+    return f"Hello, {name}"
+
+greet()                # "Hello, Guest"
+greet("Alice")         # "Hello, Alice"
+
+# Multiple return values
+def get_stats():
+    return 10, 20, 30
+
+x, y, z = get_stats()  # x=10, y=20, z=30</pre>
+
+<strong>💡 Common Patterns for Coding Problems:</strong>
+<pre># Pattern 1: Two Pointers (for sorted arrays)
+left, right = 0, len(arr) - 1
+while left &lt; right:
+    if arr[left] + arr[right] == target:
+        return [left, right]
+    elif arr[left] + arr[right] &lt; target:
+        left += 1
+    else:
+        right -= 1
+
+# Pattern 2: Frequency Counter (count occurrences)
+freq = {}
+for item in arr:
+    freq[item] = freq.get(item, 0) + 1
+# or use Counter:
+from collections import Counter
+freq = Counter(arr)
+
+# Pattern 3: Sliding Window (subarray problems)
+window_sum = 0
+for i in range(len(arr)):
+    window_sum += arr[i]
+    if i &gt;= window_size:
+        window_sum -= arr[i - window_size]
+
+# Pattern 4: Using a Stack (LIFO - Last In First Out)
+stack = []
+stack.append(item)     # Push
+top = stack.pop()      # Pop
+peek = stack[-1]       # Look at top without removing
+
+# Pattern 5: Using a Queue (FIFO - First In First Out)
+from collections import deque
+queue = deque()
+queue.append(item)     # Enqueue
+first = queue.popleft() # Dequeue</pre>`,
+
+            javascript: `<h4>📜 JavaScript Quick Reference for Beginners</h4>
+
+<strong>📌 Basic Syntax & Variables:</strong>
+<pre>// Variables (3 ways to declare)
+let name = "Alice";    // Block-scoped, can reassign
+const age = 25;        // Block-scoped, CANNOT reassign
+var old = "avoid";     // Function-scoped, use let/const instead
+
+// Data types
+let str = "Hello";     // String
+let num = 42;          // Number
+let decimal = 3.14;    // Also Number
+let bool = true;       // Boolean (true/false lowercase)
+let nothing = null;    // Null
+let undef;             // Undefined
+
+// Print output
+console.log("Hello World");
+console.log(\`My name is \${name}\`);  // Template literal (backticks)
+console.log(name, age);                // Multiple values</pre>
+
+<strong>🔄 Conditional Statements:</strong>
+<pre>// If-else (note: use curly braces!)
+if (age >= 18) {
+    console.log("Adult");
+} else if (age >= 13) {
+    console.log("Teenager");
+} else {
+    console.log("Child");
+}
+
+// Comparison: ===, !==, &lt;, &gt;, &lt;=, &gt;= (use === not ==)
+// Logical: &&, ||, !
+if (age > 18 && isStudent) {
+    console.log("Adult student");
+}
+
+// Ternary operator
+const status = age >= 18 ? "Adult" : "Minor";
+
+// Switch statement
+switch(day) {
+    case "Monday":
+        console.log("Start of week");
+        break;
+    case "Friday":
+        console.log("TGIF!");
+        break;
+    default:
+        console.log("Regular day");
+}</pre>
+
+<strong>🔁 Loops Explained:</strong>
+<pre>// FOR LOOP - Most common, use when you know iterations
+for (let i = 0; i &lt; 5; i++) {
+    console.log(i);    // 0, 1, 2, 3, 4
+}
+
+// Loop through array
+const fruits = ["apple", "banana", "cherry"];
+for (let i = 0; i &lt; fruits.length; i++) {
+    console.log(fruits[i]);
+}
+
+// FOR...OF - Loop through array values (easier!)
+for (const fruit of fruits) {
+    console.log(fruit);  // apple, banana, cherry
+}
+
+// FOR...IN - Loop through object keys
+const person = {name: "Alice", age: 25};
+for (const key in person) {
+    console.log(key, person[key]);
+}
+
+// WHILE LOOP - When you don't know iterations
+let count = 0;
+while (count &lt; 5) {
+    console.log(count);
+    count++;           // count = count + 1
+}
+
+// DO-WHILE - Runs at least once
+let i = 0;
+do {
+    console.log(i);
+    i++;
+} while (i &lt; 5);
+
+// Loop control
+for (let i = 0; i &lt; 10; i++) {
+    if (i === 3) continue;  // Skip this iteration
+    if (i === 7) break;     // Exit loop
+    console.log(i);
+}</pre>
+
+<strong>📦 Arrays - Most Common Data Structure:</strong>
+<pre>// Creating arrays
+let arr = [1, 2, 3, 4, 5];
+let mixed = [1, "hello", true, 3.14];  // Can mix types
+let empty = [];
+
+// Accessing (0-indexed!)
+let first = arr[0];        // 1
+let last = arr[arr.length - 1];  // 5
+
+// Modifying
+arr[0] = 10;               // Change element
+arr.push(6);               // Add to end → [10,2,3,4,5,6]
+arr.pop();                 // Remove from end, returns value
+arr.unshift(0);            // Add to start (slower)
+arr.shift();               // Remove from start (slower)
+arr.splice(2, 1);          // Remove 1 element at index 2
+
+// Array properties & methods
+arr.length;                // Get length
+arr.includes(3);           // Check if 3 exists → true/false
+arr.indexOf(3);            // Find index of 3 (-1 if not found)
+
+// Slicing (doesn't modify original)
+arr.slice(1, 4);           // Get elements 1,2,3 (end not included)
+arr.slice(2);              // From index 2 to end
+
+// Sorting
+arr.sort();                // Sorts as strings! ⚠️
+arr.sort((a, b) => a - b); // Numeric ascending
+arr.sort((a, b) => b - a); // Numeric descending
+
+// Modern array methods (very powerful!)
+arr.map(x => x * 2);       // Transform each element
+arr.filter(x => x > 0);    // Keep only matching elements
+arr.reduce((sum, x) => sum + x, 0);  // Reduce to single value
+arr.forEach(x => console.log(x));    // Loop through
+
+// Finding
+arr.find(x => x > 3);      // First element &gt; 3
+arr.findIndex(x => x > 3); // Index of first match
+
+// Combining
+const arr2 = [6, 7, 8];
+const combined = [...arr, ...arr2];  // Spread operator
+const joined = arr.concat(arr2);     // Also works</pre>
+
+<strong>📖 Objects - Key-Value Pairs:</strong>
+<pre>// Creating objects
+const person = {
+    name: "Alice",
+    age: 25,
+    city: "NYC"
+};
+const empty = {};
+
+// Accessing values (2 ways)
+let name = person.name;           // Dot notation
+let age = person["age"];          // Bracket notation
+
+// Modifying
+person.age = 26;                  // Update
+person.job = "Engineer";          // Add new property
+delete person.city;               // Remove property
+
+// Checking
+if ("name" in person) {           // Check if key exists
+    console.log(person.name);
+}
+if (person.hasOwnProperty("age")) {
+    console.log(person.age);
+}
+
+// Looping through object
+for (const key in person) {
+    console.log(key, person[key]);
+}
+
+// Object methods (ES6+)
+Object.keys(person);              // ["name", "age", "job"]
+Object.values(person);            // ["Alice", 26, "Engineer"]
+Object.entries(person);           // [["name","Alice"], ...]
+
+// Destructuring (extract values)
+const {name, age} = person;       // Creates name & age variables</pre>
+
+<strong>🎯 Map & Set - Modern Data Structures:</strong>
+<pre>// Map (better than objects for hash maps)
+const map = new Map();
+map.set("key", "value");   // Add/update
+map.get("key");            // "value"
+map.has("key");            // Check existence → true
+map.delete("key");         // Remove
+map.size;                  // Get size
+
+// Loop through Map
+for (const [key, value] of map) {
+    console.log(key, value);
+}
+
+// Set (unique values only!)
+const set = new Set([1, 2, 3, 3, 3]);  // Results in {1, 2, 3}
+set.add(4);                // Add element
+set.delete(2);             // Remove element
+set.has(1);                // Check membership - O(1) fast!
+set.size;                  // Get size
+
+// Convert Set to Array
+const arr = [...set];
+const arr2 = Array.from(set);</pre>
+
+<strong>✂️ Strings - Text Manipulation:</strong>
+<pre>// Creating strings
+let s = "Hello World";
+let s2 = 'Also works';
+let s3 = \`Template \${s}\`;  // Template literals (backticks)
+
+// Common operations
+s.toUpperCase();           // "HELLO WORLD"
+s.toLowerCase();           // "hello world"
+s.trim();                  // Remove whitespace from ends
+s.replace("World", "JS");  // "Hello JS"
+s.split(" ");              // ["Hello", "World"]
+arr.join("-");             // Join array: "Hello-World"
+
+// String checks
+s.startsWith("Hello");     // true
+s.endsWith("d");           // true
+s.includes("llo");         // true
+s.charAt(0);               // "H"
+s[0];                      // "H" (simpler)
+
+// Substring
+s.substring(0, 5);         // "Hello"
+s.slice(0, 5);             // "Hello" (same but allows negative)
+s.slice(-5);               // "World" (last 5 chars)
+
+// Converting
+String(123);               // "123"
+Number("123");             // 123
+parseInt("123");           // 123
+parseFloat("3.14");        // 3.14</pre>
+
+<strong>🔢 Math & Numbers:</strong>
+<pre>// Basic operators
++  -  *  /                 // Add, subtract, multiply, divide
+%                          // Modulo: 7 % 2 = 1
+**                         // Power: 2**3 = 8
+++  --                     // Increment, decrement
+
+// Math object
+Math.abs(-5);              // 5
+Math.min(1, 2, 3);         // 1
+Math.max(1, 2, 3);         // 3
+Math.floor(3.7);           // 3 (round down)
+Math.ceil(3.2);            // 4 (round up)
+Math.round(3.5);           // 4 (round nearest)
+Math.pow(2, 3);            // 8 (or 2**3)
+Math.sqrt(16);             // 4
+Math.random();             // Random 0-1
+
+// Array math
+Math.min(...arr);          // Min value in array
+Math.max(...arr);          // Max value in array
+
+// Type checking
+typeof "hello";            // "string"
+typeof 42;                 // "number"
+typeof true;               // "boolean"
+Array.isArray([1,2,3]);    // true</pre>
+
+<strong>🛠️ Functions - Reusable Code:</strong>
+<pre>// Function declaration
+function greet(name) {
+    return \`Hello, \${name}\`;
+}
+
+// Function expression
+const greet2 = function(name) {
+    return \`Hello, \${name}\`;
+};
+
+// Arrow function (modern, shorter)
+const greet3 = (name) => {
+    return \`Hello, \${name}\`;
+};
+const greet4 = name => \`Hello, \${name}\`;  // Even shorter!
+
+// Multiple parameters
+const add = (a, b) => a + b;
+
+// Default parameters
+const greet5 = (name = "Guest") => \`Hello, \${name}\`;
+
+// Rest parameters (variable args)
+const sum = (...nums) => nums.reduce((a, b) => a + b, 0);
+sum(1, 2, 3, 4);           // 10</pre>
+
+<strong>💡 Common Patterns for Coding Problems:</strong>
+<pre>// Pattern 1: Two Pointers
+let left = 0, right = arr.length - 1;
+while (left &lt; right) {
+    if (arr[left] + arr[right] === target) {
+        return [left, right];
+    } else if (arr[left] + arr[right] &lt; target) {
+        left++;
+    } else {
+        right--;
+    }
+}
+
+// Pattern 2: Frequency Counter
+const freq = {};
+for (const item of arr) {
+    freq[item] = (freq[item] || 0) + 1;
+}
+// Or use Map
+const freqMap = new Map();
+for (const item of arr) {
+    freqMap.set(item, (freqMap.get(item) || 0) + 1);
+}
+
+// Pattern 3: Sliding Window
+let windowSum = 0;
+for (let i = 0; i &lt; arr.length; i++) {
+    windowSum += arr[i];
+    if (i >= windowSize) {
+        windowSum -= arr[i - windowSize];
+    }
+}
+
+// Pattern 4: Stack (LIFO)
+const stack = [];
+stack.push(item);          // Push
+const top = stack.pop();   // Pop
+const peek = stack[stack.length - 1];  // Peek
+
+// Pattern 5: Queue (FIFO)
+const queue = [];
+queue.push(item);          // Enqueue
+const first = queue.shift();  // Dequeue (slow but simple)
+
+// Pattern 6: Remove duplicates (using Set)
+const unique = [...new Set(arr)];
+
+// Pattern 7: Find max/min
+const max = Math.max(...arr);
+const min = Math.min(...arr);</pre>`,
+
+            java: `<h4>☕ Java Quick Reference for Beginners</h4>
+
+<strong>📌 Basic Syntax & Variables:</strong>
+<pre>// Variables (must declare type!)
+String name = "Alice";      // String
+int age = 25;               // Integer
+double height = 5.8;        // Decimal number
+boolean isStudent = true;   // Boolean (lowercase)
+char letter = 'A';          // Single character
+
+// Constants (cannot change)
+final int MAX_SIZE = 100;
+
+// Print output
+System.out.println("Hello World");
+System.out.println("Name: " + name);  // Concatenation
+System.out.printf("Age: %d\\n", age);  // Formatted output</pre>
+
+<strong>🔄 Conditional Statements:</strong>
+<pre>// If-else (must use curly braces for multiple statements)
+if (age >= 18) {
+    System.out.println("Adult");
+} else if (age >= 13) {
+    System.out.println("Teenager");
+} else {
+    System.out.println("Child");
+}
+
+// Comparison: ==, !=, &lt;, &gt;, &lt;=, &gt;=
+// Logical: &&, ||, !
+if (age > 18 && isStudent) {
+    System.out.println("Adult student");
+}
+
+// Ternary operator
+String status = (age >= 18) ? "Adult" : "Minor";
+
+// Switch statement
+switch(day) {
+    case "Monday":
+        System.out.println("Start of week");
+        break;
+    case "Friday":
+        System.out.println("TGIF!");
+        break;
+    default:
+        System.out.println("Regular day");
+}</pre>
+
+<strong>🔁 Loops Explained:</strong>
+<pre>// FOR LOOP - Most common
+for (int i = 0; i &lt; 5; i++) {
+    System.out.println(i);  // 0, 1, 2, 3, 4
+}
+
+// Loop through array
+int[] numbers = {1, 2, 3, 4, 5};
+for (int i = 0; i &lt; numbers.length; i++) {
+    System.out.println(numbers[i]);
+}
+
+// ENHANCED FOR LOOP (for-each) - Easier!
+String[] fruits = {"apple", "banana", "cherry"};
+for (String fruit : fruits) {
+    System.out.println(fruit);
+}
+
+// WHILE LOOP - When you don't know iterations
+int count = 0;
+while (count &lt; 5) {
+    System.out.println(count);
+    count++;           // count = count + 1
+}
+
+// DO-WHILE - Runs at least once
+int i = 0;
+do {
+    System.out.println(i);
+    i++;
+} while (i &lt; 5);
+
+// Loop control
+for (int i = 0; i &lt; 10; i++) {
+    if (i == 3) continue;  // Skip this iteration
+    if (i == 7) break;     // Exit loop
+    System.out.println(i);
+}</pre>
+
+<strong>📦 Arrays - Fixed Size:</strong>
+<pre>// Creating arrays (size cannot change!)
+int[] arr = {1, 2, 3, 4, 5};
+int[] arr2 = new int[10];    // Empty array of size 10
+String[] names = {"Alice", "Bob"};
+
+// Accessing (0-indexed!)
+int first = arr[0];          // 1
+int last = arr[arr.length - 1];  // 5
+
+// Modifying
+arr[0] = 10;                 // Change element
+
+// Array properties
+arr.length;                  // Get length (property, not method!)
+
+// Sorting arrays
+Arrays.sort(arr);            // Sort ascending
+Arrays.sort(arr, Collections.reverseOrder());  // Descending (only for Integer[])
+
+// Common operations (need Arrays class)
+Arrays.toString(arr);        // "[1, 2, 3, 4, 5]"
+Arrays.fill(arr, 0);         // Fill all with 0
+Arrays.copyOf(arr, arr.length);  // Copy array
+
+// 2D Arrays
+int[][] matrix = {
+    {1, 2, 3},
+    {4, 5, 6}
+};
+int val = matrix[0][1];      // 2</pre>
+
+<strong>📋 ArrayList - Dynamic Size (Most Common!):</strong>
+<pre>// Import first!
+import java.util.ArrayList;
+
+// Creating ArrayList (must specify type)
+ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+ArrayList&lt;String&gt; names = new ArrayList&lt;&gt;();
+
+// Adding elements
+list.add(1);                 // Add to end
+list.add(0, 0);              // Insert at index 0
+list.addAll(otherList);      // Add all from another list
+
+// Accessing
+int first = list.get(0);     // Get element at index 0
+int size = list.size();      // Get size (method!)
+
+// Modifying
+list.set(0, 10);             // Change element at index 0
+list.remove(0);              // Remove by index
+list.remove(Integer.valueOf(10));  // Remove by value
+list.clear();                // Remove all
+
+// Checking
+boolean has = list.contains(3);  // Check if exists
+boolean empty = list.isEmpty();  // Check if empty
+int index = list.indexOf(3);     // Find index (-1 if not found)
+
+// Converting
+Integer[] arr = list.toArray(new Integer[0]);  // To array
+ArrayList&lt;Integer&gt; list2 = new ArrayList&lt;&gt;(Arrays.asList(1,2,3));  // From array</pre>
+
+<strong>📖 HashMap - Key-Value Pairs:</strong>
+<pre>// Import first!
+import java.util.HashMap;
+
+// Creating HashMap
+HashMap&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+
+// Adding/Updating
+map.put("Alice", 25);        // Add or update
+map.put("Bob", 30);
+
+// Accessing
+int age = map.get("Alice");  // 25
+int def = map.getOrDefault("Charlie", 0);  // 0 (default)
+
+// Checking & Removing
+boolean has = map.containsKey("Alice");  // Check key exists
+boolean hasVal = map.containsValue(25);  // Check value exists
+map.remove("Bob");           // Remove key-value pair
+int size = map.size();       // Get size
+
+// Looping through HashMap
+for (String key : map.keySet()) {
+    System.out.println(key + ": " + map.get(key));
+}
+
+for (Map.Entry&lt;String, Integer&gt; entry : map.entrySet()) {
+    System.out.println(entry.getKey() + ": " + entry.getValue());
+}
+
+// Get collections
+Set&lt;String&gt; keys = map.keySet();      // All keys
+Collection&lt;Integer&gt; values = map.values();  // All values</pre>
+
+<strong>🎯 HashSet - Unique Values Only:</strong>
+<pre>// Import first!
+import java.util.HashSet;
+
+// Creating HashSet (no duplicates!)
+HashSet&lt;Integer&gt; set = new HashSet&lt;&gt;();
+HashSet&lt;Integer&gt; set2 = new HashSet&lt;&gt;(Arrays.asList(1,2,3,3,3));  // {1,2,3}
+
+// Operations
+set.add(1);                  // Add element
+set.add(1);                  // Duplicate ignored!
+set.remove(1);               // Remove element
+boolean has = set.contains(1);  // Check membership - O(1)
+int size = set.size();       // Get size
+
+// Loop through Set
+for (int num : set) {
+    System.out.println(num);
+}</pre>
+
+<strong>✂️ Strings - Text Manipulation:</strong>
+<pre>// Creating strings
+String s = "Hello World";
+String s2 = new String("Hello");
+
+// Common operations
+s.toUpperCase();             // "HELLO WORLD"
+s.toLowerCase();             // "hello world"
+s.trim();                    // Remove whitespace from ends
+s.replace("World", "Java");  // "Hello Java"
+String[] parts = s.split(" ");  // ["Hello", "World"]
+String.join("-", parts);     // "Hello-World"
+
+// String checks
+s.startsWith("Hello");       // true
+s.endsWith("d");             // true
+s.contains("llo");           // true
+boolean eq = s.equals("Hello World");  // Compare strings (NOT ==!)
+boolean eqIgnore = s.equalsIgnoreCase("hello world");  // true
+
+// Accessing characters
+char c = s.charAt(0);        // 'H'
+int len = s.length();        // 11 (method!)
+
+// Substring
+s.substring(0, 5);           // "Hello" (end not included)
+s.substring(6);              // "World"
+
+// Converting
+String num = String.valueOf(123);  // "123"
+int n = Integer.parseInt("123");   // 123
+double d = Double.parseDouble("3.14");  // 3.14
+
+// StringBuilder (for building strings efficiently)
+StringBuilder sb = new StringBuilder();
+sb.append("Hello");
+sb.append(" ");
+sb.append("World");
+String result = sb.toString();  // "Hello World"</pre>
+
+<strong>🔢 Math & Numbers:</strong>
+<pre>// Basic operators
++  -  *  /                   // Add, subtract, multiply, divide
+%                            // Modulo: 7 % 2 = 1
+++  --                       // Increment, decrement
+
+// Math class
+Math.abs(-5);                // 5
+Math.min(1, 2);              // 1
+Math.max(1, 2);              // 2
+Math.floor(3.7);             // 3.0 (round down)
+Math.ceil(3.2);              // 4.0 (round up)
+Math.round(3.5);             // 4 (round nearest)
+Math.pow(2, 3);              // 8.0 (2^3)
+Math.sqrt(16);               // 4.0
+Math.random();               // Random 0.0-1.0
+
+// Integer division (watch out!)
+int a = 7 / 2;               // 3 (not 3.5!)
+double b = 7.0 / 2;          // 3.5
+
+// Type casting
+int x = (int) 3.7;           // 3
+double y = (double) 5;       // 5.0</pre>
+
+<strong>🛠️ Methods (Functions):</strong>
+<pre>// Method definition (must specify return type!)
+public static int add(int a, int b) {
+    return a + b;
+}
+
+// Void method (no return)
+public static void greet(String name) {
+    System.out.println("Hello, " + name);
+}
+
+// Method with default behavior (using overloading)
+public static void greet() {
+    greet("Guest");
+}
+
+public static void greet(String name) {
+    System.out.println("Hello, " + name);
+}
+
+// Calling methods
+int sum = add(5, 3);         // 8
+greet("Alice");              // "Hello, Alice"
+greet();                     // "Hello, Guest"</pre>
+
+<strong>💡 Common Patterns for Coding Problems:</strong>
+<pre>// Pattern 1: Two Pointers
+int left = 0, right = arr.length - 1;
+while (left &lt; right) {
+    if (arr[left] + arr[right] == target) {
+        return new int[]{left, right};
+    } else if (arr[left] + arr[right] &lt; target) {
+        left++;
+    } else {
+        right--;
+    }
+}
+
+// Pattern 2: Frequency Counter
+Map&lt;Integer, Integer&gt; freq = new HashMap&lt;&gt;();
+for (int num : arr) {
+    freq.put(num, freq.getOrDefault(num, 0) + 1);
+}
+
+// Pattern 3: Sliding Window
+int windowSum = 0;
+for (int i = 0; i &lt; arr.length; i++) {
+    windowSum += arr[i];
+    if (i >= windowSize) {
+        windowSum -= arr[i - windowSize];
+    }
+}
+
+// Pattern 4: Stack (LIFO)
+Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+stack.push(item);            // Push
+int top = stack.pop();       // Pop
+int peek = stack.peek();     // Peek (don't remove)
+boolean empty = stack.isEmpty();
+
+// Pattern 5: Queue (FIFO)
+Queue&lt;Integer&gt; queue = new LinkedList&lt;&gt;();
+queue.offer(item);           // Enqueue (add)
+int first = queue.poll();    // Dequeue (remove)
+int peek = queue.peek();     // Peek
+boolean empty = queue.isEmpty();
+
+// Pattern 6: Priority Queue (Min Heap)
+PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;();
+pq.offer(item);              // Add
+int min = pq.poll();         // Remove smallest
+
+// Max Heap
+PriorityQueue&lt;Integer&gt; maxPq = new PriorityQueue&lt;&gt;(Collections.reverseOrder());
+
+// Pattern 7: Sorting with custom comparator
+Collections.sort(list, (a, b) -> a - b);  // Ascending
+Collections.sort(list, (a, b) -> b - a);  // Descending</pre>`
+        };
+        
+        // Cheat sheet visibility state
+        let cheatsheetVisible = true;
         
         // Set initial language selector value
         document.addEventListener('DOMContentLoaded', () => {
@@ -1147,6 +2561,22 @@
 
                 // Render language syntax docs for the selected language
                 renderSyntaxDocs(currentLanguage);
+                
+                // Render cheat sheet for current language
+                renderCheatSheet(currentLanguage);
+
+                // Load notepad content for this problem (preserve visibility state)
+                loadNotepadContent();
+                document.getElementById('notepad-section').classList.remove('hidden');
+                const notepadBody = document.getElementById('notepad-body');
+                const notepadBtn = document.getElementById('toggle-notepad');
+                if (notepadVisible) {
+                    notepadBody.classList.remove('hidden');
+                    notepadBtn.textContent = 'Hide notepad';
+                } else {
+                    notepadBody.classList.add('hidden');
+                    notepadBtn.textContent = 'Show notepad';
+                }
 
                 // Reset and start timer
                 resetTimer();
@@ -1370,6 +2800,11 @@ if (a > b) {
             summaryEl.className = `results-summary ${allPassed ? 'passed' : 'failed'}`;
             summaryEl.textContent = `${allPassed ? '✅' : '❌'} ${result.passed}/${result.total} tests passed`;
             
+            // Save time session when tests are run
+            if (currentProblem && timerSeconds > 0) {
+                saveTimeSession(currentProblem.name, timerSeconds, allPassed);
+            }
+            
             testResultsEl.innerHTML = result.results.map(test => {
                 const status = test.passed ? 'pass' : 'fail';
                 const icon = test.passed ? '✅' : '❌';
@@ -1540,8 +2975,40 @@ if (a > b) {
             else { body.classList.add('hidden'); btn.textContent = 'Show assistant'; }
         };
 
+        // Time Stats toggle
+        document.getElementById('toggle-time-stats').onclick = () => {
+            const body = document.getElementById('time-stats-body');
+            const btn = document.getElementById('toggle-time-stats');
+            const hidden = body.classList.contains('hidden');
+            if (hidden) { 
+                body.classList.remove('hidden'); 
+                btn.textContent = 'Hide stats'; 
+            } else { 
+                body.classList.add('hidden'); 
+                btn.textContent = 'Show stats'; 
+            }
+        };
+
+        // Timer controls
+        document.getElementById('timer-pause').onclick = pauseTimer;
+        document.getElementById('timer-reset').onclick = resetTimer;
+        
+        // Clear time history
+        document.getElementById('clear-stats-btn').onclick = clearTimeHistory;
+
         // Ask AI
         document.getElementById('ai-ask').onclick = askAI;
+        
+        // Notepad event listeners
+        document.getElementById('toggle-notepad').onclick = toggleNotepad;
+        document.getElementById('load-template').onclick = loadTemplate;
+        document.getElementById('clear-notepad').onclick = clearNotepad;
+        
+        // Auto-save notepad content as user types
+        document.getElementById('notepad-textarea').addEventListener('input', saveNotepadContent);
+        
+        // Cheat sheet toggle
+        document.getElementById('toggle-cheatsheet').onclick = toggleCheatSheet;
 
         // Check AI status on load
         (async function checkAIStatus(){
@@ -1729,15 +3196,50 @@ if (a > b) {
         // Timer functions
         function startTimer() {
             if (timerInterval) clearInterval(timerInterval);
+            timerPaused = false;
+            problemStartTime = Date.now() - (timerSeconds * 1000);
+            updateTimerBadgeState();
             timerInterval = setInterval(() => {
-                timerSeconds++;
-                updateTimerDisplay();
+                if (!timerPaused) {
+                    timerSeconds++;
+                    updateTimerDisplay();
+                    updateTimeStats();
+                }
             }, 1000);
         }
         
+        function pauseTimer() {
+            timerPaused = !timerPaused;
+            updateTimerBadgeState();
+            const pauseBtn = document.getElementById('timer-pause');
+            if (pauseBtn) {
+                pauseBtn.textContent = timerPaused ? '▶' : '⏸';
+                pauseBtn.title = timerPaused ? 'Resume timer' : 'Pause timer';
+            }
+        }
+        
         function resetTimer() {
+            // Save current session if there was time
+            if (timerSeconds > 0 && currentProblem) {
+                saveTimeSession(currentProblem.name, timerSeconds, false);
+            }
             timerSeconds = 0;
+            timerPaused = false;
+            problemStartTime = Date.now();
             updateTimerDisplay();
+            updateTimerBadgeState();
+            updateTimeStats();
+        }
+        
+        function updateTimerBadgeState() {
+            const badge = document.getElementById('timer-badge');
+            if (badge) {
+                if (timerPaused) {
+                    badge.classList.add('paused');
+                } else {
+                    badge.classList.remove('paused');
+                }
+            }
         }
         
         function updateTimerDisplay() {
@@ -1745,6 +3247,181 @@ if (a > b) {
             const secs = timerSeconds % 60;
             document.getElementById('timer').textContent = 
                 `⏱️ ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+        
+        // Time tracking functions
+        function saveTimeSession(problemName, seconds, solved) {
+            const session = {
+                problem: problemName,
+                time: seconds,
+                solved: solved,
+                timestamp: new Date().toISOString(),
+                language: currentLanguage
+            };
+            timeHistory.unshift(session);
+            // Keep only last 50 sessions
+            if (timeHistory.length > 50) {
+                timeHistory = timeHistory.slice(0, 50);
+            }
+            localStorage.setItem('timeHistory', JSON.stringify(timeHistory));
+            updateTimeStats();
+            renderSessionHistory();
+        }
+        
+        function updateTimeStats() {
+            // Current session time
+            document.getElementById('stat-current').textContent = formatTime(timerSeconds);
+            
+            // Total time across all sessions
+            const totalSeconds = timeHistory.reduce((sum, s) => sum + s.time, 0);
+            document.getElementById('stat-total').textContent = formatTime(totalSeconds);
+            
+            // Problems solved (sessions marked as solved)
+            const solvedCount = timeHistory.filter(s => s.solved).length;
+            document.getElementById('stat-solved').textContent = solvedCount;
+            
+            // Average time per solved problem
+            if (solvedCount > 0) {
+                const avgSeconds = Math.floor(totalSeconds / solvedCount);
+                document.getElementById('stat-avg').textContent = formatTime(avgSeconds);
+            } else {
+                document.getElementById('stat-avg').textContent = '--:--';
+            }
+        }
+        
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+        
+        function renderSessionHistory() {
+            const list = document.getElementById('session-history-list');
+            if (timeHistory.length === 0) {
+                list.innerHTML = '<div style="color: #64748b; padding: 12px; text-align: center;">No sessions yet. Start solving problems!</div>';
+                return;
+            }
+            
+            list.innerHTML = timeHistory.slice(0, 10).map(session => {
+                const date = new Date(session.timestamp);
+                const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const icon = session.solved ? '✅' : '⏱️';
+                return `
+                    <div class="session-item">
+                        <span class="session-problem">${icon} ${session.problem.replace(/_/g, ' ')}</span>
+                        <span class="session-time">${formatTime(session.time)} • ${timeStr}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function clearTimeHistory() {
+            if (confirm('Are you sure you want to clear all time history? This cannot be undone.')) {
+                timeHistory = [];
+                localStorage.removeItem('timeHistory');
+                updateTimeStats();
+                renderSessionHistory();
+            }
+        }
+        
+        // Notepad functions
+        function saveNotepadContent() {
+            if (!currentProblem) return;
+            const textarea = document.getElementById('notepad-textarea');
+            const noteKey = `notepad_${currentProblem.name}`;
+            localStorage.setItem(noteKey, textarea.value);
+        }
+        
+        function loadNotepadContent() {
+            if (!currentProblem) return;
+            const textarea = document.getElementById('notepad-textarea');
+            const noteKey = `notepad_${currentProblem.name}`;
+            const savedNotes = localStorage.getItem(noteKey);
+            
+            if (savedNotes) {
+                textarea.value = savedNotes;
+            } else {
+                // Load template for new problems
+                textarea.value = PROBLEM_SOLVING_TEMPLATE;
+            }
+        }
+        
+        function loadTemplate() {
+            if (confirm('Load the problem-solving template? This will replace your current notes.')) {
+                const textarea = document.getElementById('notepad-textarea');
+                textarea.value = PROBLEM_SOLVING_TEMPLATE;
+                saveNotepadContent();
+            }
+        }
+        
+        function clearNotepad() {
+            if (confirm('Clear all notes for this problem? This cannot be undone.')) {
+                const textarea = document.getElementById('notepad-textarea');
+                textarea.value = '';
+                saveNotepadContent();
+            }
+        }
+        
+        function toggleNotepad() {
+            const body = document.getElementById('notepad-body');
+            const btn = document.getElementById('toggle-notepad');
+            const hidden = body.classList.contains('hidden');
+            
+            if (hidden) {
+                body.classList.remove('hidden');
+                btn.textContent = 'Hide notepad';
+                notepadVisible = true;
+            } else {
+                body.classList.add('hidden');
+                btn.textContent = 'Show notepad';
+                notepadVisible = false;
+            }
+        }
+        
+        // Cheat sheet functions
+        function renderCheatSheet(language) {
+            const content = document.getElementById('cheatsheet-content');
+            const title = document.getElementById('cheatsheet-title');
+            const section = document.getElementById('cheatsheet-section');
+            
+            const langNames = {
+                'python': '🐍 Python',
+                'javascript': '📜 JavaScript',
+                'java': '☕ Java'
+            };
+            
+            title.textContent = `📚 ${langNames[language] || language} Cheat Sheet`;
+            content.innerHTML = CHEAT_SHEETS[language] || '<p>No cheat sheet available for this language.</p>';
+            
+            // Show section (always show the section, but body might be hidden)
+            section.classList.remove('hidden');
+            
+            // Set body visibility based on state
+            const body = document.getElementById('cheatsheet-body');
+            const btn = document.getElementById('toggle-cheatsheet');
+            if (cheatsheetVisible) {
+                body.classList.remove('hidden');
+                btn.textContent = 'Hide cheat sheet';
+            } else {
+                body.classList.add('hidden');
+                btn.textContent = 'Show cheat sheet';
+            }
+        }
+        
+        function toggleCheatSheet() {
+            const body = document.getElementById('cheatsheet-body');
+            const btn = document.getElementById('toggle-cheatsheet');
+            const hidden = body.classList.contains('hidden');
+            
+            if (hidden) {
+                body.classList.remove('hidden');
+                btn.textContent = 'Hide cheat sheet';
+                cheatsheetVisible = true;
+            } else {
+                body.classList.add('hidden');
+                btn.textContent = 'Show cheat sheet';
+                cheatsheetVisible = false;
+            }
         }
         
         // Keyboard shortcuts
@@ -1760,32 +3437,33 @@ if (a > b) {
         const tourSteps = [
             { selector: '.sidebar', text: '<strong>1) Choose a problem</strong><br/>Pick a problem from the list to load its stub, tests, and hints.' },
             { selector: '#problem-description', text: '<strong>2) Read the description</strong><br/>Understand the function contract and sample cases.' },
-            { selector: '#hints-section', text: '<strong>3) Use Hints</strong><br/>Reveal tips and pseudocode if you get stuck.' },
-            { selector: '#code-editor', text: '<strong>4) Write code</strong><br/>Implement the function; use Tab for indentation.' },
-            { selector: '#submit-btn', text: '<strong>5) Run tests</strong><br/>Click Run or press Ctrl+Enter to test your code.' },
-            { selector: '#debug-section', text: '<strong>6) Debug</strong><br/>Set breakpoints and run the debugger to step through your code.' },
-            { selector: '#glossary-section', text: '<strong>7) Glossary</strong><br/>Search key terms and concepts relevant to the problem.' },
+            { selector: '#notepad-section', text: '<strong>3) Plan with Notepad</strong><br/>Use the problem-solving framework to think through your approach before coding.' },
+            { selector: '#cheatsheet-section', text: '<strong>4) Language Cheat Sheet</strong><br/>Quick reference for common methods, data structures, and syntax patterns.' },
+            { selector: '#hints-section', text: '<strong>5) Use Hints</strong><br/>Reveal tips and pseudocode if you get stuck.' },
+            { selector: '#code-editor', text: '<strong>6) Write code</strong><br/>Implement the function; use Tab for indentation.' },
+            { selector: '#submit-btn', text: '<strong>7) Run tests</strong><br/>Click Run or press Ctrl+Enter to test your code.' },
+            { selector: '#debug-section', text: '<strong>8) Debug</strong><br/>Set breakpoints and run the debugger to step through your code.' },
+            { selector: '#glossary-section', text: '<strong>9) Glossary</strong><br/>Search key terms and concepts relevant to the problem.' },
         ];
         let tourIdx = 0;
         let tourActive = false;
 
         function startTour(force=false) {
-            if (!force && localStorage.getItem('tourSeen') === '1') return;
+            if (!force && localStorage.getItem('tourSeen') === '1') {
+                return;
+            }
             tourIdx = 0;
             tourActive = true;
+            
+            // Set the content FIRST before showing the overlay
+            showTourStep();
+            
+            // Then show the overlay
             const ov = document.getElementById('tour-overlay');
-            if (ov) { ov.classList.remove('hidden'); ov.style.display = 'flex'; }
-            // Render step after overlay is visible to avoid blank due to timing
-            requestAnimationFrame(() => {
-                showTourStep();
-                // Fallback re-render in case extensions/sanitizers cleared HTML
-                setTimeout(() => {
-                    const txt = document.getElementById('tour-text');
-                    if (txt && (!txt.innerHTML || txt.innerHTML.trim() === '')) {
-                        showTourStep();
-                    }
-                }, 50);
-            });
+            if (ov) { 
+                ov.classList.remove('hidden'); 
+                ov.style.display = 'flex'; 
+            }
         }
 
         function endTour(save=true) {
@@ -1801,21 +3479,15 @@ if (a > b) {
         }
 
         function showTourStep() {
-            // Clamp index and provide safe fallbacks
-            const total = Array.isArray(tourSteps) ? tourSteps.length : 0;
-            if (!total) {
-                const msg = 'Welcome! This tour is unavailable right now.';
-                const txt = document.getElementById('tour-text');
-                if (txt) txt.textContent = msg;
-                const nextBtn = document.getElementById('tour-next');
-                if (nextBtn) nextBtn.textContent = 'Finish';
-                return;
-            }
+            const total = tourSteps.length;
             if (tourIdx < 0) tourIdx = 0;
             if (tourIdx >= total) tourIdx = total - 1;
 
             const step = tourSteps[tourIdx];
+            
             removeHighlights();
+            
+            // Highlight element if selector exists
             if (step && step.selector) {
                 const el = document.querySelector(step.selector);
                 if (el) {
@@ -1823,21 +3495,17 @@ if (a > b) {
                     try { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (_) {}
                 }
             }
+            
+            // Update text content with HTML
             const txt = document.getElementById('tour-text');
-            if (txt) {
-                const fallback = 'Let\'s take a quick tour of the UI.';
-                if (step && step.text) {
-                    txt.innerHTML = step.text;
-                    // If somehow empty after HTML set (e.g., CSP/extension), set plain text
-                    if (!txt.innerHTML || txt.innerHTML.trim() === '') {
-                        txt.textContent = fallback;
-                    }
-                } else {
-                    txt.textContent = fallback;
-                }
+            if (txt && step && step.text) {
+                txt.innerHTML = step.text;
             }
+            
+            // Update buttons
             const prevBtn = document.getElementById('tour-prev');
             if (prevBtn) prevBtn.disabled = tourIdx === 0;
+            
             const nextBtn = document.getElementById('tour-next');
             if (nextBtn) nextBtn.textContent = (tourIdx === total - 1) ? 'Finish' : 'Next';
         }
@@ -1973,9 +3641,11 @@ if (a > b) {
         if (btnTourNext) btnTourNext.addEventListener('click', (e) => { e.preventDefault(); if (tourIdx < tourSteps.length - 1) { tourIdx++; showTourStep(); } else { endTour(true); } });
 
         // Initialize
-        loadProblems().then(() => {
-            setTimeout(() => { if (!localStorage.getItem('tourSeen')) startTour(); }, 400);
-        });
+        loadProblems();
+        
+        // Initialize time stats display
+        updateTimeStats();
+        renderSessionHistory();
     </script>
 </body>
 </html>

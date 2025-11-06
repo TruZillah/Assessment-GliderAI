@@ -589,10 +589,13 @@ HINTS = {
     'summation': {
         'python': {
             'bullets': [
-                'Inputs are integers; just return a + b.',
-                'No overflow concerns in Python ints.',
+                'Step 1: This is a simple function that returns the sum of two integers.',
+                'Step 2: In Python, the + operator works directly on integers with no overflow concerns.',
+                'Step 3: Python integers have arbitrary precision - they can grow as large as memory allows.',
+                'Step 4: Simply return a + b. No need for type checking or edge cases.',
+                'Example: summation(5, 3) → 8, summation(-10, 20) → 10',
             ],
-            'pseudocode': 'def summation(a, b):\\n    return a + b\\n'
+            'pseudocode': 'def summation(a, b):\\n    # Return the sum of two integers\\n    return a + b\\n'
         },
         'javascript': {
             'bullets': [
@@ -619,11 +622,17 @@ HINTS = {
     'palindrome': {
         'python': {
             'bullets': [
-                'Filter to alphanumeric using str.isalnum and lowercase.',
-                'Use two pointers i/j; compare and move inward.',
-                'Empty string is a palindrome.',
+                'Step 1: A palindrome reads the same forward and backward (e.g., "racecar", "A man a plan a canal Panama").',
+                'Step 2: First, filter the string to keep only alphanumeric characters (letters and numbers).',
+                'Step 3: Use str.isalnum() to check if a character is alphanumeric, and convert to lowercase with .lower().',
+                'Step 4: Build a filtered list using list comprehension: [c.lower() for c in s if c.isalnum()].',
+                'Step 5: Use two pointers: i starts at 0 (beginning), j starts at len(t)-1 (end).',
+                'Step 6: Compare characters at i and j. If they don\'t match, it\'s not a palindrome - return False.',
+                'Step 7: Move pointers inward: i += 1, j -= 1. Continue until pointers meet.',
+                'Step 8: If all comparisons match, return True. Empty string is considered a palindrome.',
+                'Example: "A man, a plan, a canal: Panama" → filtered:"amanaplanacanalpanama" → palindrome!',
             ],
-            'pseudocode': 'def is_palindrome(s):\\n    t = [c.lower() for c in s if c.isalnum()]\\n    i, j = 0, len(t)-1\\n    while i < j:\\n        if t[i] != t[j]:\\n            return False\\n        i += 1; j -= 1\\n    return True\\n'
+            'pseudocode': 'def is_palindrome(s):\\n    # Step 1: Filter to alphanumeric and lowercase\\n    t = [c.lower() for c in s if c.isalnum()]\\n    \\n    # Step 2: Two pointers from both ends\\n    i, j = 0, len(t)-1\\n    \\n    # Step 3: Compare characters while moving inward\\n    while i < j:\\n        if t[i] != t[j]:\\n            return False  # Mismatch found\\n        i += 1\\n        j -= 1\\n    \\n    # Step 4: All characters matched\\n    return True\\n'
         },
         'javascript': {
             'bullets': [
@@ -650,10 +659,17 @@ HINTS = {
     'second_largest': {
         'python': {
             'bullets': [
-                'Track top1 and top2 distinct values in one pass.',
-                'Update top2 when you update top1; skip duplicates.',
+                'Step 1: Find the second largest DISTINCT value in an array. Duplicates don\'t count.',
+                'Step 2: Track two variables: top1 (largest) and top2 (second largest). Initialize both to None.',
+                'Step 3: For each element x in the array, check if it\'s larger than top1.',
+                'Step 4: If x > top1 (or top1 is None), update top2 to the old top1 value, then update top1 to x.',
+                'Step 5: IMPORTANT: Only update top2 if x is different from top1 (skip duplicates).',
+                'Step 6: Else if x < top1 but x > top2 (and x != top1), update top2 to x.',
+                'Step 7: After processing all elements, return top2.',
+                'Step 8: Edge case: If array has fewer than 2 distinct values, top2 will be None.',
+                'Example: [5,3,5,9,3,7] → top1=9, top2=7 (skipped duplicate 5s and 3s)',
             ],
-            'pseudocode': 'def second_largest(nums):\\n    top1 = top2 = None\\n    for x in nums:\\n        if top1 is None or x > top1:\\n            if x != top1: top2 = top1\\n            top1 = x\\n        elif x != top1 and (top2 is None or x > top2):\\n            top2 = x\\n    return top2\\n'
+            'pseudocode': 'def second_largest(nums):\\n    # Step 1: Initialize tracking variables\\n    top1 = top2 = None\\n    \\n    # Step 2: Process each number\\n    for x in nums:\\n        # Step 3: Check if new largest\\n        if top1 is None or x > top1:\\n            # Update top2 only if x is distinct\\n            if x != top1:\\n                top2 = top1\\n            top1 = x\\n        # Step 4: Check if new second largest\\n        elif x != top1 and (top2 is None or x > top2):\\n            top2 = x\\n    \\n    return top2\\n'
         },
         'javascript': {
             'bullets': [
@@ -680,11 +696,15 @@ HINTS = {
     'frequency_sort': {
         'python': {
             'bullets': [
-                'Count with collections.Counter.',
-                'Sort by (-freq, char).',
-                'Join char repeated freq times.',
+                'Step 1: Import Counter from collections module - a dictionary subclass for counting hashable objects.',
+                'Step 2: Use Counter(s) to count frequency of each character. Returns a dict where keys are characters and values are their counts.',
+                'Step 3: Sort using sorted() with a custom key. The lambda function returns a tuple: (-frequency, character).',
+                'Step 4: Negative frequency ensures descending order (most frequent first). Character ensures lexicographical order for ties.',
+                'Step 5: Use list comprehension to repeat each character by its frequency: ch*freq.',
+                'Step 6: Join all repeated characters into a single string with "".join().',
+                'Example: "tree" → Counter: {"t":1,"r":1,"e":2} → sorted: [("e",2),("r",1),("t",1)] → "eerт" or "eert"',
             ],
-            'pseudocode': 'from collections import Counter\\n\\ncounts = Counter(s)\\nparts = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))\\nreturn "".join(ch*freq for ch,freq in parts)\\n'
+            'pseudocode': 'from collections import Counter\\n\\ndef frequency_sort(s):\\n    # Step 1: Count character frequencies\\n    counts = Counter(s)\\n    \\n    # Step 2: Sort by frequency (desc), then lexicographically (asc)\\n    parts = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))\\n    \\n    # Step 3: Repeat each character by its frequency and join\\n    return "".join(ch*freq for ch,freq in parts)\\n'
         },
         'javascript': {
             'bullets': [
@@ -711,10 +731,18 @@ HINTS = {
     'merge_intervals': {
         'python': {
             'bullets': [
-                'Sort by start.',
-                'If current.start <= last.end, merge; else append.',
+                'Step 1: An interval is [start, end]. Overlapping intervals should be merged into one.',
+                'Step 2: First, sort all intervals by their start time. This groups overlapping intervals together.',
+                'Step 3: Use key=lambda x: x[0] to sort by the first element (start time).',
+                'Step 4: Initialize an empty result list to store merged intervals.',
+                'Step 5: For each interval [s, e], check if it overlaps with the last interval in result.',
+                'Step 6: Intervals overlap if current start <= last end. Example: [1,3] and [2,6] overlap.',
+                'Step 7: If NO overlap (s > res[-1][1]), append the interval as a new entry.',
+                'Step 8: If overlap, merge by updating the end: res[-1][1] = max(res[-1][1], e).',
+                'Step 9: Time: O(n log n) for sorting + O(n) for merging = O(n log n).',
+                'Example: [[1,3],[2,6],[8,10],[15,18]] → sorted → merge [1,3] & [2,6] → [[1,6],[8,10],[15,18]]',
             ],
-            'pseudocode': 'def merge_intervals(itv):\\n    itv.sort(key=lambda x: x[0])\\n    res = []\\n    for s, e in itv:\\n        if not res or s > res[-1][1]: res.append([s, e])\\n        else: res[-1][1] = max(res[-1][1], e)\\n    return res\\n'
+            'pseudocode': 'def merge_intervals(intervals):\\n    # Step 1: Sort by start time\\n    intervals.sort(key=lambda x: x[0])\\n    \\n    # Step 2: Initialize result list\\n    res = []\\n    \\n    # Step 3: Process each interval\\n    for s, e in intervals:\\n        # Step 4: Check if overlaps with last interval\\n        if not res or s > res[-1][1]:\\n            # No overlap - add as new interval\\n            res.append([s, e])\\n        else:\\n            # Overlap - merge by extending end\\n            res[-1][1] = max(res[-1][1], e)\\n    \\n    return res\\n'
         },
         'javascript': {
             'bullets': [
@@ -738,10 +766,16 @@ HINTS = {
     'two_sum': {
         'python': {
             'bullets': [
-                'One pass hashmap value->index.',
-                'For x, need target-x; check before insert to avoid same index.',
+                'Step 1: Create an empty dictionary called "seen" to store value→index mappings.',
+                'Step 2: Iterate through the array with enumerate() to get both index and value.',
+                'Step 3: For each element x, calculate the complement y = target - x.',
+                'Step 4: Check if complement y exists in the "seen" dictionary. If yes, we found our pair!',
+                'Step 5: Return [seen[y], i] - the index of the complement and current index.',
+                'Step 6: If not found, add current value to "seen": seen[x] = i.',
+                'Step 7: We check BEFORE inserting to avoid using the same element twice.',
+                'Example: nums=[2,7,11,15], target=9 → i=0:seen={}, y=7, add 2→0 → i=1:y=2, found! return [0,1]',
             ],
-            'pseudocode': 'def two_sum(a, t):\\n    seen = {}\\n    for i,x in enumerate(a):\\n        y = t - x\\n        if y in seen: return [seen[y], i]\\n        seen[x] = i\\n    return [-1,-1]\\n'
+            'pseudocode': 'def two_sum(nums, target):\\n    # Step 1: Create hashmap to store value→index\\n    seen = {}\\n    \\n    # Step 2: Iterate with index and value\\n    for i, x in enumerate(nums):\\n        # Step 3: Calculate complement\\n        y = target - x\\n        \\n        # Step 4: Check if complement exists\\n        if y in seen:\\n            return [seen[y], i]\\n        \\n        # Step 5: Store current value and index\\n        seen[x] = i\\n    \\n    return [-1, -1]  # No solution found\\n'
         },
         'javascript': {
             'bullets': [
@@ -768,11 +802,16 @@ HINTS = {
     'balanced_brackets': {
         'python': {
             'bullets': [
-                'Use a stack for opens.',
-                'Map closes to opens and match as you go.',
-                'Valid if stack empty at end.',
+                'Step 1: Create a dictionary mapping each closing bracket to its corresponding opening bracket.',
+                'Step 2: Initialize an empty list to use as a stack. Stack follows LIFO (Last In First Out).',
+                'Step 3: Iterate through each character in the string.',
+                'Step 4: If the character is an opening bracket "([{", push it onto the stack.',
+                'Step 5: If it\'s a closing bracket ")]}", check if stack is empty or top doesn\'t match - return False.',
+                'Step 6: If it matches, pop the opening bracket from the stack.',
+                'Step 7: After processing all characters, return True if stack is empty (all brackets matched).',
+                'Example: "({[]})" → push(, push{, push[, pop[ matches ], pop{ matches }, pop( matches ) → stack empty → valid!',
             ],
-            'pseudocode': 'def valid(s):\\n    pairs = {")":"(", "]":"[", "}":"{"}\\n    stack = []\\n    for c in s:\\n        if c in "([{": stack.append(c)\\n        elif c in ")]}": \\n            if not stack or stack[-1] != pairs[c]: return False\\n            stack.pop()\\n    return not stack\\n'
+            'pseudocode': 'def is_valid(s):\\n    # Step 1: Map closing brackets to opening brackets\\n    pairs = {")": "(", "]": "[", "}": "{"}\\n    \\n    # Step 2: Initialize stack\\n    stack = []\\n    \\n    # Step 3: Process each character\\n    for c in s:\\n        # Step 4: If opening bracket, push to stack\\n        if c in "([{":\\n            stack.append(c)\\n        # Step 5: If closing bracket, validate\\n        elif c in ")]}":\\n            if not stack or stack[-1] != pairs[c]:\\n                return False\\n            # Step 6: Pop matching opening bracket\\n            stack.pop()\\n    \\n    # Step 7: Valid if all brackets matched (stack empty)\\n    return not stack\\n'
         },
         'javascript': {
             'bullets': [
@@ -796,10 +835,17 @@ HINTS = {
     'max_subarray': {
         'python': {
             'bullets': [
-                "Kadane's algorithm: track current and best sum.",
-                'current = max(x, current + x).',
+                'Step 1: This is Kadane\'s Algorithm - a classic dynamic programming approach for maximum subarray sum.',
+                'Step 2: Initialize both "best" and "current" to the first element of the array.',
+                'Step 3: "current" represents the maximum sum ending at the current position.',
+                'Step 4: "best" represents the maximum sum found so far across all positions.',
+                'Step 5: For each element x (starting from index 1), decide: start fresh with x, or extend previous subarray with cur+x.',
+                'Step 6: Update current = max(x, current + x). If cur+x is negative, it\'s better to start fresh.',
+                'Step 7: Update best = max(best, current) to track the overall maximum.',
+                'Step 8: Why it works: negative prefixes only hurt future sums, so we discard them.',
+                'Example: [-2,1,-3,4,-1,2,1,-5,4] → cur at index 3 becomes 4 (start fresh), then 3,5,6... best=6',
             ],
-            'pseudocode': 'best = cur = nums[0]\\nfor x in nums[1:]:\\n    cur = max(x, cur + x)\\n    best = max(best, cur)\\nreturn best\\n'
+            'pseudocode': 'def max_subarray(nums):\\n    # Step 1: Initialize with first element\\n    best = current = nums[0]\\n    \\n    # Step 2: Process remaining elements\\n    for x in nums[1:]:\\n        # Step 3: Decide to extend or start fresh\\n        current = max(x, current + x)\\n        \\n        # Step 4: Update global maximum\\n        best = max(best, current)\\n    \\n    return best\\n'
         },
         'javascript': {
             'bullets': [
@@ -823,10 +869,17 @@ HINTS = {
     'product_except_self': {
         'python': {
             'bullets': [
-                'Compute prefix products then multiply by suffix pass.',
-                'O(n) time, O(1) extra arrays aside from output.',
+                'Step 1: The goal is to compute products of all elements except self WITHOUT using division.',
+                'Step 2: Key insight: result[i] = (product of all elements before i) × (product of all elements after i).',
+                'Step 3: Initialize result array with all 1s of length n.',
+                'Step 4: FIRST PASS (left to right): Build prefix products. For each position i, store product of all elements to the left.',
+                'Step 5: Use variable "pre" to track running product. Start pre=1, then res[i]=pre, then pre*=nums[i].',
+                'Step 6: SECOND PASS (right to left): Multiply by suffix products. For each position i, multiply by product of all elements to the right.',
+                'Step 7: Use variable "suf" to track running product from right. Start suf=1, then res[i]*=suf, then suf*=nums[i].',
+                'Step 8: Time: O(n), Space: O(1) extra (output doesn\'t count).',
+                'Example: [1,2,3,4] → prefix:[1,1,2,6] → suffix:[24,12,4,1] → result:[24,12,8,6]',
             ],
-            'pseudocode': 'n = len(nums)\\nres = [1] * n\\npre = 1\\nfor i in range(n):\\n    res[i] = pre\\n    pre *= nums[i]\\nsuf = 1\\nfor i in range(n-1, -1, -1):\\n    res[i] *= suf\\n    suf *= nums[i]\\nreturn res\\n'
+            'pseudocode': 'def product_except_self(nums):\\n    n = len(nums)\\n    res = [1] * n\\n    \\n    # First pass: prefix products\\n    pre = 1\\n    for i in range(n):\\n        res[i] = pre  # Product of all elements before i\\n        pre *= nums[i]\\n    \\n    # Second pass: suffix products\\n    suf = 1\\n    for i in range(n-1, -1, -1):\\n        res[i] *= suf  # Multiply by product of all elements after i\\n        suf *= nums[i]\\n    \\n    return res\\n'
         },
         'javascript': {
             'bullets': [
@@ -850,10 +903,18 @@ HINTS = {
     'three_sum': {
         'python': {
             'bullets': [
-                'Sort array; fix i; two-pointer on [i+1..].',
-                'Skip duplicates at i and while moving pointers.',
+                'Step 1: Sort the array first. This allows us to use two-pointer technique and easily skip duplicates.',
+                'Step 2: Fix the first element at index i, then find two other elements that sum to -nums[i].',
+                'Step 3: Use two pointers: left = i+1 (start) and right = len-1 (end).',
+                'Step 4: Calculate sum = nums[i] + nums[left] + nums[right].',
+                'Step 5: If sum == 0, we found a triplet! Add it to results and move both pointers.',
+                'Step 6: If sum < 0, we need a larger sum, so move left pointer right (increase value).',
+                'Step 7: If sum > 0, we need a smaller sum, so move right pointer left (decrease value).',
+                'Step 8: CRITICAL: Skip duplicates! Skip same value at i, and after finding a triplet, skip duplicate left/right values.',
+                'Step 9: Time: O(n²) because we have outer loop O(n) and inner two-pointer O(n).',
+                'Example: [-1,0,1,2,-1,-4] → sorted:[-4,-1,-1,0,1,2] → triplets:[[-1,-1,2],[-1,0,1]]',
             ],
-            'pseudocode': 'nums.sort()\\nres = []\\nfor i, x in enumerate(nums):\\n    if i and nums[i] == nums[i-1]: continue\\n    l, r = i+1, len(nums)-1\\n    while l < r:\\n        s = x + nums[l] + nums[r]\\n        if s == 0:\\n            res.append([x, nums[l], nums[r]])\\n            l += 1; r -= 1\\n            while l < r and nums[l] == nums[l-1]: l += 1\\n            while l < r and nums[r] == nums[r+1]: r -= 1\\n        elif s < 0: l += 1\\n        else: r -= 1\\nreturn res\\n'
+            'pseudocode': 'def three_sum(nums):\\n    # Step 1: Sort the array\\n    nums.sort()\\n    res = []\\n    \\n    # Step 2: Fix first element\\n    for i, x in enumerate(nums):\\n        # Skip duplicates for first element\\n        if i > 0 and nums[i] == nums[i-1]:\\n            continue\\n        \\n        # Step 3: Two pointers for remaining elements\\n        l, r = i+1, len(nums)-1\\n        \\n        while l < r:\\n            s = x + nums[l] + nums[r]\\n            \\n            if s == 0:\\n                # Found triplet!\\n                res.append([x, nums[l], nums[r]])\\n                l += 1\\n                r -= 1\\n                # Skip duplicate left values\\n                while l < r and nums[l] == nums[l-1]:\\n                    l += 1\\n                # Skip duplicate right values\\n                while l < r and nums[r] == nums[r+1]:\\n                    r -= 1\\n            elif s < 0:\\n                l += 1  # Need larger sum\\n            else:\\n                r -= 1  # Need smaller sum\\n    \\n    return res\\n'
         },
         'javascript': {
             'bullets': [
@@ -875,28 +936,81 @@ HINTS = {
         },
     },
     'two_sum_sorted': {
-        'bullets': ['Use two pointers from ends.', 'Move left if sum<target else move right.'],
-        'pseudocode': 'l,r=0,len(nums)-1\nwhile l<r:\n  s=nums[l]+nums[r]\n  if s==target: return [l,r]\n  if s<target: l+=1\n  else: r-=1\nreturn [-1,-1]\n'
+        'bullets': [
+            'Step 1: This is Two Sum II - the array is ALREADY SORTED, so we can use two pointers (no hashmap needed!).',
+            'Step 2: Initialize left pointer at 0 (smallest element) and right pointer at len(nums)-1 (largest element).',
+            'Step 3: Calculate sum = nums[left] + nums[right].',
+            'Step 4: If sum == target, we found the pair! Return [left, right].',
+            'Step 5: If sum < target, we need a larger sum. Move left pointer right (left += 1) to get a bigger number.',
+            'Step 6: If sum > target, we need a smaller sum. Move right pointer left (right -= 1) to get a smaller number.',
+            'Step 7: Continue until left >= right. If no pair found, return [-1, -1].',
+            'Step 8: Time: O(n) because each pointer moves at most n times. Space: O(1) - just two pointers!',
+            'Example: [2,7,11,15], target=9 → l=0,r=3: sum=17>9 → r=2: sum=13>9 → r=1: sum=9! → [0,1]',
+        ],
+        'pseudocode': 'def two_sum_sorted(nums, target):\\n    # Step 1: Initialize two pointers\\n    left, right = 0, len(nums) - 1\\n    \\n    # Step 2: Search while pointers haven\'t crossed\\n    while left < right:\\n        # Step 3: Calculate current sum\\n        s = nums[left] + nums[right]\\n        \\n        # Step 4: Check if found\\n        if s == target:\\n            return [left, right]\\n        \\n        # Step 5: Adjust pointers based on sum\\n        if s < target:\\n            left += 1  # Need larger sum\\n        else:\\n            right -= 1  # Need smaller sum\\n    \\n    # Step 6: No pair found\\n    return [-1, -1]\\n'
     },
     'longest_substring_without_repeating_characters': {
-        'bullets': ['Sliding window with last seen position.', 'Move left to max(left, last[c]+1).'],
-        'pseudocode': 'last={}; left=0; best=0\nfor i,c in enumerate(s):\n  if c in last: left=max(left,last[c]+1)\n  last[c]=i\n  best=max(best,i-left+1)\nreturn best\n'
+        'bullets': [
+            'Step 1: Find the longest substring with all unique characters (no repeats). Example: "abcabcbb" → "abc" length 3.',
+            'Step 2: Use sliding window technique with a hashmap to track the last seen position of each character.',
+            'Step 3: Initialize: last={} (empty dict), left=0 (window start), best=0 (max length found).',
+            'Step 4: Iterate through string with enumerate() to get both index i and character c.',
+            'Step 5: If character c was seen before AND is in current window, move left pointer to exclude the duplicate.',
+            'Step 6: Update left = max(left, last[c]+1). The max ensures left never moves backward.',
+            'Step 7: Update last[c] = i to record the current position of character c.',
+            'Step 8: Calculate current window length: i - left + 1. Update best = max(best, current length).',
+            'Step 9: Time: O(n) single pass. Space: O(min(n, charset)) for the hashmap.',
+            'Example: "abcabcbb" → i=3,c=\'a\': left=1 → i=4,c=\'b\': left=2 → i=5,c=\'c\': left=3 → best=3',
+        ],
+        'pseudocode': 'def longest_substring_without_repeating_characters(s):\\n    # Step 1: Initialize tracking variables\\n    last = {}  # Character to last seen index\\n    left = 0   # Window start\\n    best = 0   # Maximum length\\n    \\n    # Step 2: Process each character\\n    for i, c in enumerate(s):\\n        # Step 3: If duplicate found in window, shrink from left\\n        if c in last:\\n            left = max(left, last[c] + 1)\\n        \\n        # Step 4: Update last seen position\\n        last[c] = i\\n        \\n        # Step 5: Update maximum length\\n        best = max(best, i - left + 1)\\n    \\n    return best\\n'
     },
     'group_anagrams': {
-        'bullets': ['Key by sorted word or 26-letter counts.', 'Sort groups for deterministic output.'],
-        'pseudocode': 'from collections import defaultdict\nmp=defaultdict(list)\nfor w in strs:\n  key=\"\".join(sorted(w))\n  mp[key].append(w)\nreturn [sorted(v) for v in sorted(mp.values(), key=lambda x: (len(x), x))]\n'
+        'bullets': [
+            'Step 1: Anagrams are words with the same letters rearranged (e.g., "eat", "tea", "ate").',
+            'Step 2: Key insight: Anagrams will have the same sorted letters. "eat"→"aet", "tea"→"aet", "ate"→"aet".',
+            'Step 3: Use a dictionary (hashmap) to group words. The key is the sorted version of the word.',
+            'Step 4: Import defaultdict(list) from collections to automatically create empty lists for new keys.',
+            'Step 5: For each word, sort its characters with sorted(w), then join with "".join() to create the key.',
+            'Step 6: Append the original word to the list at mp[key]. All anagrams will map to the same key.',
+            'Step 7: Extract all the groups with mp.values(). Each group is a list of anagrams.',
+            'Step 8: For deterministic output, sort each group internally and sort the groups themselves.',
+            'Step 9: Time: O(n*k*log k) where n=number of words, k=max word length (for sorting each word).',
+            'Example: ["eat","tea","tan","ate","nat","bat"] → groups: [["ate","eat","tea"], ["nat","tan"], ["bat"]]',
+        ],
+        'pseudocode': 'from collections import defaultdict\\n\\ndef group_anagrams(strs):\\n    # Step 1: Create hashmap with lists as default values\\n    mp = defaultdict(list)\\n    \\n    # Step 2: Process each word\\n    for w in strs:\\n        # Step 3: Create key by sorting characters\\n        key = "".join(sorted(w))\\n        \\n        # Step 4: Add word to its anagram group\\n        mp[key].append(w)\\n    \\n    # Step 5: Sort groups for deterministic output\\n    return [sorted(v) for v in sorted(mp.values(), key=lambda x: (len(x), x))]\\n'
     },
     'top_k_frequent': {
-        'bullets': ['Use Counter to count, then sort by -freq.', 'Return ascending for determinism if same freq.'],
-        'pseudocode': 'from collections import Counter\ncounts=Counter(nums)\nitems=sorted(counts.items(), key=lambda kv:(-kv[1], kv[0]))\nreturn [x for x,_ in items[:k]]\n'
+        'bullets': [
+            'Step 1: Find the k most frequent elements in an array. If frequencies tie, sort lexicographically.',
+            'Step 2: Import Counter from collections module - it counts element frequencies automatically.',
+            'Step 3: Use Counter(nums) to get a dictionary of element→frequency mappings.',
+            'Step 4: Convert to list of (element, frequency) tuples with counts.items().',
+            'Step 5: Sort using a lambda function with tuple key: (-frequency, element).',
+            'Step 6: Negative frequency ensures descending order (highest frequency first).',
+            'Step 7: Element in tuple ensures lexicographical order for ties (ascending).',
+            'Step 8: Use list comprehension to extract just the elements: [x for x,_ in items[:k]].',
+            'Step 9: Time: O(n log n) for sorting. Could use heap for O(n log k) but sorting is simpler.',
+            'Example: [1,1,1,2,2,3], k=2 → Counter:{1:3,2:2,3:1} → sorted:[(1,3),(2,2)] → [1,2]',
+        ],
+        'pseudocode': 'from collections import Counter\\n\\ndef top_k_frequent(nums, k):\\n    # Step 1: Count frequencies\\n    counts = Counter(nums)\\n    \\n    # Step 2: Sort by frequency (desc), then value (asc)\\n    items = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))\\n    \\n    # Step 3: Extract top k elements\\n    return [x for x, _ in items[:k]]\\n'
     },
     'kth_largest': {
         'bullets': ['Quickselect or heap; quickselect is average O(n).'],
         'pseudocode': '# quickselect partition around pivot to find index n-k\n'
     },
     'binary_search': {
-        'bullets': ['Classic low<=high, mid=(l+r)//2.', 'Compare and shrink range.'],
-        'pseudocode': 'l,r=0,len(nums)-1\nwhile l<=r:\n  m=(l+r)//2\n  if nums[m]==target: return m\n  if nums[m]<target: l=m+1\n  else: r=m-1\nreturn -1\n'
+        'bullets': [
+            'Step 1: Binary search works ONLY on sorted arrays. It finds a target in O(log n) time by halving the search space.',
+            'Step 2: Initialize two pointers: left=0 (start) and right=len(nums)-1 (end).',
+            'Step 3: While left <= right (search space not empty), calculate middle index: mid = (left+right)//2.',
+            'Step 4: Check nums[mid]. If it equals target, we found it! Return mid.',
+            'Step 5: If nums[mid] < target, the target must be in the right half. Update left = mid+1.',
+            'Step 6: If nums[mid] > target, the target must be in the left half. Update right = mid-1.',
+            'Step 7: Repeat until left > right. If we exit the loop, target not found - return -1.',
+            'Step 8: Why it works: Each comparison eliminates half the remaining elements.',
+            'Example: [1,3,5,7,9], target=7 → mid=5(not match), 7>5 so left half → mid=7(match!) → return 3',
+        ],
+        'pseudocode': 'def binary_search(nums, target):\\n    # Step 1: Initialize pointers\\n    left, right = 0, len(nums) - 1\\n    \\n    # Step 2: Search while space exists\\n    while left <= right:\\n        # Step 3: Calculate middle\\n        mid = (left + right) // 2\\n        \\n        # Step 4: Check if found\\n        if nums[mid] == target:\\n            return mid\\n        \\n        # Step 5: Narrow search space\\n        if nums[mid] < target:\\n            left = mid + 1  # Search right half\\n        else:\\n            right = mid - 1  # Search left half\\n    \\n    # Step 6: Not found\\n    return -1\\n'
     },
     'search_rotated_sorted_array': {
         'bullets': ['One half is sorted at each step.', 'Check which half target lies in and adjust.'],
@@ -1063,6 +1177,11 @@ GLOSSARY = {
     """,
     'in-place': """Transforms data using O(1) extra space (ignoring recursion/stack).
     - Often modifies input arrays directly; beware of aliasing and iteration order.
+    """,
+    'lexicographical': """Lexicographical order is the dictionary order for strings or sequences.
+    - Compares elements from left to right, just like words in a dictionary.
+    - For example: 'apple' < 'banana' because 'a' < 'b'.
+    - Used in sorting strings, permutations, and comparing arrays element-wise.
     """,
     'time complexity': """Asymptotic running time as input size grows.
     - Common: O(1), O(log n), O(n), O(n log n), O(n^2).

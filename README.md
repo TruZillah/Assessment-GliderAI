@@ -146,7 +146,73 @@ Perfect for interview prep, algorithm practice, and developing systematic proble
    - Click "Run Tests" or press Ctrl+Enter
    - Use hints, cheat sheets, and the lecture for guidance
 
-### Alternative: Command Line Testing
+### AI Assistant — OpenAI configuration
+
+This project includes an optional AI assistant that uses the OpenAI API. The app loads a `.env` file at startup (and a small loader will also pick up valid keys and set them in the environment). To enable the assistant you need to provide a valid OpenAI API key.
+
+How to get an OpenAI API key (for beginners)
+
+1. Create an OpenAI account
+   - Open your browser and go to https://platform.openai.com/signup and follow the sign-up flow (email verification may be required).
+
+2. Visit the API keys page
+   - After signing in, open https://platform.openai.com/account/api-keys. This is where you can create and manage secret API keys.
+
+3. Create a new secret key
+   - Click **Create new secret key** (or similar). Copy the key immediately and store it somewhere safe — you won't be able to view the full key again from the dashboard.
+
+4. Billing and model access
+   - New accounts may need to add a payment method to use paid models (for example, gpt-4). OpenAI sometimes provides free trial credits for new users; check the dashboard for any available credits.
+   - If you don't have access to gpt-4 via the API, use `gpt-3.5-turbo` as the `OPENAI_MODEL` value (it is lower-cost and widely available).
+
+5. Important security notes
+   - Treat API keys like passwords. Do not share them, paste them in public forums, or commit them to git. The repo already excludes `.env` in `.gitignore`.
+   - If a key is leaked, revoke it immediately from the OpenAI dashboard and create a new one.
+
+Note: the ChatGPT web UI (chat.openai.com) does not provide an API key you can use here — you must create an API key on platform.openai.com.
+
+Where to put the key
+- Create a file named `.env` in the project root (the same folder as `app.py`). The repository already ignores `.env` in `.gitignore` so your key won't be accidentally committed.
+
+Example `.env` content
+```text
+OPENAI_API_KEY=sk-<your-secret-key-here>
+# Optional: switch model (default: gpt-4)
+OPENAI_MODEL=gpt-4
+```
+
+Windows (cmd.exe) quick options
+- Create the file using Notepad (recommended to avoid shell quoting issues):
+```cmd
+notepad .env
+# paste the OPENAI_API_KEY line and save
+```
+- Or set it temporarily in the current shell (effective until you close the terminal):
+```cmd
+set OPENAI_API_KEY=sk-<your-secret-key-here>
+python app.py
+```
+
+PowerShell (optional)
+```powershell
+$env:OPENAI_API_KEY = 'sk-<your-secret-key-here>'
+python app.py
+```
+
+Important notes
+- To pick up changes in `.env` you must restart the Flask server — the app reads `.env` on startup. The repository includes a small loader and validator in `app.py` that checks for a key starting with `sk-` and will load `OPENAI_API_KEY` if valid.
+- Keep your API key secret. Do not paste it into public places or share it in commits. The repo already contains `.gitignore` with `.env` listed.
+- If you don't set a key the UI will show the AI controls disabled and the app will continue to work for running problems and tests without the assistant.
+
+Verify it's loaded
+- In cmd:
+```cmd
+echo %OPENAI_API_KEY%
+```
+- In PowerShell:
+```powershell
+echo $env:OPENAI_API_KEY
+```
 
 Run all tests without the web interface:
 ```bash

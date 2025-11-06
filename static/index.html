@@ -464,6 +464,117 @@
         }
         
         /* Cheat Sheet Section */
+        /* Lecture Section Styles */
+        .lecture-section {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            border: 2px solid #f59e0b;
+            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.2);
+        }
+        
+        .lecture-section h3 {
+            margin-bottom: 14px;
+            color: #92400e;
+            font-weight: 700;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .lecture-content {
+            background: #ffffff;
+            border: 2px solid #fbbf24;
+            border-radius: 8px;
+            padding: 20px;
+            font-size: 0.95em;
+            color: #1e293b;
+            line-height: 1.8;
+            max-height: 500px;
+            overflow-y: auto;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+        }
+        
+        .lecture-content h4 {
+            color: #92400e;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            font-size: 1.15em;
+            font-weight: 700;
+            border-bottom: 2px solid #fbbf24;
+            padding-bottom: 6px;
+        }
+        
+        .lecture-content h4:first-child {
+            margin-top: 0;
+        }
+        
+        .lecture-content h5 {
+            color: #b45309;
+            margin-top: 14px;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+            font-weight: 600;
+        }
+        
+        .lecture-content p {
+            margin: 10px 0;
+        }
+        
+        .lecture-content ul, .lecture-content ol {
+            margin: 10px 0;
+            padding-left: 30px;
+        }
+        
+        .lecture-content li {
+            margin: 6px 0;
+        }
+        
+        .lecture-content strong {
+            color: #92400e;
+            font-weight: 700;
+        }
+        
+        .lecture-content em {
+            color: #b45309;
+            font-style: italic;
+        }
+        
+        .lecture-content code {
+            background: #fef3c7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #92400e;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+        }
+        
+        .lecture-content .example-box {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 4px;
+        }
+        
+        .lecture-content .tip-box {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 4px;
+        }
+        
+        .lecture-content .warning-box {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 4px;
+        }
+
         .cheatsheet-section {
             background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
             padding: 20px;
@@ -1137,6 +1248,17 @@
                         </div>
                         <div id="cheatsheet-body">
                             <div id="cheatsheet-content" class="cheatsheet-content"></div>
+                        </div>
+                    </div>
+
+                    <!-- Lecture Section -->
+                    <div class="lecture-section hidden" id="lecture-section">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                            <h3>🎓 Problem-Solving Lecture</h3>
+                            <button class="btn-link" id="toggle-lecture">Hide lecture</button>
+                        </div>
+                        <div id="lecture-body" class="lecture-content">
+                            <!-- Content will be dynamically loaded here -->
                         </div>
                     </div>
 
@@ -2382,6 +2504,217 @@ Collections.sort(list, (a, b) -> b - a);  // Descending</pre>`
         // Cheat sheet visibility state
         let cheatsheetVisible = true;
         
+        // Lecture visibility state
+        let lectureVisible = true;
+        
+        // Comprehensive lecture content for problem-solving methodology
+        const LECTURE_CONTENT = `
+            <h4>🧠 How to Think Through Algorithm Problems</h4>
+            <p>Learning to code isn't just about memorizing syntax—it's about <strong>developing a systematic approach to problem-solving</strong>. This lecture will teach you how to break down problems and build logic from scratch.</p>
+            
+            <h4>1. The Problem-Solving Framework (UMPIRE Method)</h4>
+            <p>Use this 6-step framework for EVERY problem:</p>
+            
+            <h5>U - Understand the Problem</h5>
+            <ul>
+                <li><strong>Read carefully</strong>: What are the inputs? What should the output be?</li>
+                <li><strong>Ask questions</strong>: What are the edge cases? (empty input, negatives, duplicates?)</li>
+                <li><strong>Restate in your own words</strong>: "So I need to find... given..."</li>
+                <li><strong>Clarify constraints</strong>: Time limit? Space limit? Input size?</li>
+            </ul>
+            
+            <div class="example-box">
+                <strong>Example:</strong> "Two Sum" problem<br>
+                <em>Input:</em> array of integers, target sum<br>
+                <em>Output:</em> indices of two numbers that add up to target<br>
+                <em>Edge cases:</em> Can same element be used twice? Are numbers sorted? Negative numbers?
+            </div>
+            
+            <h5>M - Match to Patterns</h5>
+            <p>Recognize common problem patterns:</p>
+            <ul>
+                <li><strong>Two Pointers</strong>: Sorted array, palindrome, pairs with target sum</li>
+                <li><strong>Hash Map</strong>: Need to track seen values, frequency counts, lookups</li>
+                <li><strong>Sliding Window</strong>: Subarray/substring problems, maintain range</li>
+                <li><strong>Stack/Queue</strong>: Nested structures, matching pairs, BFS/DFS</li>
+                <li><strong>Binary Search</strong>: Sorted data, find in log(n) time</li>
+                <li><strong>Dynamic Programming</strong>: Optimal substructure, overlapping subproblems</li>
+            </ul>
+            
+            <div class="tip-box">
+                <strong>💡 Tip:</strong> Ask yourself: "What data structure would make this easier?" Arrays, hash maps, sets, heaps, trees?
+            </div>
+            
+            <h5>P - Plan the Approach</h5>
+            <ol>
+                <li><strong>Start with brute force</strong>: What's the obvious (but slow) solution?</li>
+                <li><strong>Analyze complexity</strong>: Is O(n²) acceptable? Can we do better?</li>
+                <li><strong>Optimize</strong>: Can we trade space for time? Use better data structure?</li>
+                <li><strong>Write pseudocode</strong>: Outline the algorithm step-by-step in plain English</li>
+            </ol>
+            
+            <div class="example-box">
+                <strong>Two Sum Planning:</strong><br>
+                <em>Brute force:</em> Try all pairs (nested loops) - O(n²)<br>
+                <em>Optimized:</em> Use hash map to store seen values - O(n)<br>
+                <em>Pseudocode:</em> "For each number, check if (target - number) exists in hash map"
+            </div>
+            
+            <h5>I - Implement the Code</h5>
+            <ul>
+                <li><strong>Write clean code</strong>: Use meaningful variable names (not x, y, z)</li>
+                <li><strong>Comment as you go</strong>: Explain WHY, not just WHAT</li>
+                <li><strong>Handle edge cases</strong>: Empty input, single element, all same values</li>
+                <li><strong>Type carefully</strong>: Watch for off-by-one errors, index bounds</li>
+            </ul>
+            
+            <h5>R - Review and Test</h5>
+            <ul>
+                <li><strong>Desk check</strong>: Walk through code with a simple example by hand</li>
+                <li><strong>Test edge cases</strong>: Empty, single element, duplicates, negatives</li>
+                <li><strong>Check loop bounds</strong>: Does i go to n or n-1? When does while loop exit?</li>
+                <li><strong>Verify logic</strong>: Are all paths covered? Any missing returns?</li>
+            </ul>
+            
+            <h5>E - Evaluate and Optimize</h5>
+            <ul>
+                <li><strong>Time complexity</strong>: O(1), O(log n), O(n), O(n log n), O(n²)?</li>
+                <li><strong>Space complexity</strong>: How much extra memory do you use?</li>
+                <li><strong>Can you do better?</strong>: Different algorithm? Better data structure?</li>
+            </ul>
+            
+            <h4>2. Building Logic from Scratch: The Mental Process</h4>
+            
+            <h5>Step 1: Start with Examples</h5>
+            <p>Before writing ANY code, work through 2-3 examples BY HAND:</p>
+            <ul>
+                <li>Write down the input</li>
+                <li>Work through the steps YOU would take manually</li>
+                <li>Write down the output</li>
+                <li>Notice the PATTERN in what you did</li>
+            </ul>
+            
+            <div class="example-box">
+                <strong>Finding Second Largest:</strong><br>
+                Input: [5, 3, 9, 7, 3]<br>
+                <em>Your mental process:</em> "Scan left to right... 5 is largest so far... 3 is second... 9 is new largest, 5 becomes second... 7 is less than 9 but more than 5, so 7 is new second..."<br>
+                <strong>Pattern discovered:</strong> Track two variables (largest and second_largest), update as you scan!
+            </div>
+            
+            <h5>Step 2: Identify the Core Logic</h5>
+            <p>Ask yourself these questions:</p>
+            <ul>
+                <li><strong>What am I tracking?</strong> (variables, data structures)</li>
+                <li><strong>What am I comparing?</strong> (conditions, if statements)</li>
+                <li><strong>What am I repeating?</strong> (loops, recursion)</li>
+                <li><strong>What changes each step?</strong> (updates, transformations)</li>
+            </ul>
+            
+            <h5>Step 3: Break into Tiny Steps</h5>
+            <p>Don't try to solve the whole problem at once. Build incrementally:</p>
+            <ol>
+                <li>Initialize variables</li>
+                <li>Loop through input</li>
+                <li>Make comparison/decision at each step</li>
+                <li>Update tracking variables</li>
+                <li>Return result</li>
+            </ol>
+            
+            <div class="tip-box">
+                <strong>💡 Key Insight:</strong> Most algorithms are just variations of: "Loop through data, make decisions, track state, return answer."
+            </div>
+            
+            <h4>3. Common Thinking Patterns</h4>
+            
+            <h5>Pattern: "I need to find/check something" → Use Hash Map</h5>
+            <p>If you're thinking "Have I seen this before?" or "Does this exist?" → Hash map/set</p>
+            <div class="example-box">
+                Two Sum, Contains Duplicate, First Non-Repeating Character
+            </div>
+            
+            <h5>Pattern: "I need to track a range/window" → Sliding Window</h5>
+            <p>If the problem mentions "substring", "subarray", "consecutive" → Sliding window</p>
+            <div class="example-box">
+                Longest Substring Without Repeating Characters, Maximum Sum Subarray
+            </div>
+            
+            <h5>Pattern: "I need to compare from both ends" → Two Pointers</h5>
+            <p>If input is sorted or you're checking symmetry → Two pointers</p>
+            <div class="example-box">
+                Palindrome, Two Sum II (sorted), Remove Duplicates
+            </div>
+            
+            <h5>Pattern: "I need to match/balance things" → Stack</h5>
+            <p>If you see "matching", "nesting", "pairs", "valid" → Stack (LIFO)</p>
+            <div class="example-box">
+                Valid Parentheses, Evaluate Expression, Next Greater Element
+            </div>
+            
+            <h5>Pattern: "I need top K items" → Heap</h5>
+            <p>If you need "largest K", "smallest K", "most frequent K" → Min/max heap</p>
+            <div class="example-box">
+                Kth Largest Element, Top K Frequent Elements, Merge K Sorted Lists
+            </div>
+            
+            <h4>4. Debugging Your Thinking</h4>
+            
+            <h5>When Stuck, Ask:</h5>
+            <ul>
+                <li><strong>"What would I do by hand?"</strong> → Mimic that in code</li>
+                <li><strong>"What information do I need to remember?"</strong> → That's your state/variables</li>
+                <li><strong>"What am I doing repeatedly?"</strong> → That's your loop</li>
+                <li><strong>"When do I stop?"</strong> → That's your base case/condition</li>
+            </ul>
+            
+            <div class="warning-box">
+                <strong>⚠️ Common Mistakes to Avoid:</strong><br>
+                • Jumping straight to code without understanding the problem<br>
+                • Not testing with simple examples first<br>
+                • Overcomplicating—start simple, then optimize<br>
+                • Forgetting edge cases (empty input, single element, all same)<br>
+                • Not checking loop bounds (off-by-one errors)
+            </div>
+            
+            <h4>5. Practice Strategy</h4>
+            
+            <h5>For Each Problem:</h5>
+            <ol>
+                <li><strong>Spend 5 minutes understanding</strong> before coding</li>
+                <li><strong>Work 2-3 examples by hand</strong> on paper</li>
+                <li><strong>Write pseudocode first</strong>, then translate to code</li>
+                <li><strong>Test with edge cases</strong> immediately</li>
+                <li><strong>Review solution</strong> even if it passes—can you improve it?</li>
+            </ol>
+            
+            <div class="tip-box">
+                <strong>💡 Meta-Learning Tip:</strong> After solving a problem, ask: "What pattern was this? When would I use this approach again?" This builds your mental toolkit!
+            </div>
+            
+            <h4>6. Building Intuition Over Time</h4>
+            <p>Problem-solving is a SKILL that improves with practice. You're not born knowing this—you build intuition by:</p>
+            <ul>
+                <li><strong>Recognizing patterns</strong> across multiple problems</li>
+                <li><strong>Understanding why</strong> solutions work, not just memorizing them</li>
+                <li><strong>Practicing regularly</strong>—even 1 problem per day builds skill</li>
+                <li><strong>Learning from mistakes</strong>—debug your thinking process</li>
+            </ul>
+            
+            <h4>📚 Summary: Your Problem-Solving Checklist</h4>
+            <ol>
+                <li>✅ Understand the problem completely (inputs, outputs, edge cases)</li>
+                <li>✅ Work through examples by hand</li>
+                <li>✅ Identify the pattern (two pointers? hash map? sliding window?)</li>
+                <li>✅ Plan your approach (pseudocode, data structures)</li>
+                <li>✅ Implement step-by-step (start simple, add complexity)</li>
+                <li>✅ Test thoroughly (happy path + edge cases)</li>
+                <li>✅ Evaluate complexity (can you do better?)</li>
+            </ol>
+            
+            <p style="margin-top: 20px; padding: 12px; background: #f0fdf4; border-radius: 6px; border-left: 4px solid #22c55e;">
+                <strong>Remember:</strong> Every expert was once a beginner. The difference is practice and persistence. Use this lecture as your roadmap, and you'll develop the problem-solving mindset that separates great programmers from the rest! 🚀
+            </p>
+        `;
+        
         // Set initial language selector value
         document.addEventListener('DOMContentLoaded', () => {
             const langSelect = document.getElementById('language-select');
@@ -2564,6 +2897,9 @@ Collections.sort(list, (a, b) -> b - a);  // Descending</pre>`
                 
                 // Render cheat sheet for current language
                 renderCheatSheet(currentLanguage);
+                
+                // Load lecture content
+                loadLecture();
 
                 // Load notepad content for this problem (preserve visibility state)
                 loadNotepadContent();
@@ -3009,6 +3345,9 @@ if (a > b) {
         
         // Cheat sheet toggle
         document.getElementById('toggle-cheatsheet').onclick = toggleCheatSheet;
+        
+        // Lecture toggle
+        document.getElementById('toggle-lecture').onclick = toggleLecture;
 
         // Check AI status on load
         (async function checkAIStatus(){
@@ -3424,6 +3763,38 @@ if (a > b) {
             }
         }
         
+        // Toggle lecture section
+        function toggleLecture() {
+            const body = document.getElementById('lecture-body');
+            const btn = document.getElementById('toggle-lecture');
+            const hidden = body.classList.contains('hidden');
+            
+            if (hidden) {
+                body.classList.remove('hidden');
+                btn.textContent = 'Hide lecture';
+                lectureVisible = true;
+            } else {
+                body.classList.add('hidden');
+                btn.textContent = 'Show lecture';
+                lectureVisible = false;
+            }
+        }
+        
+        // Load lecture content
+        function loadLecture() {
+            const lectureBody = document.getElementById('lecture-body');
+            lectureBody.innerHTML = LECTURE_CONTENT;
+            
+            // Set visibility based on state
+            const lectureSection = document.getElementById('lecture-section');
+            lectureSection.classList.remove('hidden');
+            
+            if (!lectureVisible) {
+                document.getElementById('lecture-body').classList.add('hidden');
+                document.getElementById('toggle-lecture').textContent = 'Show lecture';
+            }
+        }
+        
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             // Ctrl/Cmd + Enter to run tests
@@ -3437,13 +3808,14 @@ if (a > b) {
         const tourSteps = [
             { selector: '.sidebar', text: '<strong>1) Choose a problem</strong><br/>Pick a problem from the list to load its stub, tests, and hints.' },
             { selector: '#problem-description', text: '<strong>2) Read the description</strong><br/>Understand the function contract and sample cases.' },
-            { selector: '#notepad-section', text: '<strong>3) Plan with Notepad</strong><br/>Use the problem-solving framework to think through your approach before coding.' },
-            { selector: '#cheatsheet-section', text: '<strong>4) Language Cheat Sheet</strong><br/>Quick reference for common methods, data structures, and syntax patterns.' },
-            { selector: '#hints-section', text: '<strong>5) Use Hints</strong><br/>Reveal tips and pseudocode if you get stuck.' },
-            { selector: '#code-editor', text: '<strong>6) Write code</strong><br/>Implement the function; use Tab for indentation.' },
-            { selector: '#submit-btn', text: '<strong>7) Run tests</strong><br/>Click Run or press Ctrl+Enter to test your code.' },
-            { selector: '#debug-section', text: '<strong>8) Debug</strong><br/>Set breakpoints and run the debugger to step through your code.' },
-            { selector: '#glossary-section', text: '<strong>9) Glossary</strong><br/>Search key terms and concepts relevant to the problem.' },
+            { selector: '#lecture-section', text: '<strong>3) Learn Problem-Solving</strong><br/>Read the lecture on how to think through problems and build logic from scratch.' },
+            { selector: '#notepad-section', text: '<strong>4) Plan with Notepad</strong><br/>Use the problem-solving framework to think through your approach before coding.' },
+            { selector: '#cheatsheet-section', text: '<strong>5) Language Cheat Sheet</strong><br/>Quick reference for common methods, data structures, and syntax patterns.' },
+            { selector: '#hints-section', text: '<strong>6) Use Hints</strong><br/>Reveal step-by-step tips and pseudocode if you get stuck.' },
+            { selector: '#code-editor', text: '<strong>7) Write code</strong><br/>Implement the function; use Tab for indentation.' },
+            { selector: '#submit-btn', text: '<strong>8) Run tests</strong><br/>Click Run or press Ctrl+Enter to test your code.' },
+            { selector: '#debug-section', text: '<strong>9) Debug</strong><br/>Set breakpoints and run the debugger to step through your code.' },
+            { selector: '#glossary-section', text: '<strong>10) Glossary</strong><br/>Search key terms and concepts relevant to the problem.' },
         ];
         let tourIdx = 0;
         let tourActive = false;

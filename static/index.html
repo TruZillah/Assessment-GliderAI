@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Assessment Practice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+            min-height: 100vh;
+            padding: 24px;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 24px 48px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+            color: white;
+            padding: 32px 40px;
+            text-align: center;
+            position: relative;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.25em;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .header p {
+            font-size: 1em;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+        
+        .language-selector {
+            position: absolute;
+            top: 32px;
+            right: 40px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .language-selector label {
+            font-weight: 600;
+            font-size: 14px;
+            opacity: 0.95;
+        }
+        
+        .language-selector select {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 2px solid rgba(255,255,255,0.25);
+            background: rgba(255,255,255,0.15);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.25s ease;
+            min-width: 160px;
+        }
+        
+        .language-selector select:hover {
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.4);
+            transform: translateY(-1px);
+        }
+        
+        .language-selector select:focus {
+            outline: none;
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.5);
+        }
+        
+        .language-selector select option {
+            background: #6366f1;
+            color: white;
+        }
+        
+        .help-btn {
+            position: absolute;
+            top: 32px;
+            right: 300px;
+            padding: 10px 18px;
+            background: rgba(255,255,255,0.15);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.25);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            z-index: 100;
+            transition: all 0.25s ease;
+        }
+        .help-btn:hover { 
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.4);
+            transform: translateY(-1px);
+        }
+        .help-btn:active {
+            transform: translateY(0);
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            min-height: 700px;
+        }
+        
+        .sidebar {
+            background: #f8fafc;
+            padding: 24px;
+            border-right: 1px solid #e2e8f0;
+        }
+        
+        .sidebar h3 {
+            margin-bottom: 16px;
+            color: #1e293b;
+            font-size: 1.1em;
+            font-weight: 700;
+        }
+        
+        .problem-list {
+            list-style: none;
+        }
+        
+        .problem-item {
+            padding: 14px 16px;
+            margin-bottom: 8px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            color: #334155;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        .problem-item:hover {
+            border-color: #8b5cf6;
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+        }
+        
+        .problem-item.active {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border-color: #6366f1;
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            font-size: 0.7em;
+            padding: 3px 8px;
+            border-radius: 5px;
+            margin-left: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .difficulty-easy {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .difficulty-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .difficulty-hard {
+            background: #fecdd3;
+            color: #991b1b;
+        }
+        
+        .problem-title {
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        
+        .workspace {
+            padding: 32px;
+            background: #ffffff;
+        }
+        
+        .problem-header {
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .problem-header h2 {
+            color: #1e293b;
+            margin-bottom: 12px;
+            font-weight: 700;
+            font-size: 1.8em;
+        }
+        
+        .problem-description {
+            color: #475569;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-size: 1.05em;
+        }
+        
+        .timer-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            color: #334155;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            margin-left: 12px;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            border: 1px solid #cbd5e1;
+        }
+        
+        .test-cases {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        
+        .test-cases h4 {
+            margin-bottom: 12px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+        
+        .editor-section {
+            margin-bottom: 24px;
+        }
+        
+        .editor-section h3 {
+            margin-bottom: 14px;
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 1.3em;
+        }
+        .editor-wrapper {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #282c34;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+        .code-gutter {
+            background: #21252b;
+            color: #636d83;
+            padding: 14px 10px 14px 14px;
+            -webkit-user-select: none;
+            user-select: none;
+            font-weight: 500;
+            text-align: right;
+            min-width: 46px;
+            border-right: 1px solid #3a3f4b;
+            overflow: hidden; /* scroll synced via JS */
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .gutter-line { display: flex; align-items: center; gap: 6px; height: 1.5em; }
+        .gutter-num { width: 28px; opacity: 0.8; }
+        .gutter-bp { width: 10px; height: 10px; border-radius: 50%; background: transparent; border: 1px solid transparent; cursor: pointer; }
+        .gutter-line:hover .gutter-bp { border-color: #9aa0a6; }
+        .gutter-bp.set { background: #ff6b6b; border-color: #ff6b6b; }
+        
+        #code-editor {
+            width: 100%;
+            min-height: 400px;
+            height: 400px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            padding: 12px 12px 12px 12px;
+            border: none;
+            resize: none;
+            background: #282c34;
+            color: #abb2bf;
+            line-height: 1.5;
+            outline: none;
+            overflow: auto;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: #64748b;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #475569;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(100, 116, 139, 0.3);
+        }
+        
+        .btn-secondary:active {
+            transform: translateY(0);
+        }
+        
+        .keyboard-hint {
+            opacity: 0.7;
+            font-size: 0.85em;
+            margin-left: 6px;
+        }
+
+        /* Syntax docs */
+        .syntax-section {
+            margin-top: 20px;
+        }
+        .syntax-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .syntax-toggle {
+            padding: 8px 14px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .syntax-toggle:hover {
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.1) 100%);
+            transform: translateY(-1px);
+        }
+        .syntax-body {
+            margin-top: 10px;
+            padding: 16px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        .syntax-body pre {
+            margin: 0;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        .results-section {
+            margin-top: 24px;
+        }
+
+        .hints-section {
+            margin: 20px 0 28px 0;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .hints-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 14px 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .hints-body {
+            padding: 18px 20px;
+            background: #ffffff;
+        }
+        .hints-body pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            line-height: 1.6;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .hints-title {
+            margin: 0;
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+        .hints-bullets {
+            margin-left: 20px;
+            margin-bottom: 14px;
+            color: #475569;
+            line-height: 1.7;
+        }
+        .pseudo-title {
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+        .btn-link {
+            background: transparent;
+            color: #6366f1;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .btn-link:hover {
+            text-decoration: underline;
+            color: #4f46e5;
+        }
+        .pseudo-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .btn-copy {
+            padding: 7px 14px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+        .btn-copy:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+        .btn-copy:active {
+            transform: scale(0.95);
+        }
+        .btn-copy.copied {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .results-header {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 18px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .results-summary {
+            font-size: 1.15em;
+            font-weight: 700;
+        }
+        
+        .results-summary.passed {
+            color: #10b981;
+        }
+        
+        .results-summary.failed {
+            color: #ef4444;
+        }
+        
+        .test-result {
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            border-left: 4px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+        
+        .test-result:hover {
+            transform: translateX(2px);
+        }
+        
+        .test-result.pass {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border-left-color: #10b981;
+        }
+        
+        .test-result.fail {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-left-color: #ef4444;
+        }
+        
+        .test-result-header {
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 1.05em;
+        }
+        
+        .test-detail {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 6px 0;
+            line-height: 1.5;
+        }
+        
+        .error-box {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border: 2px solid #fca5a5;
+            color: #991b1b;
+            padding: 18px 20px;
+            border-radius: 10px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 24px;
+            color: #64748b;
+            font-weight: 500;
+        }
+        
+        .hidden {
+            display: none;
+        }
+
+        /* Debugger styles */
+        .debug-section {
+            margin: 20px 0 28px 0;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .debug-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 14px 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .debug-body {
+            padding: 18px 20px;
+            background: #ffffff;
+        }
+        .debug-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+        .debug-controls .full { grid-column: 1 / -1; }
+        .debug-select, .debug-input {
+            width: 100%; padding: 10px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.95em;
+            transition: border-color 0.2s ease;
+        }
+        .debug-select:focus, .debug-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+        .debug-run {
+            padding: 12px 20px; background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); color: white; border: none; 
+            border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
+        }
+        .debug-run:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4);
+        }
+        .trace-step { 
+            padding: 14px; border-left: 4px solid #e2e8f0; background: #f8fafc; border-radius: 8px; margin-bottom: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .trace-line { font-family: 'Courier New', monospace; margin-bottom: 8px; line-height: 1.5; }
+        .locals-grid { display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px; }
+        .locals-key { font-weight: 600; color: #1e293b; }
+        .locals-val { font-family: 'Courier New', monospace; color: #475569; }
+    .trace-nav { display: flex; gap: 10px; align-items: center; margin: 10px 0; }
+    .flex-row { display: flex; gap: 12px; align-items: center; }
+        .btn-small { 
+            padding: 7px 12px; border-radius: 8px; border: none; cursor: pointer; 
+            background: #64748b; color: #fff; font-weight: 600; transition: all 0.2s ease;
+        }
+        .btn-small:hover { 
+            background: #475569;
+            transform: translateY(-1px);
+        }
+
+        /* Glossary styles */
+        .glossary-section {
+            margin: 20px 0 28px 0;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .glossary-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 14px 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .glossary-body {
+            padding: 18px 20px;
+            background: #ffffff;
+        }
+        .glossary-search {
+            width: 100%;
+            padding: 10px 14px;
+            margin-bottom: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            transition: border-color 0.2s ease;
+        }
+        .glossary-search:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+        .glossary-item {
+            padding: 14px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .glossary-item:last-child { border-bottom: none; }
+        .term-title {
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 1.05em;
+        }
+        .term-definition {
+            color: #475569;
+            margin-top: 6px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+        .term-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        /* Onboarding tour */
+        .tour-overlay { 
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; 
+            display: flex; align-items: center; justify-content: center;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        .tour-card { 
+            background: #fff; border-radius: 16px; padding: 24px 28px; width: min(600px, 92vw); 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .tour-text { color: #1e293b; margin-bottom: 16px; line-height: 1.6; font-size: 1.05em; }
+        .tour-actions { display: flex; justify-content: space-between; align-items: center; }
+        .tour-actions-right { display: flex; gap: 12px; }
+        .btn-ghost { 
+            background: transparent; border: 2px solid #e2e8f0; color: #64748b; 
+            padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-ghost:hover { 
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+        .btn-primary-small { 
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); 
+            border: none; color: #fff; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        }
+        .btn-primary-small:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+        .tour-highlight { outline: 3px solid #fbbf24; outline-offset: 4px; border-radius: 8px; transition: outline-color 0.2s ease; }
+
+        /* AI Assistant */
+        .ai-section { 
+            margin: 20px 0 28px 0; border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .ai-header { 
+            display: flex; align-items: center; justify-content: space-between; 
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); 
+            padding: 14px 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .ai-body { padding: 18px 20px; background: #ffffff; }
+        .ai-controls { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px; }
+        .ai-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+        .ai-textarea { 
+            width: 100%; min-height: 90px; resize: vertical; padding: 12px 14px; 
+            border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.95em;
+            transition: border-color 0.2s ease;
+            line-height: 1.5;
+        }
+        .ai-textarea:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+        .ai-run { 
+            padding: 12px 20px; background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%); 
+            color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3);
+        }
+        .ai-run:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+        }
+        .ai-output { border-top: 2px solid #e2e8f0; padding-top: 16px; margin-top: 16px; }
+        .ai-answer { 
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); 
+            border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; white-space: pre-wrap; 
+            color: #1e293b; line-height: 1.6;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .ai-actions { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>� Multi-Language Assessment Practice</h1>
+            <p>Select a problem, write your solution, and test it instantly</p>
+            <div class="language-selector">
+                <label for="language-select">Language:</label>
+                <select id="language-select">
+                    <option value="python">Python 🐍</option>
+                    <option value="javascript">JavaScript 📜</option>
+                    <option value="java">Java ☕</option>
+                    <option value="cpp">C++ ⚡</option>
+                </select>
+            </div>
+            <button id="open-tour" class="help-btn">❓ Help & Tour</button>
+        </div>
+        
+        <div class="main-content">
+            <div class="sidebar">
+                <h3>Problems</h3>
+                <ul class="problem-list" id="problem-list">
+                    <li class="loading">Loading problems...</li>
+                </ul>
+            </div>
+            
+            <div class="workspace">
+                <div id="problem-view" class="hidden">
+                    <div class="problem-header">
+                        <h2 id="problem-title">
+                            <span id="problem-title-text">Select a problem</span>
+                            <span class="timer-badge" id="timer">⏱️ 00:00</span>
+                        </h2>
+                        <p class="problem-description" id="problem-description"></p>
+                    </div>
+                    
+                    <div id="test-cases-section" class="test-cases hidden">
+                        <h4>Sample Test Cases:</h4>
+                        <div id="test-cases"></div>
+                    </div>
+
+                    <div class="hints-section hidden" id="hints-section">
+                        <div class="hints-header">
+                            <h3 class="hints-title">💡 Hints</h3>
+                            <button class="btn-link" id="toggle-hints">Show hints</button>
+                        </div>
+                        <div class="hints-body hidden" id="hints-body">
+                            <ul id="hints-bullets" class="hints-bullets"></ul>
+                            <div>
+                                <div class="pseudo-header">
+                                    <div class="pseudo-title">Pseudocode</div>
+                                    <button class="btn-copy" id="copy-pseudo-btn" title="Copy the pseudocode to your clipboard">📋 Copy</button>
+                                </div>
+                                <pre id="hints-pseudocode"></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="editor-section">
+                        <h3>Your Solution:</h3>
+                        <div class="editor-wrapper">
+                            <div id="code-gutter" class="code-gutter"></div>
+                            <textarea id="code-editor" spellcheck="false" title="Write your solution here. Use Tab to indent."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="debug-section" id="debug-section">
+                        <div class="debug-header">
+                            <h3 class="hints-title">🪲 Debugger</h3>
+                            <button class="btn-link" id="toggle-debug">Show debugger</button>
+                        </div>
+                        <div class="debug-body hidden" id="debug-body">
+                            <div class="debug-controls">
+                                <div>
+                                    <label for="debug-test" class="pseudo-title">Test case</label>
+                                    <select id="debug-test" class="debug-select"></select>
+                                </div>
+                                <div>
+                                    <label for="debug-bps" class="pseudo-title">Breakpoints (lines)</label>
+                                    <input id="debug-bps" class="debug-input" placeholder="e.g., 3,7,12" />
+                                </div>
+                                <div class="full">
+                                    <label for="debug-custom" class="pseudo-title">Custom args (JSON array) — optional</label>
+                                    <input id="debug-custom" class="debug-input" placeholder='e.g., ["abc", 2, [1,2]]' />
+                                </div>
+                                <div class="full flex-row">
+                                    <button id="debug-run" class="debug-run" title="Run the debugger with the selected test or custom args">▶ Run Debug</button>
+                                    <button id="debug-guide" class="btn-small">Guide me</button>
+                                    <div id="debug-meta" class="keyboard-hint"></div>
+                                </div>
+                            </div>
+                            <div id="debug-output"></div>
+                        </div>
+                    </div>
+
+                    <div class="glossary-section hidden" id="glossary-section">
+                        <div class="glossary-header">
+                            <h3 class="hints-title">📚 Glossary</h3>
+                            <button class="btn-link" id="toggle-glossary">Show glossary</button>
+                        </div>
+                        <div class="glossary-body hidden" id="glossary-body">
+                            <input type="text" id="glossary-search" class="glossary-search" placeholder="Filter terms... (e.g., sliding window)">
+                            <div id="glossary-list"></div>
+                        </div>
+                    </div>
+
+                    <div class="ai-section" id="ai-section">
+                        <div class="ai-header">
+                            <h3 class="hints-title">🤖 AI Assistant</h3>
+                            <button class="btn-link" id="toggle-ai">Show assistant</button>
+                        </div>
+                        <div class="ai-body hidden" id="ai-body">
+                            <div class="ai-controls">
+                                <textarea id="ai-prompt" class="ai-textarea" placeholder="Ask a question about the current problem or your code..."></textarea>
+                                <div class="ai-row">
+                                    <label><input type="checkbox" id="ai-inc-desc" checked> Include description</label>
+                                    <label><input type="checkbox" id="ai-inc-code" checked> Include my code</label>
+                                    <label><input type="checkbox" id="ai-inc-tests" checked> Include sample tests</label>
+                                    <label><input type="checkbox" id="ai-inc-hints"> Include hints/pseudocode</label>
+                                </div>
+                                <div class="ai-row">
+                                    <button id="ai-ask" class="ai-run" title="Send your question to the AI assistant">Ask AI</button>
+                                    <div id="ai-meta" class="keyboard-hint"></div>
+                                </div>
+                            </div>
+                            <div class="ai-output" id="ai-output"></div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" id="submit-btn" title="Run tests for the selected problem (Ctrl+Enter)">▶ Run Tests <span class="keyboard-hint">(Ctrl+Enter)</span></button>
+                        <button class="btn btn-secondary" id="reset-btn" title="Reset the editor to the original problem stub">↺ Reset Code</button>
+                    </div>
+                    
+                    <div id="results-section" class="results-section hidden">
+                        <div class="results-header">
+                            <div class="results-summary" id="results-summary"></div>
+                        </div>
+                        <div id="test-results"></div>
+                    </div>
+                </div>
+                
+                <div id="welcome-message">
+                    <h2>Welcome to Python Practice!</h2>
+                    <p>Select a problem from the sidebar to get started.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Onboarding Tour Overlay -->
+    <div id="tour-overlay" class="tour-overlay hidden">
+        <div class="tour-card">
+            <div class="tour-text" id="tour-text"></div>
+            <div class="tour-actions">
+                <button id="tour-skip" type="button" class="btn-ghost">Skip</button>
+                <div class="tour-actions-right">
+                    <button id="tour-prev" type="button" class="btn-ghost">Prev</button>
+                    <button id="tour-next" type="button" class="btn-primary-small">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentProblem = null;
+        let originalStub = '';
+        let currentHints = null;
+        let hintVisibilityState = {}; // Remember hint visibility per problem
+        let timerInterval = null;
+        let timerSeconds = 0;
+        let glossaryCache = null; // Cache of all terms
+        let glossaryVisibleState = false; // single toggle
+        let debugTrace = [];
+        let debugIndex = 0;
+        let editorBps = new Set();
+        let currentLanguage = localStorage.getItem('selectedLanguage') || 'python';
+        
+        // Set initial language selector value
+        document.addEventListener('DOMContentLoaded', () => {
+            const langSelect = document.getElementById('language-select');
+            langSelect.value = currentLanguage;
+            
+            langSelect.addEventListener('change', (e) => {
+                currentLanguage = e.target.value;
+                localStorage.setItem('selectedLanguage', currentLanguage);
+                
+                // Reload current problem with new language
+                if (currentProblem) {
+                    loadProblem(currentProblem.name);
+                }
+                
+                // Update editor placeholder
+                updateEditorPlaceholder();
+                
+                // Update debugger visibility
+                updateDebuggerVisibility();
+
+                // Update syntax docs for new language
+                renderSyntaxDocs(currentLanguage);
+            });
+        });
+        
+        function updateEditorPlaceholder() {
+            const editor = document.getElementById('code-editor');
+            const placeholders = {
+                python: '# Write your Python solution here...',
+                javascript: '// Write your JavaScript solution here...',
+                java: '// Write your Java solution here...',
+                cpp: '// Write your C++ solution here...'
+            };
+            editor.placeholder = placeholders[currentLanguage] || '// Write your solution here...';
+        }
+        
+        function updateDebuggerVisibility() {
+            const debugSection = document.getElementById('debug-section');
+            const debugHeader = debugSection.querySelector('.debug-header');
+            const debugBody = document.getElementById('debug-body');
+            const toggleBtn = document.getElementById('toggle-debug');
+            
+            if (currentLanguage !== 'python') {
+                // Hide debugger for non-Python languages
+                debugBody.classList.add('hidden');
+                toggleBtn.disabled = true;
+                toggleBtn.style.opacity = '0.5';
+                toggleBtn.style.cursor = 'not-allowed';
+                toggleBtn.textContent = 'Debugger (Python only)';
+                toggleBtn.title = 'The step debugger is only available for Python';
+            } else {
+                // Show debugger for Python
+                toggleBtn.disabled = false;
+                toggleBtn.style.opacity = '1';
+                toggleBtn.style.cursor = 'pointer';
+                toggleBtn.textContent = debugBody.classList.contains('hidden') ? 'Show debugger' : 'Hide debugger';
+                toggleBtn.title = '';
+            }
+        }
+        
+        // Load problems on page load
+        async function loadProblems() {
+            try {
+                const response = await fetch('/api/problems');
+                const problems = await response.json();
+                
+                const listEl = document.getElementById('problem-list');
+                listEl.innerHTML = '';
+                
+                problems.forEach(problem => {
+                    const li = document.createElement('li');
+                    li.className = 'problem-item';
+                    const difficulty = getDifficulty(problem.name);
+                    const badge = `<span class="difficulty-badge difficulty-${difficulty}">${difficulty}</span>`;
+                    li.innerHTML = `<div class="problem-title">${problem.title}${badge}</div>`;
+                    // Pass the element itself to avoid relying on event.target
+                    li.onclick = () => loadProblem(problem.name, li);
+                    listEl.appendChild(li);
+                });
+                // Auto-select the first problem for better UX
+                if (problems.length > 0 && listEl.firstChild) {
+                    loadProblem(problems[0].name, listEl.firstChild);
+                }
+            } catch (error) {
+                console.error('Failed to load problems:', error);
+                document.getElementById('problem-list').innerHTML = '<li>Error loading problems</li>';
+            }
+        }
+        
+        // Load specific problem
+        async function loadProblem(name, el) {
+            try {
+                const response = await fetch(`/api/problem/${name}?language=${currentLanguage}`);
+                if (!response.ok) {
+                    throw new Error(`Failed to load problem: ${response.statusText}`);
+                }
+                const problem = await response.json();
+                
+                // Validate problem structure
+                if (!problem.tests || !Array.isArray(problem.tests)) {
+                    console.error('Invalid problem structure:', problem);
+                    throw new Error('Problem data is missing tests array');
+                }
+                
+                currentProblem = problem;
+                originalStub = problem.stub;
+                
+                // Update active state in sidebar
+                document.querySelectorAll('.problem-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                if (el) {
+                    el.classList.add('active');
+                }
+                
+                // Show problem view
+                document.getElementById('welcome-message').classList.add('hidden');
+                document.getElementById('problem-view').classList.remove('hidden');
+                
+                // Update content
+                console.log('Loading problem:', problem);
+                document.getElementById('problem-title-text').textContent = problem.title;
+                document.getElementById('problem-description').textContent = problem.description;
+                
+                // Show test cases
+                const testCasesEl = document.getElementById('test-cases');
+                testCasesEl.innerHTML = problem.tests.map((test, i) => 
+                    `<div>Test ${i+1}: ${test.args} → ${test.expected}</div>`
+                ).join('');
+                document.getElementById('test-cases-section').classList.remove('hidden');
+                
+                // Load code
+                document.getElementById('code-editor').value = problem.stub;
+                editorBps.clear();
+                refreshEditorUI();
+                // Reset debug breakpoints input
+                const bpsInput = document.getElementById('debug-bps');
+                if (bpsInput) bpsInput.value = '';
+                
+                // Populate debug test selector
+                const debugSel = document.getElementById('debug-test');
+                debugSel.innerHTML = problem.tests.map((t, i) => `<option value="${i}">Test ${i+1}: ${t.args}</option>`).join('') || '<option value="0">(no tests)</option>';
+
+                // Load hints
+                currentHints = problem.hints || null;
+                const hintsSection = document.getElementById('hints-section');
+                const hintsBody = document.getElementById('hints-body');
+                const bulletsEl = document.getElementById('hints-bullets');
+                const pseudoEl = document.getElementById('hints-pseudocode');
+                if (currentHints) {
+                    hintsSection.classList.remove('hidden');
+                    // Restore hint visibility state from memory
+                    const wasVisible = hintVisibilityState[problem.name];
+                    if (wasVisible) {
+                        hintsBody.classList.remove('hidden');
+                        document.getElementById('toggle-hints').textContent = 'Hide hints';
+                    } else {
+                        hintsBody.classList.add('hidden');
+                        document.getElementById('toggle-hints').textContent = 'Show hints';
+                    }
+                    // Render bullets
+                    const bullets = (currentHints.bullets || []).map(b => `<li>${b}</li>`).join('');
+                    bulletsEl.innerHTML = bullets || '<li>No hints available.</li>';
+                    // Render pseudocode - replace escaped newlines with actual newlines
+                    const pseudocode = (currentHints.pseudocode || '').trim().replace(/\\n/g, '\n');
+                    pseudoEl.textContent = pseudocode;
+                } else {
+                    hintsSection.classList.add('hidden');
+                }
+
+                // Load glossary (fetch once, then filter per problem)
+                await ensureGlossary();
+                renderGlossary(problem.terms || []);
+
+                // Update debugger visibility based on language
+                updateDebuggerVisibility();
+
+                // Render language syntax docs for the selected language
+                renderSyntaxDocs(currentLanguage);
+
+                // Reset and start timer
+                resetTimer();
+                startTimer();
+
+                // Hide results
+                document.getElementById('results-section').classList.add('hidden');
+            } catch (error) {
+                console.error('Failed to load problem:', error);
+                alert('Error loading problem: ' + error.message);
+            }
+        }
+
+        // Inject syntax docs section markup into the right column under hints
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inject syntax docs under hints or at end of problem view
+            const container = document.getElementById('problem-view') || document.querySelector('.workspace') || document.body;
+            if (!document.getElementById('syntax-section')) {
+                const section = document.createElement('section');
+                section.id = 'syntax-section';
+                section.className = 'syntax-section';
+                section.innerHTML = `
+                    <div class="syntax-header">
+                        <h3 style="margin:0;">Language syntax</h3>
+                        <button id="toggle-syntax" class="syntax-toggle" type="button">Show</button>
+                    </div>
+                    <div id="syntax-body" class="syntax-body hidden">
+                        <div id="syntax-content"></div>
+                    </div>
+                `;
+                const hints = document.getElementById('hints-section');
+                if (hints && hints.parentNode) {
+                    hints.parentNode.insertBefore(section, hints.nextSibling);
+                } else {
+                    container.appendChild(section);
+                }
+
+                // Toggle wiring
+                const toggleBtn = section.querySelector('#toggle-syntax');
+                const body = section.querySelector('#syntax-body');
+                toggleBtn.addEventListener('click', () => {
+                    const isHidden = body.classList.toggle('hidden');
+                    toggleBtn.textContent = isHidden ? 'Show' : 'Hide';
+                });
+
+                // Render initial docs
+                renderSyntaxDocs(currentLanguage);
+            }
+        });
+        
+                // Language Syntax Docs
+                const LANG_SYNTAX = {
+                        'python': `
+<pre><code># Function
+def foo(a, b=0):
+        return a + b
+
+# Print
+print("hello")
+
+# Lists / Dicts
+nums = [1, 2, 3]
+mp = {"a": 1, "b": 2}
+
+# Loop
+for x in nums:
+        print(x)
+
+# If
+if a > b:
+        ...
+else:
+        ...</code></pre>`,
+                        'javascript': `
+<pre><code>// Function
+function foo(a, b = 0) {
+    return a + b;
+}
+
+// Print
+console.log("hello");
+
+// Arrays / Objects
+const nums = [1, 2, 3];
+const mp = { a: 1, b: 2 };
+
+// Loop
+for (const x of nums) {
+    console.log(x);
+}
+
+// If
+if (a > b) {
+    // ...
+} else {
+    // ...
+}</code></pre>`,
+                        'java': `
+<pre><code>// Method in class Solution
+public class Solution {
+    public int foo(int a, int b) {
+        return a + b;
+    }
+}
+
+// Print
+System.out.println("hello");
+
+// Arrays / Map
+int[] nums = new int[]{1,2,3};
+Map<String,Integer> mp = new HashMap<>();
+mp.put("a", 1);
+
+// Loop
+for (int x : nums) {
+    System.out.println(x);
+}
+
+// If
+if (a > b) {
+    // ...
+} else {
+    // ...
+}</code></pre>`,
+                        'cpp': `
+<pre><code>// Function
+int foo(int a, int b) {
+    return a + b;
+}
+
+// Print
+#include <iostream>
+std::cout << "hello" << std::endl;
+
+// Vector / Unordered Map
+#include <vector>
+#include <unordered_map>
+std::vector<int> nums{1,2,3};
+std::unordered_map<std::string,int> mp{{"a",1},{"b",2}};
+
+// Loop
+for (int x : nums) {
+    std::cout << x << std::endl;
+}
+
+// If
+if (a > b) {
+    // ...
+} else {
+    // ...
+}</code></pre>`
+                };
+
+        function renderSyntaxDocs(lang) {
+            const section = document.getElementById('syntax-section');
+            const content = document.getElementById('syntax-content');
+            if (!section || !content) return; // Section not present yet
+            const doc = LANG_SYNTAX[lang];
+            if (doc) {
+                section.classList.remove('hidden');
+                content.innerHTML = doc;
+            } else {
+                section.classList.add('hidden');
+                content.innerHTML = '';
+            }
+        }
+        
+        // Submit solution
+        async function submitSolution() {
+            if (!currentProblem) {
+                alert('Please select a problem first');
+                return;
+            }
+            
+            const code = document.getElementById('code-editor').value;
+            const submitBtn = document.getElementById('submit-btn');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Running...';
+            
+            try {
+                const response = await fetch('/api/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        problem: currentProblem.name,
+                        code: code,
+                        language: currentLanguage
+                    })
+                });
+                
+                const result = await response.json();
+                displayResults(result);
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert('Error submitting solution');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Run Tests';
+            }
+        }
+        
+        // Display results
+        function displayResults(result) {
+            const resultsSection = document.getElementById('results-section');
+            const summaryEl = document.getElementById('results-summary');
+            const testResultsEl = document.getElementById('test-results');
+            
+            resultsSection.classList.remove('hidden');
+            
+            if (result.error) {
+                summaryEl.className = 'results-summary failed';
+                summaryEl.textContent = `❌ Error`;
+                testResultsEl.innerHTML = `<div class="error-box">${result.error}</div>`;
+                return;
+            }
+            
+            const allPassed = result.passed === result.total;
+            summaryEl.className = `results-summary ${allPassed ? 'passed' : 'failed'}`;
+            summaryEl.textContent = `${allPassed ? '✅' : '❌'} ${result.passed}/${result.total} tests passed`;
+            
+            testResultsEl.innerHTML = result.results.map(test => {
+                const status = test.passed ? 'pass' : 'fail';
+                const icon = test.passed ? '✅' : '❌';
+                
+                let html = `
+                    <div class="test-result ${status}">
+                        <div class="test-result-header">${icon} Test ${test.test_num}</div>
+                        <div class="test-detail">Input: ${test.args}</div>
+                        <div class="test-detail">Expected: ${test.expected}</div>
+                        <div class="test-detail">Actual: ${test.actual || 'N/A'}</div>
+                `;
+                
+                if (test.error) {
+                    html += `<div class="test-detail" style="color: #dc3545;">Error: ${test.error}</div>`;
+                }
+                
+                html += `</div>`;
+                return html;
+            }).join('');
+        }
+        
+        // Reset code
+        function resetCode() {
+            if (confirm('Reset code to original stub?')) {
+                document.getElementById('code-editor').value = originalStub;
+                document.getElementById('results-section').classList.add('hidden');
+            }
+        }
+        
+        // Event listeners
+        document.getElementById('submit-btn').onclick = submitSolution;
+        document.getElementById('reset-btn').onclick = resetCode;
+        document.getElementById('toggle-hints').onclick = () => {
+            const body = document.getElementById('hints-body');
+            const btn = document.getElementById('toggle-hints');
+            const hidden = body.classList.contains('hidden');
+            if (hidden) {
+                body.classList.remove('hidden');
+                btn.textContent = 'Hide hints';
+                if (currentProblem) {
+                    hintVisibilityState[currentProblem.name] = true;
+                }
+            } else {
+                body.classList.add('hidden');
+                btn.textContent = 'Show hints';
+                if (currentProblem) {
+                    hintVisibilityState[currentProblem.name] = false;
+                }
+            }
+        };
+
+        // Debugger toggle
+        document.getElementById('toggle-debug').onclick = () => {
+            const body = document.getElementById('debug-body');
+            const btn = document.getElementById('toggle-debug');
+            const hidden = body.classList.contains('hidden');
+            if (hidden) { body.classList.remove('hidden'); btn.textContent = 'Hide debugger'; }
+            else { body.classList.add('hidden'); btn.textContent = 'Show debugger'; }
+        };
+
+        // Run debug
+        document.getElementById('debug-run').onclick = runDebug;
+        // Keep gutter and input in sync when user types breakpoints
+        const debugBpsEl = document.getElementById('debug-bps');
+        if (debugBpsEl) {
+            debugBpsEl.addEventListener('change', syncEditorBpsFromInput);
+        }
+
+        async function runDebug() {
+            if (!currentProblem) { alert('Select a problem first'); return; }
+            const code = document.getElementById('code-editor').value;
+            const testIndex = parseInt(document.getElementById('debug-test').value || '0', 10) || 0;
+            const custom = document.getElementById('debug-custom').value.trim();
+            const typedBps = (document.getElementById('debug-bps').value || '')
+                .split(',').map(x => parseInt(x.trim(), 10)).filter(x => !isNaN(x));
+            // Merge typed + gutter breakpoints (dedupe)
+            const merged = new Set([...(typedBps || []), ...editorBps]);
+            const bps = Array.from(merged).sort((a,b)=>a-b);
+
+            const payload = { problem: currentProblem.name, code, testIndex, breakpoints: bps, maxSteps: 500 };
+            if (custom) { payload.customArgsJson = custom; }
+
+            const meta = document.getElementById('debug-meta');
+            meta.textContent = 'Running…';
+            try {
+                const res = await fetch('/api/debug', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const dbg = await res.json();
+                if (!res.ok || dbg.error) {
+                    renderDebugError(dbg.error || `HTTP ${res.status}`);
+                    meta.textContent = '';
+                    return;
+                }
+                debugTrace = dbg.trace || [];
+                debugIndex = 0;
+                renderDebugOutput(dbg);
+                meta.textContent = (dbg.truncated ? 'Trace truncated. ' : '') + `Steps: ${debugTrace.length}`;
+            } catch (e) {
+                renderDebugError('Failed to run debug: ' + e.message);
+                meta.textContent = '';
+            }
+        }
+
+        function renderDebugError(msg) {
+            document.getElementById('debug-output').innerHTML = `<div class="error-box">${msg}</div>`;
+        }
+
+        function renderDebugOutput(dbg) {
+            const out = document.getElementById('debug-output');
+            if (!debugTrace.length) { out.innerHTML = '<div>No trace captured.</div>'; return; }
+
+            const nav = `
+                <div class="trace-nav">
+                    <button class="btn-small" onclick="window.__dbgPrev()">◀ Prev</button>
+                    <div>Step <span id="dbg-step">${debugIndex+1}</span>/<span id="dbg-total">${debugTrace.length}</span></div>
+                    <button class="btn-small" onclick="window.__dbgNext()">Next ▶</button>
+                </div>`;
+
+            const step = debugTrace[debugIndex];
+            const localsHtml = Object.entries(step.locals || {}).map(([k,v]) =>
+                `<div class="locals-key">${k}</div><div class="locals-val">${v}</div>`
+            ).join('') || '<div>(no locals)</div>';
+
+            out.innerHTML = `
+                ${nav}
+                <div class="trace-step">
+                    <div class="trace-line"><strong>${step.event.toUpperCase()}</strong> line ${step.line}: <code>${escapeHtml(step.code || '')}</code></div>
+                    ${step.return ? `<div class="test-detail">Return: ${escapeHtml(String(step.return))}</div>` : ''}
+                    <div class="test-detail"><strong>Locals:</strong></div>
+                    <div class="locals-grid">${localsHtml}</div>
+                </div>
+                <div class="test-detail"><strong>Args used:</strong> ${escapeHtml(String(dbg.argsUsed || ''))}</div>
+                ${dbg.stdout ? `<div class="test-detail"><strong>Stdout:</strong> <pre>${escapeHtml(dbg.stdout)}</pre></div>` : ''}
+                ${dbg.stderr ? `<div class="test-detail" style="color:#dc3545;"><strong>Stderr:</strong> <pre>${escapeHtml(dbg.stderr)}</pre></div>` : ''}
+                ${nav}
+            `;
+
+            // Expose navigation
+            window.__dbgPrev = () => { if (debugIndex > 0) { debugIndex--; renderDebugOutput(dbg); } };
+            window.__dbgNext = () => { if (debugIndex < debugTrace.length-1) { debugIndex++; renderDebugOutput(dbg); } };
+        }
+
+        function escapeHtml(s) {
+            return (s || '').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+        }
+
+        // Glossary toggle
+        document.getElementById('toggle-glossary').onclick = () => {
+            const body = document.getElementById('glossary-body');
+            const btn = document.getElementById('toggle-glossary');
+            const hidden = body.classList.contains('hidden');
+            if (hidden) {
+                body.classList.remove('hidden');
+                btn.textContent = 'Hide glossary';
+                glossaryVisibleState = true;
+            } else {
+                body.classList.add('hidden');
+                btn.textContent = 'Show glossary';
+                glossaryVisibleState = false;
+            }
+        };
+
+        // AI Assistant toggle
+        document.getElementById('toggle-ai').onclick = () => {
+            const body = document.getElementById('ai-body');
+            const btn = document.getElementById('toggle-ai');
+            const hidden = body.classList.contains('hidden');
+            if (hidden) { body.classList.remove('hidden'); btn.textContent = 'Hide assistant'; }
+            else { body.classList.add('hidden'); btn.textContent = 'Show assistant'; }
+        };
+
+        // Ask AI
+        document.getElementById('ai-ask').onclick = askAI;
+
+        // Check AI status on load
+        (async function checkAIStatus(){
+            const meta = document.getElementById('ai-meta');
+            try {
+                const res = await fetch('/api/ask/status');
+                const s = await res.json();
+                if (!s.enabled) {
+                    meta.textContent = 'AI disabled: ' + (s.message || 'missing key');
+                    document.getElementById('ai-ask').disabled = true;
+                    document.getElementById('ai-ask').title = 'AI disabled: set OPENAI_API_KEY in .env and restart server';
+                } else {
+                    meta.textContent = '';
+                    document.getElementById('ai-ask').disabled = false;
+                }
+            } catch (e) {
+                meta.textContent = 'AI status unknown';
+            }
+        })();
+
+        async function askAI() {
+            const prompt = (document.getElementById('ai-prompt').value || '').trim();
+            if (!prompt) { alert('Please enter a question'); return; }
+            const includeDescription = document.getElementById('ai-inc-desc').checked;
+            const includeCode = document.getElementById('ai-inc-code').checked;
+            const includeTests = document.getElementById('ai-inc-tests').checked;
+            const includeHints = document.getElementById('ai-inc-hints').checked;
+            const meta = document.getElementById('ai-meta');
+            const out = document.getElementById('ai-output');
+
+            const payload = {
+                prompt,
+                problem: currentProblem ? currentProblem.name : null,
+                language: currentLanguage,
+                includeDescription,
+                includeCode,
+                includeHints,
+                includeTests,
+                code: includeCode ? (document.getElementById('code-editor').value || '') : ''
+            };
+
+            out.innerHTML = '';
+            meta.textContent = 'Thinking…';
+            try {
+                const res = await fetch('/api/ask', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+                });
+                const ans = await res.json();
+                if (!res.ok || ans.error) {
+                    out.innerHTML = `<div class="error-box">${escapeHtml(ans.error || `HTTP ${res.status}`)}</div>`;
+                    meta.textContent = '';
+                    return;
+                }
+                renderAIAnswer(ans.answer || '');
+                meta.textContent = '';
+            } catch (e) {
+                out.innerHTML = `<div class="error-box">${escapeHtml('Failed to reach AI: ' + e.message)}</div>`;
+                meta.textContent = '';
+            }
+        }
+
+        function renderAIAnswer(text) {
+            const out = document.getElementById('ai-output');
+            const safe = escapeHtml(text);
+            // very light markdown: code fences → pre blocks
+            const html = safe
+                .replace(/```([\s\S]*?)```/g, (m, p1) => `<pre><code>${p1}</code></pre>`)
+                .replace(/\n\n/g, '\n');
+            out.innerHTML = `
+                <div class="ai-actions">
+                    <button class="btn-copy" onclick="copyText('${encodeURIComponent(text)}', this)">Copy answer</button>
+                </div>
+                <div class="ai-answer">${html}</div>
+            `;
+        }
+        
+        // Copy pseudocode to clipboard
+        document.getElementById('copy-pseudo-btn').onclick = async () => {
+            const pseudoEl = document.getElementById('hints-pseudocode');
+            const btn = document.getElementById('copy-pseudo-btn');
+            const originalText = btn.textContent;
+            
+            try {
+                await navigator.clipboard.writeText(pseudoEl.textContent);
+                btn.textContent = '✓ Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy:', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = pseudoEl.textContent;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    btn.textContent = '✓ Copied!';
+                    btn.classList.add('copied');
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.classList.remove('copied');
+                    }, 2000);
+                } catch (e) {
+                    alert('Failed to copy to clipboard');
+                } finally {
+                    document.body.removeChild(textArea);
+                }
+            }
+        };
+        
+        // Allow Tab in textarea
+        document.getElementById('code-editor').addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+                this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+                this.selectionStart = this.selectionEnd = start + 4;
+                refreshEditorUI();
+            }
+        });
+        document.getElementById('code-editor').addEventListener('input', function() {
+            refreshEditorUI();
+        });
+        document.getElementById('code-editor').addEventListener('scroll', function() {
+            document.getElementById('code-gutter').scrollTop = this.scrollTop;
+        });
+
+        function refreshEditorUI() {
+            const code = document.getElementById('code-editor').value || '';
+            const lines = code.split('\n');
+            const gutter = document.getElementById('code-gutter');
+            const html = lines.map((_, idx) => {
+                const ln = idx + 1;
+                const set = editorBps.has(ln) ? ' set' : '';
+                return `<div class="gutter-line" data-line="${ln}"><span class="gutter-num">${ln}</span><span class="gutter-bp${set}" title="Toggle breakpoint"></span></div>`;
+            }).join('');
+            gutter.innerHTML = html || '<div class="gutter-line"><span class="gutter-num">1</span><span class="gutter-bp"></span></div>';
+            // Wire click handlers
+            gutter.querySelectorAll('.gutter-line').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    // Only toggle when clicking left side (bp or number). Any click in line toggles for simplicity.
+                    const line = parseInt(el.getAttribute('data-line'), 10);
+                    toggleBreakpoint(line);
+                });
+            });
+        }
+
+        function toggleBreakpoint(line) {
+            if (editorBps.has(line)) editorBps.delete(line); else editorBps.add(line);
+            // Reflect in UI
+            const el = document.querySelector(`.gutter-line[data-line="${line}"] .gutter-bp`);
+            if (el) el.classList.toggle('set');
+            // Sync to debug-bps input
+            const list = Array.from(editorBps).sort((a,b)=>a-b).join(',');
+            document.getElementById('debug-bps').value = list;
+        }
+
+        function parseBpsInput() {
+            const raw = (document.getElementById('debug-bps').value || '').split(',');
+            return raw.map(x => parseInt(x.trim(), 10)).filter(x => !isNaN(x));
+        }
+
+        function syncEditorBpsFromInput() {
+            const vals = parseBpsInput();
+            vals.forEach(v => editorBps.add(v));
+            refreshEditorUI();
+        }
+        
+        // Helper function to determine difficulty
+        function getDifficulty(problemName) {
+            const easy = ['summation', 'palindrome', 'second_largest', 'two_sum', 'balanced_brackets', 'binary_search', 'climb_stairs'];
+            const hard = ['three_sum', 'min_window_substring', 'longest_palindromic_substring', 'number_of_islands', 'coin_change', 'product_except_self'];
+            
+            if (easy.includes(problemName)) return 'easy';
+            if (hard.includes(problemName)) return 'hard';
+            return 'medium';
+        }
+        
+        // Timer functions
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+        
+        function resetTimer() {
+            timerSeconds = 0;
+            updateTimerDisplay();
+        }
+        
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerSeconds / 60);
+            const secs = timerSeconds % 60;
+            document.getElementById('timer').textContent = 
+                `⏱️ ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + Enter to run tests
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                submitSolution();
+            }
+        });
+
+        // Onboarding tour
+        const tourSteps = [
+            { selector: '.sidebar', text: '<strong>1) Choose a problem</strong><br/>Pick a problem from the list to load its stub, tests, and hints.' },
+            { selector: '#problem-description', text: '<strong>2) Read the description</strong><br/>Understand the function contract and sample cases.' },
+            { selector: '#hints-section', text: '<strong>3) Use Hints</strong><br/>Reveal tips and pseudocode if you get stuck.' },
+            { selector: '#code-editor', text: '<strong>4) Write code</strong><br/>Implement the function; use Tab for indentation.' },
+            { selector: '#submit-btn', text: '<strong>5) Run tests</strong><br/>Click Run or press Ctrl+Enter to test your code.' },
+            { selector: '#debug-section', text: '<strong>6) Debug</strong><br/>Set breakpoints and run the debugger to step through your code.' },
+            { selector: '#glossary-section', text: '<strong>7) Glossary</strong><br/>Search key terms and concepts relevant to the problem.' },
+        ];
+        let tourIdx = 0;
+        let tourActive = false;
+
+        function startTour(force=false) {
+            if (!force && localStorage.getItem('tourSeen') === '1') return;
+            tourIdx = 0;
+            tourActive = true;
+            const ov = document.getElementById('tour-overlay');
+            if (ov) { ov.classList.remove('hidden'); ov.style.display = 'flex'; }
+            // Render step after overlay is visible to avoid blank due to timing
+            requestAnimationFrame(() => {
+                showTourStep();
+                // Fallback re-render in case extensions/sanitizers cleared HTML
+                setTimeout(() => {
+                    const txt = document.getElementById('tour-text');
+                    if (txt && (!txt.innerHTML || txt.innerHTML.trim() === '')) {
+                        showTourStep();
+                    }
+                }, 50);
+            });
+        }
+
+        function endTour(save=true) {
+            tourActive = false;
+            const ov = document.getElementById('tour-overlay');
+            if (ov) { ov.classList.add('hidden'); ov.style.display = 'none'; }
+            removeHighlights();
+            if (save) localStorage.setItem('tourSeen', '1');
+        }
+
+        function removeHighlights() {
+            document.querySelectorAll('.tour-highlight').forEach(el => el.classList.remove('tour-highlight'));
+        }
+
+        function showTourStep() {
+            // Clamp index and provide safe fallbacks
+            const total = Array.isArray(tourSteps) ? tourSteps.length : 0;
+            if (!total) {
+                const msg = 'Welcome! This tour is unavailable right now.';
+                const txt = document.getElementById('tour-text');
+                if (txt) txt.textContent = msg;
+                const nextBtn = document.getElementById('tour-next');
+                if (nextBtn) nextBtn.textContent = 'Finish';
+                return;
+            }
+            if (tourIdx < 0) tourIdx = 0;
+            if (tourIdx >= total) tourIdx = total - 1;
+
+            const step = tourSteps[tourIdx];
+            removeHighlights();
+            if (step && step.selector) {
+                const el = document.querySelector(step.selector);
+                if (el) {
+                    el.classList.add('tour-highlight');
+                    try { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (_) {}
+                }
+            }
+            const txt = document.getElementById('tour-text');
+            if (txt) {
+                const fallback = 'Let\'s take a quick tour of the UI.';
+                if (step && step.text) {
+                    txt.innerHTML = step.text;
+                    // If somehow empty after HTML set (e.g., CSP/extension), set plain text
+                    if (!txt.innerHTML || txt.innerHTML.trim() === '') {
+                        txt.textContent = fallback;
+                    }
+                } else {
+                    txt.textContent = fallback;
+                }
+            }
+            const prevBtn = document.getElementById('tour-prev');
+            if (prevBtn) prevBtn.disabled = tourIdx === 0;
+            const nextBtn = document.getElementById('tour-next');
+            if (nextBtn) nextBtn.textContent = (tourIdx === total - 1) ? 'Finish' : 'Next';
+        }
+        
+        // Fetch glossary
+        async function ensureGlossary() {
+            if (glossaryCache) return;
+            try {
+                const res = await fetch('/api/glossary');
+                glossaryCache = await res.json();
+            } catch (e) {
+                console.error('Failed to load glossary:', e);
+                glossaryCache = {};
+            }
+        }
+
+        // Render glossary for current problem
+        function renderGlossary(problemTerms) {
+            const section = document.getElementById('glossary-section');
+            const body = document.getElementById('glossary-body');
+            const list = document.getElementById('glossary-list');
+            const search = document.getElementById('glossary-search');
+
+            if (!glossaryCache || Object.keys(glossaryCache).length === 0) {
+                section.classList.add('hidden');
+                return;
+            }
+
+            section.classList.remove('hidden');
+            if (glossaryVisibleState) {
+                body.classList.remove('hidden');
+                document.getElementById('toggle-glossary').textContent = 'Hide glossary';
+            } else {
+                body.classList.add('hidden');
+                document.getElementById('toggle-glossary').textContent = 'Show glossary';
+            }
+
+            const items = buildGlossaryItems(problemTerms, search.value || '');
+            list.innerHTML = items.length ? items.join('') : '<div>No matching terms.</div>';
+
+            // Wire up search
+            search.oninput = () => {
+                const filtered = buildGlossaryItems(problemTerms, search.value || '');
+                list.innerHTML = filtered.length ? filtered.join('') : '<div>No matching terms.</div>';
+            };
+        }
+
+        function buildGlossaryItems(problemTerms, filter) {
+            const normalizedFilter = filter.trim().toLowerCase();
+            const entries = Object.entries(glossaryCache || {});
+
+            // Prefer problem-specific terms first, then others (for discovery)
+            const preferred = new Set(problemTerms.map(t => t.toLowerCase()));
+            const sorted = entries.sort(([a], [b]) => {
+                const pa = preferred.has(a.toLowerCase()) ? 0 : 1;
+                const pb = preferred.has(b.toLowerCase()) ? 0 : 1;
+                if (pa !== pb) return pa - pb;
+                return a.localeCompare(b);
+            });
+
+            const result = [];
+            for (const [term, def] of sorted) {
+                const termL = term.toLowerCase();
+                const defL = String(def).toLowerCase();
+                if (normalizedFilter && !termL.includes(normalizedFilter) && !defL.includes(normalizedFilter)) {
+                    continue;
+                }
+                result.push(
+                    `<div class="glossary-item">
+                        <div class="term-title">${term}</div>
+                        <div class="term-definition">${def}</div>
+                        <div class="term-actions">
+                            <button class="btn-copy" onclick="copyText('${encodeURIComponent(def)}', this)">Copy definition</button>
+                        </div>
+                    </div>`
+                );
+            }
+            return result;
+        }
+
+        // Copy helper used by glossary items
+        function copyText(encoded, btnEl) {
+            const text = decodeURIComponent(encoded);
+            const original = btnEl.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                btnEl.textContent = '✓ Copied!';
+                btnEl.classList.add('copied');
+                setTimeout(() => { btnEl.textContent = original; btnEl.classList.remove('copied'); }, 1500);
+            }).catch(() => {
+                // Fallback
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); btnEl.textContent = '✓ Copied!'; btnEl.classList.add('copied');
+                    setTimeout(() => { btnEl.textContent = original; btnEl.classList.remove('copied'); }, 1500);
+                } finally { document.body.removeChild(ta); }
+            });
+        }
+
+        // Guided debug helper
+        document.getElementById('debug-guide').onclick = async () => {
+            // Ensure debugger panel open
+            const body = document.getElementById('debug-body');
+            if (body.classList.contains('hidden')) {
+                document.getElementById('toggle-debug').click();
+            }
+            const code = document.getElementById('code-editor').value || '';
+            const lines = code.split('\n');
+            const bps = [];
+            for (let i = 0; i < lines.length && bps.length < 3; i++) {
+                const t = lines[i].trim();
+                if (t && !t.startsWith('#')) bps.push(i + 1);
+            }
+            document.getElementById('debug-bps').value = bps.join(',');
+            // Reflect guided breakpoints in gutter too
+            syncEditorBpsFromInput();
+            runDebug();
+        };
+
+        // Tour buttons and Help (direct bind only for open-tour)
+        const btnOpenTour = document.getElementById('open-tour');
+        if (btnOpenTour) btnOpenTour.onclick = () => startTour(true);
+
+        // Direct handlers for tour controls to ensure they work
+        const btnTourSkip = document.getElementById('tour-skip');
+        if (btnTourSkip) btnTourSkip.addEventListener('click', (e) => { e.preventDefault(); endTour(true); });
+        const btnTourPrev = document.getElementById('tour-prev');
+        if (btnTourPrev) btnTourPrev.addEventListener('click', (e) => { e.preventDefault(); if (tourIdx > 0) { tourIdx--; showTourStep(); } });
+        const btnTourNext = document.getElementById('tour-next');
+        if (btnTourNext) btnTourNext.addEventListener('click', (e) => { e.preventDefault(); if (tourIdx < tourSteps.length - 1) { tourIdx++; showTourStep(); } else { endTour(true); } });
+
+        // Initialize
+        loadProblems().then(() => {
+            setTimeout(() => { if (!localStorage.getItem('tourSeen')) startTour(); }, 400);
+        });
+    </script>
+</body>
+</html>

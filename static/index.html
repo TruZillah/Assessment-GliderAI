@@ -2509,209 +2509,523 @@ Collections.sort(list, (a, b) -> b - a);  // Descending</pre>`
         
         // Comprehensive lecture content for problem-solving methodology
         const LECTURE_CONTENT = `
-            <h4>🧠 How to Think Through Algorithm Problems</h4>
-            <p>Learning to code isn't just about memorizing syntax—it's about <strong>developing a systematic approach to problem-solving</strong>. This lecture will teach you how to break down problems and build logic from scratch.</p>
+            <h4>🧠 How to Think Through Algorithm Problems (A Complete Beginner's Guide)</h4>
+            <p>Welcome! This lecture will teach you <strong>how to think like a programmer</strong>. You don't need to memorize code—you need to learn a systematic way to solve problems. By the end, you'll have a clear process to tackle ANY coding problem.</p>
             
-            <h4>1. The Problem-Solving Framework (UMPIRE Method)</h4>
-            <p>Use this 6-step framework for EVERY problem:</p>
-            
-            <h5>U - Understand the Problem</h5>
+            <h4>Why This Matters</h4>
+            <p>Most beginners fail because they:</p>
             <ul>
-                <li><strong>Read carefully</strong>: What are the inputs? What should the output be?</li>
-                <li><strong>Ask questions</strong>: What are the edge cases? (empty input, negatives, duplicates?)</li>
-                <li><strong>Restate in your own words</strong>: "So I need to find... given..."</li>
-                <li><strong>Clarify constraints</strong>: Time limit? Space limit? Input size?</li>
+                <li>❌ Jump straight to writing code without understanding the problem</li>
+                <li>❌ Don't know WHERE to start or WHAT to think about</li>
+                <li>❌ Get overwhelmed and give up</li>
+            </ul>
+            <p><strong>This lecture gives you a step-by-step roadmap</strong> so you always know what to do next.</p>
+            
+            <h4>1. The UMPIRE Method: Your 6-Step Problem-Solving Framework</h4>
+            <p>Think of UMPIRE as a <strong>checklist</strong> you go through for every single problem. Each letter is a step:</p>
+            <ul style="list-style: none; padding-left: 0;">
+                <li>📖 <strong>U</strong> = Understand the Problem</li>
+                <li>🔍 <strong>M</strong> = Match to a Pattern</li>
+                <li>📝 <strong>P</strong> = Plan Your Approach</li>
+                <li>⌨️ <strong>I</strong> = Implement the Code</li>
+                <li>✅ <strong>R</strong> = Review and Test</li>
+                <li>⚡ <strong>E</strong> = Evaluate and Optimize</li>
+            </ul>
+            <p>Let's break down each step with real examples...</p>
+            
+            <h4>📖 Step 1: UNDERSTAND the Problem (5 minutes minimum!)</h4>
+            <p><strong>What this means:</strong> Read the problem carefully and figure out exactly what you're being asked to do BEFORE you write any code.</p>
+            
+            <h5>What to ask yourself:</h5>
+            <ul>
+                <li><strong>What are the inputs?</strong> (What data am I given?)</li>
+                <li><strong>What is the output?</strong> (What should my function return?)</li>
+                <li><strong>What are the edge cases?</strong> (What weird situations might happen?)</li>
+                <li><strong>Are there constraints?</strong> (Size limits? Time limits? Special rules?)</li>
             </ul>
             
             <div class="example-box">
-                <strong>Example:</strong> "Two Sum" problem<br>
-                <em>Input:</em> array of integers, target sum<br>
-                <em>Output:</em> indices of two numbers that add up to target<br>
-                <em>Edge cases:</em> Can same element be used twice? Are numbers sorted? Negative numbers?
+                <strong>📘 Real Example: "Two Sum" Problem</strong><br><br>
+                <em>Problem Statement:</em> "Given an array of integers and a target number, return the indices of two numbers that add up to the target."<br><br>
+                
+                <strong>Let's UNDERSTAND it:</strong><br>
+                ✅ <strong>Input:</strong> An array like [2, 7, 11, 15] and a target like 9<br>
+                ✅ <strong>Output:</strong> Two indices (positions) like [0, 1] (because 2 + 7 = 9)<br>
+                ✅ <strong>Edge cases to think about:</strong><br>
+                &nbsp;&nbsp;• What if the array is empty?<br>
+                &nbsp;&nbsp;• What if there's no solution?<br>
+                &nbsp;&nbsp;• Can I use the same element twice? (e.g., [3, 3] target 6)<br>
+                &nbsp;&nbsp;• Are the numbers sorted? (Might affect our approach!)<br>
+                ✅ <strong>Constraints:</strong> Are there millions of numbers, or just a few? (Affects which solution is acceptable)
             </div>
-            
-            <h5>M - Match to Patterns</h5>
-            <p>Recognize common problem patterns:</p>
-            <ul>
-                <li><strong>Two Pointers</strong>: Sorted array, palindrome, pairs with target sum</li>
-                <li><strong>Hash Map</strong>: Need to track seen values, frequency counts, lookups</li>
-                <li><strong>Sliding Window</strong>: Subarray/substring problems, maintain range</li>
-                <li><strong>Stack/Queue</strong>: Nested structures, matching pairs, BFS/DFS</li>
-                <li><strong>Binary Search</strong>: Sorted data, find in log(n) time</li>
-                <li><strong>Dynamic Programming</strong>: Optimal substructure, overlapping subproblems</li>
-            </ul>
             
             <div class="tip-box">
-                <strong>💡 Tip:</strong> Ask yourself: "What data structure would make this easier?" Arrays, hash maps, sets, heaps, trees?
+                <strong>💡 Pro Tip:</strong> Spend at least 5 minutes on this step! Most mistakes happen because people misunderstand the problem. Read it 2-3 times and restate it in your own words: "So I need to find two positions in the list where the values add up to the target..."
             </div>
             
-            <h5>P - Plan the Approach</h5>
+            <h4>🔍 Step 2: MATCH to a Pattern</h4>
+            <p><strong>What this means:</strong> Most coding problems fall into common categories (patterns). Once you recognize the pattern, you know which tools (data structures) to use.</p>
+            
+            <h5>Common Patterns You'll See:</h5>
+            
+            <h5>🔹 Pattern 1: "Have I seen this before?" → Use HASH MAP (Dictionary)</h5>
+            <p><strong>When to use:</strong> The problem asks if something exists, or you need to count/track things.</p>
+            <p><strong>Keywords:</strong> "find", "check if exists", "frequency", "seen before", "unique", "duplicate"</p>
+            <p><strong>Examples:</strong> Two Sum, Contains Duplicate, First Non-Repeating Character</p>
+            <p><strong>Why it works:</strong> Hash maps let you look things up INSTANTLY (O(1) time) instead of searching through a list every time.</p>
+            
+            <div class="example-box">
+                <strong>Concrete Example:</strong><br>
+                Problem: "Check if array has any duplicate values"<br><br>
+                <strong>Without hash map (slow):</strong><br>
+                For each number, loop through whole array to see if it appears again → O(n²) time!<br><br>
+                <strong>With hash map (fast):</strong><br>
+                Keep a set of seen numbers. For each new number, check "is it in my set?" If yes, it's a duplicate! → O(n) time
+            </div>
+            
+            <h5>🔹 Pattern 2: "Working with ranges/windows" → Use SLIDING WINDOW</h5>
+            <p><strong>When to use:</strong> Problem involves subarrays, substrings, or consecutive elements.</p>
+            <p><strong>Keywords:</strong> "substring", "subarray", "consecutive", "window", "range"</p>
+            <p><strong>Examples:</strong> Longest Substring Without Repeating Characters, Maximum Sum Subarray</p>
+            <p><strong>Why it works:</strong> Instead of checking every possible range (slow), you maintain a "window" that slides across the data, only updating what changes.</p>
+            
+            <div class="example-box">
+                <strong>Visual Example:</strong><br>
+                Problem: "Find longest substring without repeating characters" in "abcabcbb"<br><br>
+                Think of a window sliding across:<br>
+                [abc]abcbb → window size 3, no repeats ✓<br>
+                a[bca]bcbb → found 'a' again, shrink window from left<br>
+                ab[cab]cbb → shrink more...<br>
+                abc[abc]bb → found repeats, shrink...<br>
+                The window "slides" and "shrinks" to avoid rechecking everything!
+            </div>
+            
+            <h5>🔹 Pattern 3: "Comparing from both ends" → Use TWO POINTERS</h5>
+            <p><strong>When to use:</strong> Data is sorted, or you're checking for palindromes/pairs.</p>
+            <p><strong>Keywords:</strong> "sorted", "palindrome", "pair", "two elements", "opposite ends"</p>
+            <p><strong>Examples:</strong> Valid Palindrome, Two Sum II (sorted array), Remove Duplicates</p>
+            <p><strong>Why it works:</strong> Start from both ends and move pointers toward each other, cutting the work in half.</p>
+            
+            <div class="example-box">
+                <strong>Visual Example:</strong><br>
+                Problem: "Check if string is palindrome" → "racecar"<br><br>
+                Use two pointers:<br>
+                [r]aceca[r] → match! move both inward<br>
+                r[a]cec[a]r → match! move inward<br>
+                ra[c]e[c]ar → match! move inward<br>
+                rac[e]car → middle letter, done! It's a palindrome!<br><br>
+                Only checked 4 positions instead of all 7!
+            </div>
+            
+            <h5>🔹 Pattern 4: "Matching pairs/nesting" → Use STACK</h5>
+            <p><strong>When to use:</strong> Problem involves matching, balancing, or nested structures.</p>
+            <p><strong>Keywords:</strong> "valid", "balanced", "matching", "parentheses", "brackets", "nested"</p>
+            <p><strong>Examples:</strong> Valid Parentheses, Balanced Brackets</p>
+            <p><strong>Why it works:</strong> Stacks follow "Last In, First Out" (LIFO) - perfect for matching the most recent opening bracket with the next closing bracket.</p>
+            
+            <div class="example-box">
+                <strong>Step-by-step Example:</strong><br>
+                Problem: "Check if parentheses are balanced" → "({[]})"<br><br>
+                Using a stack (think of it like a stack of plates):<br>
+                See '(' → push onto stack: [(<br>
+                See '{' → push: [( {<br>
+                See '[' → push: [( { [<br>
+                See ']' → pop '[' (they match!) → [( {<br>
+                See '}' → pop '{' (match!) → [(<br>
+                See ')' → pop '(' (match!) → []<br>
+                Stack empty = balanced! ✓
+            </div>
+            
+            <h5>🔹 Pattern 5: "Need top/best K items" → Use HEAP (Priority Queue)</h5>
+            <p><strong>When to use:</strong> Find K largest, K smallest, or K most frequent items.</p>
+            <p><strong>Keywords:</strong> "top K", "largest", "smallest", "kth", "most frequent"</p>
+            <p><strong>Examples:</strong> Kth Largest Element, Top K Frequent Elements</p>
+            
+            <div class="tip-box">
+                <strong>💡 Pattern Recognition Tip:</strong> After solving 10-20 problems, you'll start seeing these patterns EVERYWHERE. It's like learning to recognize chords in music—once you know them, you spot them instantly!
+            </div>
+            
+            <h4>📝 Step 3: PLAN Your Approach</h4>
+            <p><strong>What this means:</strong> Before typing code, write out your strategy in plain English (pseudocode).</p>
+            
+            <h5>How to plan (in order):</h5>
             <ol>
-                <li><strong>Start with brute force</strong>: What's the obvious (but slow) solution?</li>
-                <li><strong>Analyze complexity</strong>: Is O(n²) acceptable? Can we do better?</li>
-                <li><strong>Optimize</strong>: Can we trade space for time? Use better data structure?</li>
-                <li><strong>Write pseudocode</strong>: Outline the algorithm step-by-step in plain English</li>
+                <li><strong>Start with brute force:</strong> What's the OBVIOUS solution, even if it's slow?</li>
+                <li><strong>Analyze complexity:</strong> Is it too slow? (O(n²) might be okay for small data, not for millions of items)</li>
+                <li><strong>Optimize:</strong> Can we use a better data structure? Trade space for speed?</li>
+                <li><strong>Write pseudocode:</strong> Step-by-step plan in English, not code</li>
             </ol>
             
             <div class="example-box">
-                <strong>Two Sum Planning:</strong><br>
-                <em>Brute force:</em> Try all pairs (nested loops) - O(n²)<br>
-                <em>Optimized:</em> Use hash map to store seen values - O(n)<br>
-                <em>Pseudocode:</em> "For each number, check if (target - number) exists in hash map"
+                <strong>📘 Planning Example: Two Sum Problem</strong><br><br>
+                
+                <strong>1. Brute Force (the obvious way):</strong><br>
+                "Try every possible pair of numbers and check if they add to target"<br>
+                → Use two nested loops: for each number, check it against every other number<br>
+                → Time complexity: O(n²) — SLOW for large arrays!<br><br>
+                
+                <strong>2. Analyze:</strong><br>
+                "O(n²) means if array has 10,000 numbers, we do 100 million operations! Too slow!"<br><br>
+                
+                <strong>3. Optimize:</strong><br>
+                "What if instead of searching for the partner number EVERY time, we remember what we've seen?"<br>
+                → Use a hash map! For each number X, check if (target - X) is in our map<br>
+                → Time complexity: O(n) — WAY faster!<br><br>
+                
+                <strong>4. Pseudocode (step-by-step plan):</strong><br>
+                <pre style="background: #f8f9fa; padding: 12px; border-radius: 6px; margin-top: 8px;">
+1. Create empty hash map
+2. For each number at index i:
+   a. Calculate complement = target - current number
+   b. Check: is complement in hash map?
+      - If YES: return [map[complement], i]
+      - If NO: add current number to map with its index
+3. If no pair found, return empty
+                </pre>
             </div>
             
-            <h5>I - Implement the Code</h5>
-            <ul>
-                <li><strong>Write clean code</strong>: Use meaningful variable names (not x, y, z)</li>
-                <li><strong>Comment as you go</strong>: Explain WHY, not just WHAT</li>
-                <li><strong>Handle edge cases</strong>: Empty input, single element, all same values</li>
-                <li><strong>Type carefully</strong>: Watch for off-by-one errors, index bounds</li>
-            </ul>
+            <div class="warning-box">
+                <strong>⚠️ Common Planning Mistake:</strong><br>
+                Don't skip the pseudocode step! Writing out your plan in English BEFORE coding helps you catch logic errors early. It's like having a blueprint before building a house.
+            </div>
             
-            <h5>R - Review and Test</h5>
-            <ul>
-                <li><strong>Desk check</strong>: Walk through code with a simple example by hand</li>
-                <li><strong>Test edge cases</strong>: Empty, single element, duplicates, negatives</li>
-                <li><strong>Check loop bounds</strong>: Does i go to n or n-1? When does while loop exit?</li>
-                <li><strong>Verify logic</strong>: Are all paths covered? Any missing returns?</li>
-            </ul>
+            <h4>⌨️ Step 4: IMPLEMENT the Code</h4>
+            <p><strong>What this means:</strong> NOW you write actual code, translating your pseudocode line by line.</p>
             
-            <h5>E - Evaluate and Optimize</h5>
+            <h5>Best Practices While Coding:</h5>
             <ul>
-                <li><strong>Time complexity</strong>: O(1), O(log n), O(n), O(n log n), O(n²)?</li>
-                <li><strong>Space complexity</strong>: How much extra memory do you use?</li>
-                <li><strong>Can you do better?</strong>: Different algorithm? Better data structure?</li>
-            </ul>
-            
-            <h4>2. Building Logic from Scratch: The Mental Process</h4>
-            
-            <h5>Step 1: Start with Examples</h5>
-            <p>Before writing ANY code, work through 2-3 examples BY HAND:</p>
-            <ul>
-                <li>Write down the input</li>
-                <li>Work through the steps YOU would take manually</li>
-                <li>Write down the output</li>
-                <li>Notice the PATTERN in what you did</li>
+                <li><strong>Use descriptive names:</strong> Not x, y, z → use num, index, seen_numbers</li>
+                <li><strong>Add comments:</strong> Explain the "why", not just the "what"</li>
+                <li><strong>Handle edge cases:</strong> Check for empty input, null, single element</li>
+                <li><strong>Type carefully:</strong> Watch out for off-by-one errors (is it i < n or i <= n?)</li>
             </ul>
             
             <div class="example-box">
-                <strong>Finding Second Largest:</strong><br>
-                Input: [5, 3, 9, 7, 3]<br>
-                <em>Your mental process:</em> "Scan left to right... 5 is largest so far... 3 is second... 9 is new largest, 5 becomes second... 7 is less than 9 but more than 5, so 7 is new second..."<br>
-                <strong>Pattern discovered:</strong> Track two variables (largest and second_largest), update as you scan!
+                <strong>📘 Good vs Bad Code Example:</strong><br><br>
+                
+                <strong>❌ BAD (confusing, no comments):</strong><br>
+                <pre style="background: #fee; padding: 12px; border-radius: 6px;">
+def f(a, t):
+    d = {}
+    for i in range(len(a)):
+        x = t - a[i]
+        if x in d:
+            return [d[x], i]
+        d[a[i]] = i
+                </pre>
+                
+                <strong>✅ GOOD (clear, well-named, commented):</strong><br>
+                <pre style="background: #efe; padding: 12px; border-radius: 6px;">
+def two_sum(numbers, target):
+    # Store numbers we've seen with their indices
+    seen = {}
+    
+    for index, num in enumerate(numbers):
+        complement = target - num
+        
+        # Check if we've seen the complement
+        if complement in seen:
+            return [seen[complement], index]
+        
+        # Remember this number for future lookups
+        seen[num] = index
+    
+    return []  # No solution found
+                </pre>
             </div>
             
-            <h5>Step 2: Identify the Core Logic</h5>
-            <p>Ask yourself these questions:</p>
-            <ul>
-                <li><strong>What am I tracking?</strong> (variables, data structures)</li>
-                <li><strong>What am I comparing?</strong> (conditions, if statements)</li>
-                <li><strong>What am I repeating?</strong> (loops, recursion)</li>
-                <li><strong>What changes each step?</strong> (updates, transformations)</li>
+            <h4>✅ Step 5: REVIEW and Test</h4>
+            <p><strong>What this means:</strong> Don't just hit "run" immediately! First, check your code manually.</p>
+            
+            <h5>Review Checklist:</h5>
+            <ol>
+                <li><strong>Desk check (walk through by hand):</strong> Pick a simple example and trace through your code line by line on paper</li>
+                <li><strong>Check loop bounds:</strong> Does your loop go to the right index? (Common bug: using <= when you need <)</li>
+                <li><strong>Verify all paths:</strong> Did you handle all if/else cases? Missing a return statement?</li>
+                <li><strong>Test edge cases:</strong> Try empty input, single element, all same values, negative numbers</li>
+            </ol>
+            
+            <div class="example-box">
+                <strong>📘 Desk Check Example:</strong><br><br>
+                Code: two_sum([2, 7, 11], 9)<br><br>
+                <strong>Manual trace:</strong><br>
+                Start: seen = {}<br><br>
+                i=0, num=2, complement=7<br>
+                → Is 7 in seen? NO → seen = {2: 0}<br><br>
+                i=1, num=7, complement=2<br>
+                → Is 2 in seen? YES! → return [0, 1] ✓<br><br>
+                Result: [0, 1] (correct! 2+7=9)
+            </div>
+            
+            <h4>⚡ Step 6: EVALUATE and Optimize</h4>
+            <p><strong>What this means:</strong> Even if your code works, ask: "Can I make it better?"</p>
+            
+            <h5>Big-O Complexity Quick Guide:</h5>
+            <ul style="list-style: none; padding-left: 0;">
+                <li><strong>O(1)</strong> — Constant: Looking up array[5], hash map lookup → FASTEST ⚡</li>
+                <li><strong>O(log n)</strong> — Logarithmic: Binary search, balanced tree → VERY FAST</li>
+                <li><strong>O(n)</strong> — Linear: Single loop through array → FAST (usually acceptable)</li>
+                <li><strong>O(n log n)</strong> — Linearithmic: Sorting (merge sort, quicksort) → ACCEPTABLE</li>
+                <li><strong>O(n²)</strong> — Quadratic: Nested loops → SLOW (avoid for large data)</li>
+                <li><strong>O(2ⁿ)</strong> — Exponential: Recursive combinations → VERY SLOW (rarely acceptable)</li>
             </ul>
             
-            <h5>Step 3: Break into Tiny Steps</h5>
-            <p>Don't try to solve the whole problem at once. Build incrementally:</p>
+            <div class="tip-box">
+                <strong>💡 Quick Complexity Check:</strong><br>
+                • One loop → O(n)<br>
+                • Two nested loops → O(n²)<br>
+                • Halving each step (binary search) → O(log n)<br>
+                • Loop + sorting → O(n log n)<br>
+                • Hash map lookup/insert → O(1)
+            </div>
+            
+            <div class="example-box">
+                <strong>Optimization Example:</strong><br><br>
+                Problem: "Find if array contains duplicate"<br><br>
+                <strong>Approach 1 (Brute Force):</strong><br>
+                Compare each element with every other → O(n²) time, O(1) space<br><br>
+                <strong>Approach 2 (Sorting):</strong><br>
+                Sort array, then check adjacent elements → O(n log n) time, O(1) space<br><br>
+                <strong>Approach 3 (Hash Set) — BEST:</strong><br>
+                Add to set, check if already exists → O(n) time, O(n) space<br><br>
+                <em>Trade-off:</em> We use extra space (the set) to get faster time. Worth it!
+            </div>
+            
+            <h4>🎯 Thinking Process: How to Build Logic from Scratch</h4>
+            <p>When you see a new problem and don't know where to start, follow this mental process:</p>
+            
+            <h5>Step 1: Work Through Examples BY HAND (Don't Touch Code Yet!)</h5>
+            <p>Before writing ANY code, solve 2-3 examples on paper exactly how YOU would do it manually.</p>
+            
+            <div class="example-box">
+                <strong>Example: "Find Second Largest Number"</strong><br>
+                Input: [5, 3, 9, 7, 3]<br><br>
+                <strong>Your mental process:</strong><br>
+                "Okay, I'm scanning left to right..."<br>
+                • Start: 5 is largest so far (5), no second yet (-)<br>
+                • See 3: smaller than 5, so 3 becomes second largest (5, 3)<br>
+                • See 9: bigger than 5! Now 9 is largest, 5 becomes second (9, 5)<br>
+                • See 7: less than 9, but more than 5! So 7 becomes second (9, 7)<br>
+                • See 3: less than both, ignore<br>
+                • Answer: 7<br><br>
+                <strong>Pattern you discovered:</strong> Track TWO variables (largest and second_largest), update them as you scan!
+            </div>
+            
+            <h5>Step 2: Ask Yourself These Questions</h5>
+            <ul>
+                <li><strong>"What am I tracking?"</strong> → These become your variables<br>
+                <em>Example: tracking largest and second_largest numbers</em></li>
+                
+                <li><strong>"What am I comparing?"</strong> → These become your if/else conditions<br>
+                <em>Example: comparing current number with largest, then with second_largest</em></li>
+                
+                <li><strong>"What am I repeating?"</strong> → This becomes your loop<br>
+                <em>Example: checking each number in the array</em></li>
+                
+                <li><strong>"When do I stop?"</strong> → This is your loop condition or base case<br>
+                <em>Example: when we've checked all numbers</em></li>
+            </ul>
+            
+            <h5>Step 3: Break It Into Tiny Steps</h5>
+            <p>Most algorithms follow this pattern:</p>
             <ol>
-                <li>Initialize variables</li>
-                <li>Loop through input</li>
-                <li>Make comparison/decision at each step</li>
-                <li>Update tracking variables</li>
-                <li>Return result</li>
+                <li><strong>Initialize:</strong> Set up variables (largest = first number, second = None)</li>
+                <li><strong>Loop:</strong> Go through each element</li>
+                <li><strong>Compare/Decide:</strong> Make decisions (is current > largest?)</li>
+                <li><strong>Update:</strong> Change your tracking variables</li>
+                <li><strong>Return:</strong> Give back the answer</li>
             </ol>
             
             <div class="tip-box">
-                <strong>💡 Key Insight:</strong> Most algorithms are just variations of: "Loop through data, make decisions, track state, return answer."
+                <strong>💡 The Secret:</strong> Most algorithm problems are just variations of:<br>
+                "Loop through data → make decisions → track state → return answer"<br><br>
+                Once you see this pattern, coding becomes much easier!
             </div>
             
-            <h4>3. Common Thinking Patterns</h4>
+            <h4>🚫 Common Beginner Mistakes (and How to Avoid Them)</h4>
             
-            <h5>Pattern: "I need to find/check something" → Use Hash Map</h5>
-            <p>If you're thinking "Have I seen this before?" or "Does this exist?" → Hash map/set</p>
-            <div class="example-box">
-                Two Sum, Contains Duplicate, First Non-Repeating Character
+            <div class="warning-box">
+                <strong>Mistake #1: Jumping straight to code</strong><br>
+                ❌ Wrong: "I'll figure it out as I code!"<br>
+                ✅ Right: Spend 5+ minutes understanding and planning FIRST<br><br>
+                
+                <strong>Mistake #2: Not testing with simple examples</strong><br>
+                ❌ Wrong: Write all the code, then test<br>
+                ✅ Right: Work through 2-3 examples by hand BEFORE coding<br><br>
+                
+                <strong>Mistake #3: Making it too complicated</strong><br>
+                ❌ Wrong: Try to write the perfect optimized solution immediately<br>
+                ✅ Right: Start with brute force (simple but slow), THEN optimize<br><br>
+                
+                <strong>Mistake #4: Forgetting edge cases</strong><br>
+                ❌ Wrong: Only test "happy path" (normal inputs)<br>
+                ✅ Right: Test empty input, single element, all same values, negatives<br><br>
+                
+                <strong>Mistake #5: Off-by-one errors</strong><br>
+                ❌ Wrong: for i in range(len(arr)+1) → index out of bounds!<br>
+                ✅ Right: for i in range(len(arr)) → correct!<br>
+                💡 <em>Tip: Arrays use 0-indexing, so length 5 → indices 0,1,2,3,4</em>
             </div>
             
-            <h5>Pattern: "I need to track a range/window" → Sliding Window</h5>
-            <p>If the problem mentions "substring", "subarray", "consecutive" → Sliding window</p>
-            <div class="example-box">
-                Longest Substring Without Repeating Characters, Maximum Sum Subarray
+            <h4>📈 Practice Strategy: How to Get Better</h4>
+            
+            <h5>For Each Problem You Solve:</h5>
+            <ol>
+                <li><strong>✅ Spend 5-10 minutes UNDERSTANDING before writing code</strong><br>
+                Read problem 2-3 times, identify inputs/outputs, think about edge cases</li>
+                
+                <li><strong>✅ Work through 2-3 examples BY HAND on paper</strong><br>
+                Pretend you're the computer—what steps would you take?</li>
+                
+                <li><strong>✅ Write pseudocode FIRST (English, not code)</strong><br>
+                Plan your approach step-by-step before touching the keyboard</li>
+                
+                <li><strong>✅ Code carefully with good names and comments</strong><br>
+                Make it readable—you'll thank yourself when debugging!</li>
+                
+                <li><strong>✅ Test edge cases IMMEDIATELY (don't wait!)</strong><br>
+                Try empty input, single element, duplicates, large numbers, negatives</li>
+                
+                <li><strong>✅ Review even if it passes—can you improve it?</strong><br>
+                Better complexity? Cleaner code? Different approach?</li>
+            </ol>
+            
+            <div class="tip-box">
+                <strong>💡 The 5-3-1 Practice Rule:</strong><br>
+                • First 5 problems: Slow and methodical, focus on understanding the process<br>
+                • Next 3 problems: Start recognizing patterns, get a bit faster<br>
+                • After 1 week: You'll notice you're thinking in patterns automatically!<br><br>
+                <em>Progress isn't linear—you might feel stuck, then suddenly everything clicks!</em>
             </div>
             
-            <h5>Pattern: "I need to compare from both ends" → Two Pointers</h5>
-            <p>If input is sorted or you're checking symmetry → Two pointers</p>
-            <div class="example-box">
-                Palindrome, Two Sum II (sorted), Remove Duplicates
-            </div>
+            <h4>🧠 Building Intuition: The Long Game</h4>
+            <p><strong>Important:</strong> You're not born with problem-solving skills—they're built through practice. Here's how intuition develops:</p>
             
-            <h5>Pattern: "I need to match/balance things" → Stack</h5>
-            <p>If you see "matching", "nesting", "pairs", "valid" → Stack (LIFO)</p>
-            <div class="example-box">
-                Valid Parentheses, Evaluate Expression, Next Greater Element
-            </div>
-            
-            <h5>Pattern: "I need top K items" → Heap</h5>
-            <p>If you need "largest K", "smallest K", "most frequent K" → Min/max heap</p>
-            <div class="example-box">
-                Kth Largest Element, Top K Frequent Elements, Merge K Sorted Lists
-            </div>
-            
-            <h4>4. Debugging Your Thinking</h4>
-            
-            <h5>When Stuck, Ask:</h5>
+            <h5>Phase 1: Confusion (Problems 1-10)</h5>
             <ul>
-                <li><strong>"What would I do by hand?"</strong> → Mimic that in code</li>
-                <li><strong>"What information do I need to remember?"</strong> → That's your state/variables</li>
-                <li><strong>"What am I doing repeatedly?"</strong> → That's your loop</li>
-                <li><strong>"When do I stop?"</strong> → That's your base case/condition</li>
+                <li>❓ "I have no idea what to do!"</li>
+                <li>🐌 Everything feels slow and difficult</li>
+                <li>📚 Need to look at solutions frequently</li>
+                <li>✅ <strong>This is NORMAL!</strong> Everyone starts here. Keep going!</li>
+            </ul>
+            
+            <h5>Phase 2: Recognition (Problems 10-30)</h5>
+            <ul>
+                <li>💡 "Wait, this looks like that other problem..."</li>
+                <li>🔍 Starting to see patterns emerge</li>
+                <li>⚡ Some problems feel easier than before</li>
+                <li>✅ <strong>Progress!</strong> Your brain is building connections!</li>
+            </ul>
+            
+            <h5>Phase 3: Confidence (Problems 30+)</h5>
+            <ul>
+                <li>🎯 "Ah, this is a two-pointer problem!"</li>
+                <li>🚀 Can solve many problems independently</li>
+                <li>🧩 See multiple solution approaches</li>
+                <li>✅ <strong>You've got this!</strong> Keep practicing to maintain and deepen skills!</li>
+            </ul>
+            
+            <div class="example-box">
+                <strong>Real Student Example:</strong><br><br>
+                <em>"After problem 1-5, I felt hopeless. Everything was confusing. But I kept using the UMPIRE method every time. Around problem 15, something clicked—I saw a 'hash map' problem and immediately knew what to do WITHOUT hints! Now (problem 40+), I can solve most medium problems in 20-30 minutes. The secret? Consistency and following the framework EVERY time."</em>
+                <br><br>— Alex, Software Engineer Intern at Microsoft
+            </div>
+            
+            <h4>🎓 When You're Stuck on a Problem</h4>
+            <p>Being stuck is PART OF LEARNING. Here's your unsticking checklist:</p>
+            
+            <h5>Level 1: Re-read and Restate</h5>
+            <ul>
+                <li>☑️ Read the problem again slowly</li>
+                <li>☑️ Restate it in your own words out loud</li>
+                <li>☑️ Work through the example given step-by-step</li>
+            </ul>
+            
+            <h5>Level 2: Try a Simple Example</h5>
+            <ul>
+                <li>☑️ Make up a TINY example (array with 3 elements)</li>
+                <li>☑️ Solve it BY HAND on paper</li>
+                <li>☑️ Notice what steps YOU took—that's your algorithm!</li>
+            </ul>
+            
+            <h5>Level 3: Ask Pattern Questions</h5>
+            <ul>
+                <li>☑️ "Do I need to remember things?" → Hash map/set</li>
+                <li>☑️ "Am I working with ranges?" → Sliding window</li>
+                <li>☑️ "Is data sorted?" → Two pointers / binary search</li>
+                <li>☑️ "Am I matching pairs?" → Stack</li>
+            </ul>
+            
+            <h5>Level 4: Use Hints (No Shame!)</h5>
+            <ul>
+                <li>☑️ Look at Hint 1 only—try again</li>
+                <li>☑️ Still stuck? Hint 2—try again</li>
+                <li>☑️ Read pseudocode and understand WHY it works</li>
+                <li>☑️ Try to code it yourself BEFORE copying</li>
+            </ul>
+            
+            <h5>Level 5: Look at Solution (Learning Tool)</h5>
+            <ul>
+                <li>☑️ Read the solution slowly</li>
+                <li>☑️ Understand EVERY line—don't just copy!</li>
+                <li>☑️ Close the solution and try to recreate from memory</li>
+                <li>☑️ Come back tomorrow and solve again WITHOUT looking!</li>
             </ul>
             
             <div class="warning-box">
-                <strong>⚠️ Common Mistakes to Avoid:</strong><br>
-                • Jumping straight to code without understanding the problem<br>
-                • Not testing with simple examples first<br>
-                • Overcomplicating—start simple, then optimize<br>
-                • Forgetting edge cases (empty input, single element, all same)<br>
-                • Not checking loop bounds (off-by-one errors)
+                <strong>⚠️ Using Hints Effectively:</strong><br>
+                ❌ Don't: Look at full solution immediately → you learn nothing<br>
+                ✅ Do: Struggle for 15-20 mins, then use hints incrementally<br>
+                ✅ Do: After seeing solution, solve again from scratch later<br><br>
+                <em>Struggling is WHERE learning happens! Embrace the difficulty!</em>
             </div>
             
-            <h4>5. Practice Strategy</h4>
+            <h4>📚 Quick Reference: Your Problem-Solving Checklist</h4>
+            <p>Print this out and keep it next to your computer!</p>
             
-            <h5>For Each Problem:</h5>
-            <ol>
-                <li><strong>Spend 5 minutes understanding</strong> before coding</li>
-                <li><strong>Work 2-3 examples by hand</strong> on paper</li>
-                <li><strong>Write pseudocode first</strong>, then translate to code</li>
-                <li><strong>Test with edge cases</strong> immediately</li>
-                <li><strong>Review solution</strong> even if it passes—can you improve it?</li>
-            </ol>
-            
-            <div class="tip-box">
-                <strong>💡 Meta-Learning Tip:</strong> After solving a problem, ask: "What pattern was this? When would I use this approach again?" This builds your mental toolkit!
+            <div class="tip-box" style="background: #f0f9ff; border-color: #3b82f6;">
+                <strong>🎯 The Ultimate Checklist (Use EVERY Time!):</strong><br><br>
+                
+                <strong>Before Coding:</strong><br>
+                □ Read problem 2-3 times<br>
+                □ Identify inputs, outputs, edge cases<br>
+                □ Work through 2 examples by hand<br>
+                □ Recognize the pattern (hash map? two pointers? etc.)<br>
+                □ Write pseudocode in plain English<br><br>
+                
+                <strong>While Coding:</strong><br>
+                □ Use descriptive variable names<br>
+                □ Add comments explaining the why<br>
+                □ Handle edge cases (empty, single element)<br>
+                □ Check array bounds carefully<br><br>
+                
+                <strong>After Coding:</strong><br>
+                □ Desk check with simple example<br>
+                □ Test edge cases (empty, duplicates, negatives)<br>
+                □ Verify loop bounds (off-by-one?)<br>
+                □ Calculate time/space complexity<br>
+                □ Ask: "Can I make this better?"<br>
             </div>
             
-            <h4>6. Building Intuition Over Time</h4>
-            <p>Problem-solving is a SKILL that improves with practice. You're not born knowing this—you build intuition by:</p>
-            <ul>
-                <li><strong>Recognizing patterns</strong> across multiple problems</li>
-                <li><strong>Understanding why</strong> solutions work, not just memorizing them</li>
-                <li><strong>Practicing regularly</strong>—even 1 problem per day builds skill</li>
-                <li><strong>Learning from mistakes</strong>—debug your thinking process</li>
-            </ul>
+            <h4>💪 Final Words of Encouragement</h4>
             
-            <h4>📚 Summary: Your Problem-Solving Checklist</h4>
-            <ol>
-                <li>✅ Understand the problem completely (inputs, outputs, edge cases)</li>
-                <li>✅ Work through examples by hand</li>
-                <li>✅ Identify the pattern (two pointers? hash map? sliding window?)</li>
-                <li>✅ Plan your approach (pseudocode, data structures)</li>
-                <li>✅ Implement step-by-step (start simple, add complexity)</li>
-                <li>✅ Test thoroughly (happy path + edge cases)</li>
-                <li>✅ Evaluate complexity (can you do better?)</li>
-            </ol>
+            <p style="margin-top: 20px; padding: 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; color: white;">
+                <strong>🌟 Remember This:</strong><br><br>
+                
+                Every expert programmer you admire was once exactly where you are now—confused, stuck, frustrated. The ONLY difference between them and you is <strong>time + practice + persistence</strong>.<br><br>
+                
+                • It's OKAY to struggle—that's your brain forming new connections!<br>
+                • It's OKAY to use hints—that's how you learn!<br>
+                • It's OKAY to take breaks—your brain processes while you rest!<br>
+                • It's OKAY to solve the same problem multiple times—repetition builds mastery!<br><br>
+                
+                <strong>The UMPIRE method is your compass.</strong> When lost, go back to step 1: Understand. When stuck, revisit your Plan. When debugging, Review carefully.<br><br>
+                
+                <strong>You've got this! 🚀</strong>
+            </p>
             
-            <p style="margin-top: 20px; padding: 12px; background: #f0fdf4; border-radius: 6px; border-left: 4px solid #22c55e;">
-                <strong>Remember:</strong> Every expert was once a beginner. The difference is practice and persistence. Use this lecture as your roadmap, and you'll develop the problem-solving mindset that separates great programmers from the rest! 🚀
+            <p style="margin-top: 16px; padding: 12px; background: #f0fdf4; border-radius: 6px; border-left: 4px solid #22c55e;">
+                <strong>Next Steps:</strong> Pick a problem from the sidebar → Use the Notepad to apply UMPIRE → Code your solution → Review with the debugger. You're building a skill that will serve you for your entire career. Start small, stay consistent, and watch yourself improve! �✨
             </p>
         `;
         

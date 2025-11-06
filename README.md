@@ -9,7 +9,7 @@
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
-[Features](#-features) • [Screenshots](#-screenshots) • [Quick Start](#-quick-start) • [Problems](#-problem-library) • [Tech Stack](#-tech-stack)
+[Features](#-features) • [Screenshots](#-screenshots) • [Quick Start](#-quick-start) • [Admin Panel](#-admin-settings-panel-new) • [Deployment](#-production-deployment) • [Problems](#-problem-library)
 
 </div>
 
